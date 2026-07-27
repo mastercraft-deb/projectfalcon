@@ -1,2 +1,2 @@
 # Projeto Falcon
-Um repositório de um sistema web para desenvolvimento de cursos com etilo gameficado
+Um repositório de um sistema web para desenvolvimento de cursos com estilo gameficado
