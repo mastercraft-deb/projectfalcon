@@ -1,0 +1,5 @@
+@charset "UTF-8";
+
+body {
+    background-color: image-set("../images/others/pexels-free-nature-stock-982378_3.png");
+}
