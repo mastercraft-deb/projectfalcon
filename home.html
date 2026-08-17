@@ -17,47 +17,18 @@
     </div>
     <div class="develop">
         <div class="menu">
-            <button class="botoes" data-url="pages/search.html"><span class="material-symbols-outlined">search</span> Pesquisar</button> 
-            <button class="botoes" data-url="pages/mycourses.html"><span class="material-symbols-outlined">library_books</span> Meus cursos</button>
-            <button class="botoes" data-url="pages/classes.html"><span class="material-symbols-outlined">school</span> Turmas</button>
-            <button class="botoes" data-url="pages/community.html"><span class="material-symbols-outlined">language</span> Comunidade</button>
-            <button class="botoes" data-url="pages/account.html"><span class="material-symbols-outlined">account_circle</span> Perfil</button>
-            <button class="botoes" data-url="pages/settings.html"><span class="material-symbols-outlined">settings</span> Configurações</button>
+            <button class="botoes" onclick="alterarLink('pages/search.html')"><span class="material-symbols-outlined">search</span> Pesquisar</button> 
+            <button class="botoes" onclick="alterarLink('pages/mycourses.html')"><span class="material-symbols-outlined">library_books</span> Meus cursos</button>
+            <button class="botoes" onclick="alterarLink('pages/classes.html')"><span class="material-symbols-outlined">school</span> Turmas</button>
+            <button class="botoes" onclick="alterarLink('pages/community.html')"><span class="material-symbols-outlined">language</span> Comunidade</button>
+            <button class="botoes" onclick="alterarLink('pages/account.html')"><span class="material-symbols-outlined">account_circle</span> Perfil</button>
+            <button class="botoes" onclick="alterarLink('pages/settings.html')"><span class="material-symbols-outlined">settings</span> Configurações</button>
         </div>
+
         <div class="navegacao">
             <iframe id="teste001" src="pages/mycourses.html" frameborder="0"></iframe>
         </div>
     </div>
-    <script> // <script src="script/script.js">
-        /* TUDO ABAIXO FOI GERADO POR IA POIS ESTAVA TESTANDO
-        // js/main.js
-
-        // Executa apenas quando o HTML estiver totalmente carregado
-        document.addEventListener('DOMContentLoaded', () => {
-        const iframe = document.getElementById('meuIframe');
-        const container = document.getElementById('container-botoes');
-
-        // Proteção: só executa se os elementos existirem nessa página atual
-        if (container && iframe) {
-            
-            // Um único monitor de clique para todos os botões dentro do container
-            container.addEventListener('click', (event) => {
-            
-            // Descobre se o clique foi especificamente em um botão de troca
-            const botaoClicado = event.target.closest('.btn-troca');
-            
-            // Se não foi em um botão válido, ignora o clique
-            if (!botaoClicado) return;
-
-            // Pega a URL do atributo do botão
-            const novaPagina = botaoClicado.dataset.url; // dataset.url lê o data-url
-            
-            // Atualiza o iframe
-            iframe.src = novaPagina;
-            });
-        }
-        });
-        */
-    </script>
+    <script src="script/script.js"></script>
 </body>
 </html>
