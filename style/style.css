@@ -1,5 +1,60 @@
-@charset "UTF-8";
+ @charset "UTF-8";
 
-body {
-    background-color: image-set("../images/others/pexels-free-nature-stock-982378_3.png");
+* {
+    color: white;
+}
+
+.body {
+    background-color: black;
+    /*background-image: linear-gradient();*/
+    background-image: image-set("../images/others/background.png");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover; 
+    background-position: center bottom; 
+}
+
+.header {
+    margin-bottom: 200px;
+    margin: 5px;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+
+.develop {
+    margin: auto;
+    display: block;
+    width: 1500px;
+    height: 600px;
+}
+
+.menu {
+    position: fixed;
+    width: 150px;
+    z-index: 10; /* Garante que o menu fique na camada superior */
+    border-right: 5px solid white;
+}
+
+.navegacao {
+    padding-left: 200px;
+    position: relative;
+    width: 1200px;
+    z-index: 1;  /* Fica abaixo do menu */
+}
+
+
+.botoes {
+    text-align: left;
+    width: 150px;
+    padding: 13px;
+    border: 1.5px solid white;
+    color: white;
+    border-radius: 10px;
+    margin: 3px;
+    background-color: rgba(255, 255, 255, 0);
+}
+
+.botoes > span {
+    padding-left: 15px;
 }
