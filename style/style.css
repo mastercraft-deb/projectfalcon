@@ -1,7 +1,23 @@
  @charset "UTF-8";
 
+ @font-face {
+    font-family: 'Darek';
+    src: url('../font/darek/Dalek.ttf');
+ }
+
+@font-face {
+    font-family: 'Romanica';
+    src: url('../font/romanica/Romanica.ttf');
+ }
+
+:root {
+    --darek: 'Darek', sans-serif;
+    --romanica: 'Romanica', sans-serif;
+}
+
 * {
     color: white;
+    font-family: var(--romanica);
 }
 
 .body {
@@ -15,46 +31,158 @@
 }
 
 .header {
-    margin-bottom: 200px;
-    margin: 5px;
-    margin-left: 20px;
-    margin-right: 20px;
-}
-
-
-.develop {
-    margin: auto;
-    display: block;
-    width: 1500px;
-    height: 600px;
+    display: flex;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;          /* ou width: 1560px se quiser travado no tamanho do .develop */
+    height: 120px;
+    padding: 25px;         /* troquei margin por padding para não desalinhar com o fixed */
+    z-index: 20;           /* fica acima do menu */
+    box-sizing: border-box;
 }
 
 .menu {
     position: fixed;
+    top: 170px;            /* header (120px) + folga, ajuste ao gosto */
+    left: 20px;            /* alinhado à margem do header */
     width: 150px;
-    z-index: 10; /* Garante que o menu fique na camada superior */
-    border-right: 5px solid white;
+    padding-right: 69px;
+    z-index: 10;
+    border-right: 3px solid white;
 }
 
 .navegacao {
-    padding-left: 200px;
+    margin-top: 130px;     /* compensa o header fixed, que não reserva espaço */
+    padding-left: 250px;
     position: relative;
     width: 1200px;
-    z-index: 1;  /* Fica abaixo do menu */
+    z-index: 1;
+}
+
+#galea {
+    padding-left: 12px;
+    font-family: var(--darek);
+    font-size: 47px;
+}
+
+.develop {
+    margin: auto;
+    display: block;
+    width: 1560px;
+    height: 600px;
 }
 
 
 .botoes {
     text-align: left;
-    width: 150px;
-    padding: 13px;
-    border: 1.5px solid white;
+    width: 203px;
+    padding: 17px;
     color: white;
-    border-radius: 10px;
+    border: 1.6px solid rgba(255, 255, 255, 0);
     margin: 3px;
     background-color: rgba(255, 255, 255, 0);
+    font-size: 15px;
+}
+
+.botoes:hover {
+    border: 1.6px solid white;
+    border-radius: 15px;
+    color: white;
 }
 
 .botoes > span {
-    padding-left: 15px;
+    padding-left: 27px;
 }
+
+
+/* @media screen and (min-width: 1900px) { */
+    
+    
+    a {
+        text-decoration: none;
+    }
+    
+    .formulario {
+        height: 450px;
+        margin: auto;
+        text-align: center;
+        background-color: rgb(136, 134, 134);
+        margin-top: 200px;
+        color: var(--color1);
+        width: 700px;
+        border-radius: 7px;
+    }
+    
+    #login {
+        color: black;
+        margin-bottom: 10px;
+    }
+    
+    input {
+        border: 1px solid var(--cor1);
+        border-radius: 4px;
+    }
+    
+    input::placeholder {
+        padding-left: 10px;
+    }
+    
+    input, label {
+        color: black;
+        margin-top: 5px;
+        color: var(--cor1);
+        font-size: 0.8em;
+    }
+    
+    .input {
+        width: 200px;
+        height: 25px;
+    }
+    
+    .entrar {
+        margin-top: 10px;
+        width: 200px;
+        margin: auto;
+    }
+    
+    .login-social {
+        float: left;
+    }
+    
+    .botao-login {
+        margin: 2px;
+        width: 100px;
+        height: 25px;
+    }
+    
+    #ou{
+        margin-top: 0;
+    }
+    
+    input[type=submit] {
+        float: right;
+        text-align: left;
+        padding: 10px;
+        padding-left: 14px;
+        padding-right: 14px;
+        background-color: var(--cor1);
+        color: var(--cor2);
+    }
+    
+    input[type=submit]:hover {
+        transition: 0.6s;
+        background-color: #24443a;
+        color: rgb(255, 255, 255);
+    }
+    
+    #cadastro {
+        color: var(--cor1);
+        font-size: 0.45em;
+    }
+    
+    #cadastro:hover {
+        color: #274b40;
+        text-decoration: underline;
+    }
