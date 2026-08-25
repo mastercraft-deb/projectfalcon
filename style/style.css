@@ -13,6 +13,11 @@
 :root {
     --darek: 'Darek', sans-serif;
     --romanica: 'Romanica', sans-serif;
+    --cor1: #3D348B;
+    --cor2: #7678ED;
+    --cor3: #F7B801;
+    --cor4: #F18701;
+    --cor5: #F35B04;
 }
 
 * {
@@ -37,24 +42,23 @@
     top: 0;
     left: 0;
     width: 100%;          /* ou width: 1560px se quiser travado no tamanho do .develop */
-    height: 120px;
+    height: 100px;
     padding: 25px;         /* troquei margin por padding para não desalinhar com o fixed */
     z-index: 20;           /* fica acima do menu */
     box-sizing: border-box;
 }
 
+
 .menu {
     position: fixed;
-    top: 170px;            /* header (120px) + folga, ajuste ao gosto */
-    left: 20px;            /* alinhado à margem do header */
-    width: 150px;
-    padding-right: 69px;
+    top: 120px;            /* header (120px) + folga, ajuste ao gosto */
+    width: 205px;
     z-index: 10;
     border-right: 3px solid white;
 }
 
 .navegacao {
-    margin-top: 130px;     /* compensa o header fixed, que não reserva espaço */
+    margin-top: 100px;     /* compensa o header fixed, que não reserva espaço */
     padding-left: 250px;
     position: relative;
     width: 1200px;
@@ -62,9 +66,9 @@
 }
 
 #galea {
-    padding-left: 12px;
+    padding-left: 15px;
     font-family: var(--darek);
-    font-size: 47px;
+    font-size: 40px;
 }
 
 .develop {
@@ -80,20 +84,22 @@
     width: 203px;
     padding: 17px;
     color: white;
-    border: 1.6px solid rgba(255, 255, 255, 0);
+    border: 1.6px solid rgb(255, 255, 255);
+    border-radius: 5px;
     margin: 3px;
     background-color: rgba(255, 255, 255, 0);
     font-size: 15px;
 }
 
 .botoes:hover {
-    border: 1.6px solid white;
+    border: 1.6px solid var(--cor4);
     border-radius: 15px;
-    color: white;
+    color: var(--cor4);
 }
 
 .botoes > span {
     padding-left: 27px;
+    text-align: left;
 }
 
 
@@ -186,3 +192,27 @@
         color: #274b40;
         text-decoration: underline;
     }
+
+
+.curso {
+    width: 360px;
+}
+
+.curso > p {
+    color: rgb(129, 129, 129);
+    font-size: 12px;
+}
+
+.curso > #imgcurso {
+    border-radius: 10px;
+    background-color: gray;
+    width: 320px;
+    height: 180px;
+}
+
+.curso > #imgcurso > img {
+    border-radius: 10px;
+    background-color: gray;
+    width: 320px;
+    height: 180px;
+}
