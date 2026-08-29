@@ -1,5 +1,9 @@
  @charset "UTF-8";
 
+::-webkit-scrollbar {
+  display: none;
+}
+
  @font-face {
     font-family: 'Darek';
     src: url('../font/darek/Dalek.ttf');
@@ -61,7 +65,7 @@
     margin-top: 100px;     /* compensa o header fixed, que não reserva espaço */
     padding-left: 250px;
     position: relative;
-    width: 1200px;
+    max-width: 1200px;
     z-index: 1;
 }
 
@@ -195,7 +199,9 @@
 
 
 .curso {
-    width: 360px;
+    flex: 0 0 320px; /* não cresce, não encolhe, largura fixa de 200px */
+    padding-left: 30px;
+    height: 320px;
 }
 
 .curso > p {
@@ -216,3 +222,47 @@
     width: 320px;
     height: 180px;
 }
+
+.div-container {
+    position: relative;
+    max-width: 1200px;
+    height: 700px;
+    margin: 0 auto;
+}
+
+.div_cursos {
+    display: flex;
+    overflow-x: hidden;
+    height: 700px;
+}
+
+/* Botões de seta */
+  .seta {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 1px solid #ccc;
+    background: #b4b4b4;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+    cursor: pointer;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+  }
+
+  .seta:hover {
+    background: #f0f0f0;
+  }
+
+  .seta-L {
+    left: 11px;
+  }
+
+  .seta-R {
+    right: 5px;
+  }
