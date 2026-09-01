@@ -30,14 +30,15 @@
 }
 
 .body {
-    background-color: black;
-    /*background-image: linear-gradient();*/
-    background-image: image-set("../images/others/background.png");
+    background-color: #1E003F;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.3)), image-set("../images/others/background.png");
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-size: cover; 
     background-position: center bottom; 
 }
+
+
 
 .header {
     display: flex;
@@ -113,7 +114,7 @@
 }
 
 
-/* @media screen and (min-width: 1900px) { */
+/* LOGIN E CADASTRO */
     #galealogin {
         color: black;
         margin: 0;
@@ -222,7 +223,7 @@
         text-decoration: underline;
     }
 
-
+/* MEUS CURSOS */
 .curso {
     flex: 0 0 320px; /* não cresce, não encolhe, largura fixa de 200px */
     padding-left: 30px;
@@ -261,7 +262,6 @@
     height: 700px;
 }
 
-/* Botões de seta */
   .seta {
     position: absolute;
     top: 50%;
@@ -291,3 +291,44 @@
   .seta-R {
     right: 5px;
   }
+
+
+ /* PERFIL */ 
+
+.header-account {
+    display: flex;
+    overflow-x: hidden;
+}
+
+#fotodeperfil {
+    height: 150px;
+    width: 150px;
+
+    border-radius: 100px;
+}
+
+.header-account > h1 {
+    padding-top: 30px;
+    padding-left: 20px;
+}
+
+#editar-perfil {
+    height: 30px;
+    width: 50px;
+    margin-top: 60px;
+    margin-left: 10px;
+    background-color: var(--cor1);
+    color: white;
+    border: 0;
+    border-radius: 10px;
+}
+
+#editar-perfil:hover {
+    transition: 0.8s;
+}
+
+hr {
+    margin-left: 170px;
+    margin-bottom: 20px;
+    overflow-x: hidden;
+}
