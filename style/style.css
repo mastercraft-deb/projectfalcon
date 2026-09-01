@@ -325,6 +325,7 @@
 
 #editar-perfil:hover {
     transition: 0.8s;
+    background-color: var(--cor2);
 }
 
 hr {
