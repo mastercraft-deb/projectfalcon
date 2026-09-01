@@ -1,5 +1,9 @@
  @charset "UTF-8";
 
+::-webkit-scrollbar {
+  display: none;
+}
+
  @font-face {
     font-family: 'Darek';
     src: url('../font/darek/Dalek.ttf');
@@ -59,9 +63,9 @@
 
 .navegacao {
     margin-top: 100px;     /* compensa o header fixed, que não reserva espaço */
-    padding-left: 250px;
+    padding-left: 270px;
     position: relative;
-    width: 1200px;
+    max-width: 1200px;
     z-index: 1;
 }
 
@@ -92,8 +96,14 @@
 }
 
 .botoes:hover {
+    transition: 0.5s;
     border: 1.6px solid var(--cor4);
-    border-radius: 15px;
+    border-radius: 5px;
+    color: var(--cor4);
+}
+
+.botoes:hover > span {
+    transition: 0.5s;
     color: var(--cor4);
 }
 
@@ -104,7 +114,15 @@
 
 
 /* @media screen and (min-width: 1900px) { */
-    
+    #galealogin {
+        color: black;
+        margin: 0;
+        margin-top: 5px;
+        margin-bottom: 22px;
+        padding-left: 15px;
+        font-family: var(--darek);
+        font-size: 40px;
+    }
     
     a {
         text-decoration: none;
@@ -114,21 +132,21 @@
         height: 450px;
         margin: auto;
         text-align: center;
-        background-color: rgb(136, 134, 134);
-        margin-top: 200px;
+        background-color: #D9D9D9;
+        margin-top: 25px;
         color: var(--color1);
         width: 700px;
         border-radius: 7px;
     }
     
     #login {
-        color: black;
+        color: rgb(69, 67, 67);
         margin-bottom: 10px;
     }
     
     input {
         border: 1px solid var(--cor1);
-        border-radius: 4px;
+        border-radius: 4px;     
     }
     
     input::placeholder {
@@ -138,7 +156,6 @@
     input, label {
         color: black;
         margin-top: 5px;
-        color: var(--cor1);
         font-size: 0.8em;
     }
     
@@ -148,8 +165,9 @@
     }
     
     .entrar {
-        margin-top: 10px;
-        width: 200px;
+        margin: 0;
+        padding-top: 10px;
+        width: 230px;
         margin: auto;
     }
     
@@ -158,9 +176,17 @@
     }
     
     .botao-login {
+        border: none;
+        border-radius: 5px;
+        background-color: white;
+        color: black;
         margin: 2px;
         width: 100px;
         height: 25px;
+    }
+
+     .botao-login > img {
+        padding-top: 2px;
     }
     
     #ou{
@@ -168,34 +194,39 @@
     }
     
     input[type=submit] {
+        margin: 0;
         float: right;
         text-align: left;
         padding: 10px;
-        padding-left: 14px;
-        padding-right: 14px;
-        background-color: var(--cor1);
-        color: var(--cor2);
+        padding-left: 16px;
+        padding-right: 16px;
+        background-color: var(--cor2);
+        color: white;
+        font-size: 1em;
     }
     
     input[type=submit]:hover {
         transition: 0.6s;
-        background-color: #24443a;
-        color: rgb(255, 255, 255);
+        background-color: var(--cor1);
+        color: var(--cor3);
     }
     
-    #cadastro {
-        color: var(--cor1);
+    p#cadastro {
+        color: var(--cor3);
         font-size: 0.45em;
     }
     
-    #cadastro:hover {
-        color: #274b40;
+    p#cadastro:hover {
+        transition: 0.3s;
+        color: var(--cor5);
         text-decoration: underline;
     }
 
 
 .curso {
-    width: 360px;
+    flex: 0 0 320px; /* não cresce, não encolhe, largura fixa de 200px */
+    padding-left: 30px;
+    height: 320px;
 }
 
 .curso > p {
@@ -216,3 +247,47 @@
     width: 320px;
     height: 180px;
 }
+
+.div-container {
+    position: relative;
+    max-width: 1200px;
+    height: 700px;
+    margin: 0 auto;
+}
+
+.div_cursos {
+    display: flex;
+    overflow-x: hidden;
+    height: 700px;
+}
+
+/* Botões de seta */
+  .seta {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 1px solid #ccc;
+    background: #b4b4b4;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+    cursor: pointer;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+  }
+
+  .seta:hover {
+    background: #f0f0f0;
+  }
+
+  .seta-L {
+    left: 11px;
+  }
+
+  .seta-R {
+    right: 5px;
+  }
