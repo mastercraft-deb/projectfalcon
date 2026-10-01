@@ -37,6 +37,8 @@ body {
     --linha-suave: rgba(255, 255, 255, 0.18);
     --texto-suave: rgba(255, 255, 255, 0.72);
 
+    --sucesso: #2ecc71;
+
     --trofeu-platina: #e6e6f2;
     --trofeu-ouro: var(--cor3);
     --trofeu-prata: #a9aebb;
@@ -186,6 +188,12 @@ body {
     background-color: var(--fundo-cartao);
 }
 
+.cartao-bloco + .cartao-bloco {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--linha-suave);
+}
+
 .cartao-titulo {
     margin: 0 0 0.75rem;
     font-size: 1.05rem;
@@ -217,12 +225,29 @@ body {
     transition: color 0.3s;
 }
 
-.curso-item:hover span {
+a.curso-item:hover span {
     color: var(--cor4);
 }
 
 .curso-item-progresso {
     font-variant-numeric: tabular-nums;
+}
+
+/* Curso concluído: ícone + texto "Concluído" (não depende só da cor) */
+.curso-item-concluido {
+    align-items: center;
+}
+
+.curso-concluido-selo {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-size: 0.85rem;
+}
+
+.curso-concluido-selo .material-symbols-outlined {
+    font-size: 1.3rem;
+    color: var(--sucesso);
 }
 
 .perfil-lateral {
@@ -255,7 +280,7 @@ body {
     height: 9px;
     border: 2px solid #1e003f;
     border-radius: 50%;
-    background-color: #2ecc71;
+    background-color: var(--sucesso);
 }
 
 .vazio {

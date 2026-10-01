@@ -68,33 +68,57 @@
             <!-- Duas colunas: cursos em andamento | amigos e sobre mim -->
             <div class="perfil-colunas">
 
-                <section class="cartao">
-                    <h2 class="cartao-titulo">
-                        Cursos em andamento: <span class="cartao-contador" id="perfil-qtd-cursos">3</span>
-                    </h2>
+                <div class="cartao">
 
-                    <!-- Itens de exemplo: depois virão do banco de dados -->
-                    <ul class="lista-cursos" id="perfil-lista-cursos">
-                        <li>
-                            <a class="curso-item" href="courses/fisica.html">
-                                <span>Física quântica – 2026</span>
-                                <span class="curso-item-progresso">45%</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="curso-item" href="courses/python.html">
-                                <span>Python</span>
-                                <span class="curso-item-progresso">20%</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="curso-item" href="courses/web.html">
-                                <span>Programação web</span>
-                                <span class="curso-item-progresso">8%</span>
-                            </a>
-                        </li>
-                    </ul>
-                </section>
+                    <section class="cartao-bloco">
+                        <h2 class="cartao-titulo">
+                            Cursos em andamento: <span class="cartao-contador" id="perfil-qtd-cursos">3</span>
+                        </h2>
+
+                        <!-- Itens de exemplo: depois virão do banco de dados -->
+                        <ul class="lista-cursos" id="perfil-lista-cursos">
+                            <li>
+                                <a class="curso-item" href="courses/fisica.html">
+                                    <span>Física quântica – 2026</span>
+                                    <span class="curso-item-progresso">45%</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="curso-item" href="courses/python.html">
+                                    <span>Python</span>
+                                    <span class="curso-item-progresso">20%</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="curso-item" href="courses/web.html">
+                                    <span>Programação web</span>
+                                    <span class="curso-item-progresso">8%</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </section>
+
+                    <section class="cartao-bloco">
+                        <h2 class="cartao-titulo">
+                            Cursos concluídos: <span class="cartao-contador" id="perfil-qtd-concluidos">1</span>
+                        </h2>
+
+                        <!-- Sem link por enquanto: a página do curso de Matemática ainda não existe.
+                             Quando existir, troque o <div> por <a class="curso-item" href="..."> -->
+                        <ul class="lista-cursos" id="perfil-lista-concluidos">
+                            <li>
+                                <div class="curso-item curso-item-concluido">
+                                    <span>Matemática</span>
+                                    <span class="curso-concluido-selo">
+                                        <span class="material-symbols-outlined" aria-hidden="true">check_circle</span>
+                                        Concluído
+                                    </span>
+                                </div>
+                            </li>
+                        </ul>
+                    </section>
+
+                </div>
 
                 <div class="perfil-lateral">
 
