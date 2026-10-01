@@ -139,6 +139,17 @@
         width: 700px;
         border-radius: 7px;
     }
+
+    .formulariocad {
+        height: 520px;
+        margin: auto;
+        text-align: center;
+        background-color: #D9D9D9;
+        margin-top: 25px;
+        color: var(--color1);
+        width: 700px;
+        border-radius: 7px;
+    }
     
     #login {
         color: rgb(69, 67, 67);
@@ -249,8 +260,18 @@
     height: 180px;
 }
 
-.div-container {
+
+.curso > #imgcurso > img:hover {
+    width: 330px;
+    height: 190px;
+    border-radius: 10px;
+}
+
+.cursos-container {
     position: relative;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    height: 180px;   /* mesma altura de .imgcurso, centraliza a seta na imagem */
     max-width: 1200px;
     height: 700px;
     margin: 0 auto;
@@ -258,13 +279,13 @@
 
 .div_cursos {
     display: flex;
-    overflow-x: hidden;
     height: 700px;
+    transition: transform 0.5s ease; /* Transição padrão se for slide */
 }
 
   .seta {
     position: absolute;
-    top: 50%;
+    top: 35%;
     transform: translateY(-50%);
     width: 36px;
     height: 36px;
@@ -283,6 +304,10 @@
   .seta:hover {
     background: #f0f0f0;
   }
+
+    .seta:active {
+        transition: 0.8s;
+    }
 
   .seta-L {
     left: 11px;

@@ -1,18 +1,122 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Perfil - Galea</title>
 
+    <!-- Os ícones precisam ser carregados aqui também: o iframe é um documento separado da home.html -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
     <link rel="stylesheet" href="../style/style.css">
+    <link rel="stylesheet" href="../style/perfil.css">
 </head>
 <body>
-    <div class="header-account">
-        <img src="../images/others/michael.png" alt="" id="fotodeperfil">
-        <h1>Jack Mic Ael Son</h1>
-        <button id="editar-perfil">Editar</button><br>
-    </div>
-    <hr>
+    <main class="perfil">
+
+        <img class="perfil-foto" src="../images/boiola.jpg" alt="Foto de perfil">
+
+        <div class="perfil-conteudo">
+
+            <!-- Nome + botão de editar -->
+            <header class="perfil-topo">
+                <h1 class="perfil-nome" id="perfil-nome">Jack Mic Ael Son</h1>
+                <button type="button" class="botao-editar" id="botao-editar">Editar</button>
+            </header>
+
+            <!-- Faixa de resumo: XP, progresso do nível e troféus -->
+            <section class="perfil-resumo" aria-label="Resumo de progresso">
+
+                <div class="xp">
+                    <span class="material-symbols-outlined" aria-hidden="true">stars</span>
+                    <span class="xp-valor" id="perfil-xp">1120</span>
+                    <span class="sr-only">pontos de experiência</span>
+
+                    <!-- A largura do preenchimento vem da variável --progresso -->
+                    <div class="xp-barra" id="perfil-xp-barra" role="progressbar"
+                         aria-label="Progresso até o próximo nível"
+                         aria-valuemin="0" aria-valuemax="100" aria-valuenow="67"
+                         style="--progresso: 67%;">
+                        <span class="xp-barra-preenchimento"></span>
+                    </div>
+                    <span class="xp-percentual" aria-hidden="true">67%</span>
+                </div>
+
+                <ul class="trofeus" aria-label="Troféus conquistados">
+                    <li class="trofeu trofeu-platina">
+                        <span class="trofeu-qtd">10</span>
+                        <span class="material-symbols-outlined" aria-hidden="true">emoji_events</span>
+                        <span class="sr-only">troféus de platina</span>
+                    </li>
+                    <li class="trofeu trofeu-ouro">
+                        <span class="trofeu-qtd">20</span>
+                        <span class="material-symbols-outlined" aria-hidden="true">emoji_events</span>
+                        <span class="sr-only">troféus de ouro</span>
+                    </li>
+                    <li class="trofeu trofeu-prata">
+                        <span class="trofeu-qtd">60</span>
+                        <span class="material-symbols-outlined" aria-hidden="true">emoji_events</span>
+                        <span class="sr-only">troféus de prata</span>
+                    </li>
+                    <li class="trofeu trofeu-bronze">
+                        <span class="trofeu-qtd">100</span>
+                        <span class="material-symbols-outlined" aria-hidden="true">emoji_events</span>
+                        <span class="sr-only">troféus de bronze</span>
+                    </li>
+                </ul>
+            </section>
+
+            <!-- Duas colunas: cursos em andamento | amigos e sobre mim -->
+            <div class="perfil-colunas">
+
+                <section class="cartao">
+                    <h2 class="cartao-titulo">
+                        Cursos em andamento: <span class="cartao-contador" id="perfil-qtd-cursos">3</span>
+                    </h2>
+
+                    <!-- Itens de exemplo: depois virão do banco de dados -->
+                    <ul class="lista-cursos" id="perfil-lista-cursos">
+                        <li>
+                            <a class="curso-item" href="courses/fisica.html">
+                                <span>Física quântica – 2026</span>
+                                <span class="curso-item-progresso">45%</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="curso-item" href="courses/python.html">
+                                <span>Python</span>
+                                <span class="curso-item-progresso">20%</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="curso-item" href="courses/web.html">
+                                <span>Programação web</span>
+                                <span class="curso-item-progresso">8%</span>
+                            </a>
+                        </li>
+                    </ul>
+                </section>
+
+                <div class="perfil-lateral">
+
+                    <section>
+                        <h2 class="secao-titulo">
+                            <span class="amigos-icone" aria-hidden="true">
+                                <span class="material-symbols-outlined">group</span>
+                            </span>
+                            Amigos online
+                        </h2>
+                        <p class="vazio" id="perfil-amigos">Nenhum amigo online agora.</p>
+                    </section>
+
+                    <section>
+                        <h2 class="secao-titulo">Sobre mim</h2>
+                        <p class="vazio" id="perfil-sobre">Você ainda não escreveu nada aqui. Clique em Editar para contar um pouco sobre você.</p>
+                    </section>
+
+                </div>
+            </div>
+
+        </div><!-- fim .perfil-conteudo -->
+    </main>
 </body>
 </html>
