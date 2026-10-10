@@ -108,6 +108,14 @@
     color: var(--cor4);
 }
 
+/* Item do menu da página que está aberta (marcado pelo script da home.html) */
+.botoes.ativo {
+    border-color: var(--cor4);
+    color: var(--cor4);
+}
+.botoes.ativo > span {
+    color: var(--cor4);
+}
 .botoes > span {
     padding-left: 27px;
     text-align: left;
@@ -233,128 +241,3 @@
         color: var(--cor5);
         text-decoration: underline;
     }
-
-/* MEUS CURSOS */
-.curso {
-    flex: 0 0 320px; /* não cresce, não encolhe, largura fixa de 200px */
-    padding-left: 30px;
-    height: 320px;
-}
-
-.curso > p {
-    color: rgb(129, 129, 129);
-    font-size: 12px;
-}
-
-.curso > #imgcurso {
-    border-radius: 10px;
-    background-color: gray;
-    width: 320px;
-    height: 180px;
-}
-
-.curso > #imgcurso > img {
-    border-radius: 10px;
-    background-color: gray;
-    width: 320px;
-    height: 180px;
-}
-
-
-.curso > #imgcurso > img:hover {
-    width: 330px;
-    height: 190px;
-    border-radius: 10px;
-}
-
-.cursos-container {
-    position: relative;
-    overflow-x: hidden;
-    overflow-y: hidden;
-    height: 180px;   /* mesma altura de .imgcurso, centraliza a seta na imagem */
-    max-width: 1200px;
-    height: 700px;
-    margin: 0 auto;
-}
-
-.div_cursos {
-    display: flex;
-    height: 700px;
-    transition: transform 0.5s ease; /* Transição padrão se for slide */
-}
-
-  .seta {
-    position: absolute;
-    top: 35%;
-    transform: translateY(-50%);
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    border: 1px solid #ccc;
-    background: #b4b4b4;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.2);
-    cursor: pointer;
-    font-size: 16px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 2;
-  }
-
-  .seta:hover {
-    background: #f0f0f0;
-  }
-
-    .seta:active {
-        transition: 0.8s;
-    }
-
-  .seta-L {
-    left: 11px;
-  }
-
-  .seta-R {
-    right: 5px;
-  }
-
-
- /* PERFIL */ 
-
-.header-account {
-    display: flex;
-    overflow-x: hidden;
-}
-
-#fotodeperfil {
-    height: 150px;
-    width: 150px;
-
-    border-radius: 100px;
-}
-
-.header-account > h1 {
-    padding-top: 30px;
-    padding-left: 20px;
-}
-
-#editar-perfil {
-    height: 30px;
-    width: 50px;
-    margin-top: 60px;
-    margin-left: 10px;
-    background-color: var(--cor1);
-    color: white;
-    border: 0;
-    border-radius: 10px;
-}
-
-#editar-perfil:hover {
-    transition: 0.8s;
-    background-color: var(--cor2);
-}
-
-hr {
-    margin-left: 170px;
-    margin-bottom: 20px;
-    overflow-x: hidden;
-}

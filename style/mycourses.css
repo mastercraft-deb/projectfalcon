@@ -1,0 +1,171 @@
+@charset "UTF-8";
+
+/* =====================================================
+   MEUS CURSOS (pages/mycourses.html)
+   Carregado DEPOIS do style.css.
+
+   Estrutura de cada item do carrossel:
+   a.curso-link            -> o link inteiro (é o que recebe hover/foco)
+     div.curso             -> padding + conteúdo
+       div.curso-img > img -> imagem de capa
+       h2                  -> título
+       p                   -> descrição
+
+   Lembrete: o style.css tem `* { color: white }`, então a
+   cor é definida direto no elemento (ex.: o h2).
+   ===================================================== */
+
+/* ---------- Carrossel ---------- */
+.cursos-container {
+    position: relative;
+    max-width: 1200px;
+    margin: 0 auto;
+    /* overflow escondido é necessário para o slide, mas ele também
+       corta o que passa da borda. O padding vertical dá espaço para
+       o card "subir" e projetar sombra sem ser cortado. */
+    padding: 24px 0 32px;
+    overflow: hidden;
+}
+
+.div_cursos {
+    display: flex;
+    transition: transform 0.5s ease; /* o slide lateral */
+}
+
+/* Cada link tem largura fixa (320 da imagem + 30 de padding).
+   O script.js usa a largura do .curso para calcular o slide. */
+.curso-link {
+    display: block;
+    flex: 0 0 350px;
+    text-decoration: none;
+    border-radius: 12px;
+}
+
+.curso {
+    padding-left: 30px;
+}
+
+/* ---------- Imagem ---------- */
+.curso-img {
+    width: 320px;
+    height: 180px;
+    border-radius: 10px;
+    background-color: #555;
+    overflow: hidden; /* o zoom da imagem fica preso dentro da moldura */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+    transition: transform 0.35s cubic-bezier(0.2, 0.7, 0.2, 1),
+                box-shadow 0.35s ease;
+}
+
+.curso-img img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+}
+
+/* ---------- Texto ---------- */
+.curso h2 {
+    margin: 0.9rem 0 0.35rem;
+    font-size: 1.5rem;
+    transition: color 0.3s ease;
+}
+
+.curso p {
+    margin: 0;
+    max-width: 320px;
+    font-size: 0.8125rem;
+    line-height: 1.5;
+    color: rgba(255, 255, 255, 0.72);
+    /* no máximo 3 linhas: mantém todos os cards com a mesma altura */
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* ---------- A animação: hover (mouse) e foco (teclado) ---------- */
+.curso-link:hover .curso-img,
+.curso-link:focus-visible .curso-img {
+    /* transform não força o navegador a recalcular o layout
+       (diferente de mudar width/height), por isso é suave */
+    transform: translateY(-8px);
+    box-shadow: 0 16px 30px rgba(0, 0, 0, 0.55),
+                0 0 0 2px var(--cor4);
+}
+
+.curso-link:hover .curso-img img,
+.curso-link:focus-visible .curso-img img {
+    transform: scale(1.07);
+}
+
+.curso-link:hover h2,
+.curso-link:focus-visible h2 {
+    color: var(--cor4);
+}
+
+.curso-link:focus-visible {
+    outline: 3px solid var(--cor3);
+    outline-offset: 4px;
+}
+
+/* ---------- Entrada dos cards (um depois do outro) ----------
+   Cada <a> define seu atraso em style="--i: N".
+   `backwards` evita deixar um transform "preso" depois da animação. */
+@keyframes card-entrar {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    .curso-link {
+        animation: card-entrar 0.5s ease backwards;
+        animation-delay: calc(var(--i, 0) * 90ms);
+    }
+}
+
+/* ---------- Setas do carrossel ---------- */
+.seta {
+    position: absolute;
+    /* centro da imagem: 24px de padding + metade dos 180px */
+    top: 114px;
+    transform: translateY(-50%);
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border: 1px solid #ccc;
+    border-radius: 50%;
+    background: #b4b4b4;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+    font-size: 16px;
+    color: #1e003f; /* sem isso a seta ficava branca e sumia no hover */
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.seta:hover {
+    background: #f0f0f0;
+}
+
+.seta:focus-visible {
+    outline: 3px solid var(--cor3);
+    outline-offset: 3px;
+}
+
+.seta-L { left: 11px; }
+.seta-R { right: 5px; }
+
+@media (prefers-reduced-motion: reduce) {
+    .div_cursos,
+    .curso-img,
+    .curso-img img,
+    .curso h2,
+    .seta {
+        transition: none;
+    }
+}

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trilha do curso - Galea</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+    <link rel="stylesheet" href="../style/style.css">
+    <link rel="stylesheet" href="../style/trilha.css">
+</head>
+<body class="body">
+    <main class="trilha-pagina">
+
+        <!-- Faixa fixa no topo: mostra onde você está, mesmo rolando o mapa -->
+        <header class="trilha-topo">
+            <!-- target="_top": a página do curso ocupa a janela inteira, fora do iframe -->
+            <a class="trilha-voltar" href="courses/fisica.html" target="_top">
+                <span class="material-symbols-outlined" aria-hidden="true">arrow_back</span>
+                Sobre o curso
+            </a>
+
+            <div class="trilha-titulo">
+                <h1 id="trilha-curso">Física quântica – 2026</h1>
+                <p><span id="trilha-concluidos">0</span> de <span id="trilha-total">6</span> módulos concluídos</p>
+            </div>
+
+            <!-- A largura do preenchimento vem da variável --progresso -->
+            <div class="trilha-barra" role="progressbar" aria-label="Progresso no curso"
+                 aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" style="--progresso: 0%;">
+                <span class="trilha-barra-preenchimento"></span>
+            </div>
+        </header>
+
+        <!--
+            O mapa. Cada <li> é um módulo e tem UM destes estados (classe):
+              modulo-concluido  -> já terminado   (verde, ícone de check)
+              modulo-atual      -> o próximo passo (amarelo, com o cartão de título)
+              modulo-bloqueado  -> ainda não liberado (laranja escuro, cadeado)
+            A posição em zigue-zague e as linhas de ligação são feitas só pelo CSS
+            (por ordem do <li>), então basta incluir ou remover itens da lista.
+            O style="--i: N" só define o atraso da animação de entrada.
+
+            Módulos de exemplo: depois virão do banco de dados.
+        -->
+        <ol class="trilha" aria-label="Módulos do curso">
+
+            <li class="modulo modulo-atual" style="--i: 0">
+                <button type="button" class="modulo-botao">
+                    <span class="modulo-no"><span class="material-symbols-outlined" aria-hidden="true">star</span></span>
+                    <span class="modulo-rotulo">1 – Leis de Newton</span>
+                    <span class="sr-only">(módulo atual)</span>
+                </button>
+            </li>
+
+            <li class="modulo modulo-bloqueado" style="--i: 1">
+                <button type="button" class="modulo-botao" aria-disabled="true">
+                    <span class="modulo-no"><span class="material-symbols-outlined" aria-hidden="true">lock</span></span>
+                    <span class="modulo-rotulo">2 – Energia e trabalho</span>
+                    <span class="sr-only">(bloqueado: conclua o módulo anterior)</span>
+                </button>
+            </li>
+
+            <li class="modulo modulo-bloqueado" style="--i: 2">
+                <button type="button" class="modulo-botao" aria-disabled="true">
+                    <span class="modulo-no"><span class="material-symbols-outlined" aria-hidden="true">lock</span></span>
+                    <span class="modulo-rotulo">3 – Ondas e luz</span>
+                    <span class="sr-only">(bloqueado: conclua o módulo anterior)</span>
+                </button>
+            </li>
+
+            <li class="modulo modulo-bloqueado" style="--i: 3">
+                <button type="button" class="modulo-botao" aria-disabled="true">
+                    <span class="modulo-no"><span class="material-symbols-outlined" aria-hidden="true">lock</span></span>
+                    <span class="modulo-rotulo">4 – Radiação do corpo negro</span>
+                    <span class="sr-only">(bloqueado: conclua o módulo anterior)</span>
+                </button>
+            </li>
+
+            <li class="modulo modulo-bloqueado" style="--i: 4">
+                <button type="button" class="modulo-botao" aria-disabled="true">
+                    <span class="modulo-no"><span class="material-symbols-outlined" aria-hidden="true">lock</span></span>
+                    <span class="modulo-rotulo">5 – Efeito fotoelétrico</span>
+                    <span class="sr-only">(bloqueado: conclua o módulo anterior)</span>
+                </button>
+            </li>
+
+            <li class="modulo modulo-bloqueado" style="--i: 5">
+                <button type="button" class="modulo-botao" aria-disabled="true">
+                    <span class="modulo-no"><span class="material-symbols-outlined" aria-hidden="true">lock</span></span>
+                    <span class="modulo-rotulo">6 – Dualidade onda-partícula</span>
+                    <span class="sr-only">(bloqueado: conclua o módulo anterior)</span>
+                </button>
+            </li>
+
+        </ol>
+    </main>
+
+    <script>
+        // Ao abrir, centraliza o módulo atual na tela (útil quando o aluno já está lá no meio do mapa).
+        // Usa window.scrollTo (e não scrollIntoView) para rolar só esta página, sem mexer na home.
+        const atual = document.querySelector('.modulo-atual');
+        if (atual) {
+            const topo = atual.getBoundingClientRect().top + window.scrollY;
+            window.scrollTo(0, Math.max(0, topo - window.innerHeight / 2));
+        }
+    </script>
+</body>
+</html>

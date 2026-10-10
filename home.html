@@ -14,6 +14,14 @@
         <div class="header">
                 <img src="images/logos/logo.png" alt="logo" height="90" width="95"><h1 id="galea">Galea</h1>
             </div>
+            <div class="capa-icones">
+                    <button type="button" class="icone-botao" aria-label="Notificações">
+                        <span class="material-symbols-outlined" aria-hidden="true">notifications</span>
+                    </button>
+                    <button type="button" class="icone-botao icone-amigos" aria-label="Amigos online">
+                        <span class="material-symbols-outlined" aria-hidden="true">contacts</span>
+                    </button>
+                </div>
         <div class="menu">
             <button class="botoes" onclick="alterarLink('pages/search.html')"><span class="material-symbols-outlined">search</span> Pesquisar</button> 
             <button class="botoes" onclick="alterarLink('pages/mycourses.html')"><span class="material-symbols-outlined">library_books</span> Meus cursos</button>
@@ -28,5 +36,11 @@
         </div>
     </div>
     <script src="script/script.js"></script>
+    <script>
+        // Permite abrir a home já numa página, por exemplo: home.html#perfil
+        const rotasIniciais = { perfil: 'pages/account.html' };
+        const rotaInicial = rotasIniciais[location.hash.slice(1)];
+        if (rotaInicial) alterarLink(rotaInicial);
+    </script>
 </body>
 </html>

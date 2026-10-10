@@ -3,19 +3,89 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Galea</title>
+    <meta name="description" content="Galea: cursos gamificados que tornam o estudo mais leve e divertido, pensados para pessoas com TDAH.">
+    <title>Galea - Cursos gamificados</title>
+    <link rel="icon" href="images/group_2.png" type="image/png">
 
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
     <link rel="stylesheet" href="style/style.css">
+    <link rel="stylesheet" href="style/index.css">
 </head>
-<body>
-    <h1>Galea</h1>
-    <br>
-    <img src="images/logos/logo.png" alt="">
-    <button type="button" id="cadastrar">Começar </button>
+<body class="body">
 
-    <h1 id="titulo-sobreNos">Sobre nós</h1>
-    <br>
-    <p>Nós criamos este site com o intuito de desenvolver um site junto de uma comunidade para criar um método de ensino diversificado</p>
-    <script src="script/script.js"></script>
+    <header class="topo">
+        <a class="marca" href="index.html">Galea</a>
+    </header>
+
+    <main>
+
+        <!-- SEÇÃO 1: apresentação -->
+        <section class="hero">
+            <img class="hero-mascote" src="images/group_2.png"
+                 alt="Desenho de uma ave em traços coloridos sobre um círculo preto, o mascote da Galea"
+                 width="312" height="311">
+
+            <div class="hero-texto">
+                <figure class="citacao">
+                    <blockquote>
+                        <p>“A sabedoria é um círculo, o que recebemos devemos devolver”</p>
+                    </blockquote>
+                    <figcaption>— Vert Wheeler</figcaption>
+                </figure>
+
+                <div class="acoes">
+                    <a class="botao-principal" href="cadastro.html">Começar</a>
+                    <a class="link-secundario" href="login.html">Já tenho conta</a>
+                </div>
+            </div>
+
+            <a class="rolar" href="#sobre">
+                Conheça a Galea
+                <span class="material-symbols-outlined" aria-hidden="true">expand_more</span>
+            </a>
+        </section>
+
+        <!-- SEÇÃO 2: o que é a Galea -->
+        <section class="sobre" id="sobre" aria-labelledby="sobre-titulo">
+
+            <!-- Pilha de capas de cursos que troca sozinha (script/index.js).
+                 data-pos: 0 = frente, 1 = meio, 2 = fundo. Sem JavaScript ela fica parada assim.
+                 Para incluir mais imagens, basta acrescentar <img> com data-pos="3", "4"... -->
+            <div class="pilha-bloco">
+                <div class="pilha">
+                    <img class="pilha-img" data-pos="2" src="images/others/img-cursos/teoria-musical.png" alt="Capa do curso de Teoria musical" loading="lazy">
+                    <img class="pilha-img" data-pos="1" src="images/others/img-cursos/python.jpg"         alt="Capa do curso de Python" loading="lazy">
+                    <img class="pilha-img" data-pos="0" src="images/others/img-cursos/isaac-newton.jpg"   alt="Capa do curso de Física" loading="lazy">
+                </div>
+
+                <!-- Escondido por padrão: o script mostra quando a troca automática está ativa -->
+                <button type="button" class="pilha-pausa" aria-label="Pausar a troca de imagens" hidden>
+                    <span class="material-symbols-outlined" aria-hidden="true">pause</span>
+                </button>
+            </div>
+
+            <div class="sobre-texto">
+                <h2 id="sobre-titulo">Estudar no seu ritmo, sem perder o foco</h2>
+                <p>
+                    A Galea é uma plataforma de cursos gamificados pensada para quem tem TDAH.
+                    As lições são curtas, cada passo tem uma recompensa e você sempre sabe
+                    qual é a próxima etapa.
+                </p>
+                <p>
+                    Ganhe pontos de experiência, suba de nível, desbloqueie troféus e acompanhe
+                    seu progresso em trilhas claras. Errou? Sem problema: é só tentar de novo,
+                    no seu tempo.
+                </p>
+
+                <div class="acoes">
+                    <a class="botao-principal" href="cadastro.html">Começar</a>
+                    <a class="link-secundario" href="login.html">Já tenho conta</a>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script src="script/index.js" defer></script>
 </body>
 </html>
