@@ -1,12 +1,54 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Comunidade</title>
+    <title>Comunidade - Galea</title>
 
+    <!-- Os ícones precisam ser carregados aqui também: o iframe é um documento separado da home.html -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
     <link rel="stylesheet" href="../style/style.css">
+    <link rel="stylesheet" href="../style/community.css">
 </head>
 <body>
-    <p>Em desenvolvimento ...</p>
+    <main class="comunidade">
+
+        <header class="comunidade-topo">
+            <h1>Comunidade</h1>
+            <p>Converse com outros alunos, tire dúvidas e responda às mensagens.</p>
+        </header>
+
+        <!-- As mensagens são montadas pelo script/comunidade.js -->
+        <ol class="mensagens" id="mensagens" aria-label="Mensagens da comunidade"></ol>
+
+        <!-- Caixa para escrever. A faixa "Respondendo a..." só aparece ao clicar em Responder -->
+        <form class="compositor" id="compositor">
+            <div class="compositor-resposta" id="compositor-resposta" hidden>
+                <span class="material-symbols-outlined" aria-hidden="true">reply</span>
+                <span class="compositor-resposta-texto">
+                    Respondendo a <strong id="resposta-nome"></strong>:
+                    <span id="resposta-resumo"></span>
+                </span>
+                <button type="button" class="acao-icone" id="resposta-cancelar" aria-label="Cancelar resposta">
+                    <span class="material-symbols-outlined" aria-hidden="true">close</span>
+                </button>
+            </div>
+
+            <div class="compositor-linha">
+                <img class="avatar" id="compositor-avatar" src="../images/boiola.jpg" alt="">
+                <label class="sr-only" for="texto">Sua mensagem</label>
+                <textarea id="texto" rows="1" maxlength="500"
+                          placeholder="Escreva uma mensagem… (Enter envia, Shift+Enter quebra a linha)"></textarea>
+                <button type="submit" class="enviar" aria-label="Enviar mensagem">
+                    <span class="material-symbols-outlined" aria-hidden="true">send</span>
+                </button>
+            </div>
+        </form>
+    </main>
+
+    <!-- Aviso invisível para leitores de tela -->
+    <p class="sr-only" id="aviso" aria-live="polite"></p>
+
+    <script src="../script/community.js" defer></script>
+</body>
 </html>

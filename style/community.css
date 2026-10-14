@@ -1,0 +1,369 @@
+@charset "UTF-8";
+
+/* =====================================================
+   COMUNIDADE (pages/community.html)
+   Carregado DEPOIS do style.css, que fornece as variáveis
+   --cor1 ... --cor5 e a fonte global.
+
+   Lembrete: o style.css tem `* { color: white }`, então a cor
+   não é herdada do pai: é aplicada direto em cada elemento.
+   ===================================================== */
+
+body {
+    margin: 0;
+    padding: 1rem 1.25rem;
+}
+
+/* Texto só para leitores de tela */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* ---------- Estrutura: título, lista (rola) e caixa de escrever ---------- */
+.comunidade {
+    --borda: 2px solid var(--cor4);
+    --raio: 14px;
+    --fundo-cartao: rgba(30, 0, 63, 0.55);
+    --linha-suave: rgba(255, 255, 255, 0.18);
+    --texto-suave: rgba(255, 255, 255, 0.72);
+
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    height: calc(100vh - 2rem);
+    height: calc(100svh - 2rem);   /* o iframe tem a altura da área; só a lista rola */
+}
+
+.comunidade-topo h1 {
+    margin: 0;
+    font-size: 1.6rem;
+}
+
+.comunidade-topo p {
+    margin: 0.2rem 0 0;
+    color: var(--texto-suave);
+}
+
+.mensagens {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    min-height: 0;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    overflow-y: auto;
+}
+
+.mensagens-vazio {
+    margin: auto;
+    color: var(--texto-suave);
+}
+
+/* ---------- Avatar (foto ou inicial colorida) ---------- */
+.avatar {
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    object-fit: cover;
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+
+/* ---------- Mensagem ---------- */
+.mensagem {
+    display: grid;
+    grid-template-columns: 44px minmax(0, 1fr);
+    column-gap: 0.8rem;
+    padding: 0.8rem 1rem;
+    border: var(--borda);
+    border-radius: var(--raio);
+    background-color: var(--fundo-cartao);
+}
+
+/* Só a mensagem que acabou de ser enviada anima ao entrar */
+.mensagem.nova {
+    animation: mensagem-entrar 0.25s ease;
+}
+
+.mensagem:focus-visible {
+    outline: 3px solid var(--cor3);
+    outline-offset: 2px;
+}
+
+/* Mensagem escrita por você */
+.mensagem.minha {
+    border-color: var(--cor3);
+    background-color: rgba(61, 52, 139, 0.55);
+}
+
+/* Piscada ao pular para a mensagem original de uma resposta */
+.mensagem.destacada {
+    animation: mensagem-destacar 1.3s ease;
+}
+
+.mensagem-corpo {
+    min-width: 0;
+}
+
+.mensagem-cabecalho {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.2rem 0.6rem;
+}
+
+.mensagem-nick {
+    font-size: 1.05rem;
+}
+
+.selo-voce {
+    padding: 0.05rem 0.5rem;
+    border-radius: 999px;
+    background-color: var(--cor3);
+    color: #1e003f;
+    font-size: 0.7rem;
+    font-weight: 700;
+}
+
+.mensagem-hora {
+    color: var(--texto-suave);
+    font-size: 0.8rem;
+}
+
+.mensagem-texto {
+    margin: 0.35rem 0 0;
+    line-height: 1.4;
+    white-space: pre-wrap;          /* respeita as quebras de linha digitadas */
+    overflow-wrap: anywhere;
+}
+
+/* Trecho da mensagem original, dentro de uma resposta */
+.citacao {
+    display: block;
+    box-sizing: border-box;
+    width: 100%;
+    margin-top: 0.45rem;
+    padding: 0.35rem 0.6rem;
+    border: 0;
+    border-left: 3px solid var(--cor2);
+    border-radius: 6px;
+    background-color: rgba(255, 255, 255, 0.07);
+    text-align: left;
+    cursor: pointer;
+}
+
+.citacao-apagada {
+    cursor: default;
+    font-style: italic;
+    color: var(--texto-suave);
+}
+
+.citacao-nome {
+    display: block;
+    color: var(--cor3);
+    font-size: 0.8rem;
+}
+
+.citacao-texto {
+    display: block;
+    overflow: hidden;
+    color: var(--texto-suave);
+    font-size: 0.85rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* ---------- Botões da mensagem (Responder / Apagar) ---------- */
+.mensagem-acoes {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.4rem;
+    margin-top: 0.55rem;
+}
+
+.acao {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.2rem 0.65rem;
+    border: 1px solid var(--linha-suave);
+    border-radius: 999px;
+    background: none;
+    font-size: 0.82rem;
+    cursor: pointer;
+    transition: border-color 0.15s ease;
+}
+
+.acao:hover {
+    border-color: var(--cor3);
+}
+
+.acao.perigo:hover {
+    border-color: #ff8a80;
+}
+
+.acao.confirmar {
+    border-color: #ff8a80;
+    background-color: #b3261e;
+    font-weight: 700;
+}
+
+.acao .material-symbols-outlined {
+    font-size: 1.1rem;
+}
+
+.confirmacao-texto {
+    font-size: 0.85rem;
+}
+
+.acao:focus-visible,
+.citacao:focus-visible,
+.acao-icone:focus-visible,
+.enviar:focus-visible,
+.compositor textarea:focus-visible {
+    outline: 3px solid var(--cor3);
+    outline-offset: 2px;
+}
+
+/* ---------- Caixa de escrever ---------- */
+.compositor {
+    flex: none;
+    margin-right: 5.5rem;           /* deixa livre o canto onde fica a foto de perfil da home */
+    padding: 0.6rem 0.75rem;
+    border: var(--borda);
+    border-radius: var(--raio);
+    background-color: var(--fundo-cartao);
+}
+
+.compositor-resposta {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.55rem;
+    padding: 0.3rem 0.4rem 0.3rem 0.6rem;
+    border-left: 3px solid var(--cor2);
+    border-radius: 6px;
+    background-color: rgba(255, 255, 255, 0.07);
+    font-size: 0.85rem;
+}
+
+.compositor-resposta-texto {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+#resposta-resumo {
+    color: var(--texto-suave);
+}
+
+.acao-icone {
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: none;
+    cursor: pointer;
+}
+
+.acao-icone:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+}
+
+.compositor-linha {
+    display: flex;
+    align-items: flex-end;
+    gap: 0.6rem;
+}
+
+.compositor textarea {
+    flex: 1;
+    box-sizing: border-box;
+    min-width: 0;
+    max-height: 7.5rem;
+    padding: 0.5rem 0.7rem;
+    border: 2px solid var(--cor2);
+    border-radius: 10px;
+    background-color: rgba(61, 52, 139, 0.45);
+    font-size: 1rem;
+    line-height: 1.35;
+    resize: none;
+}
+
+.compositor textarea::placeholder {
+    color: var(--texto-suave);
+}
+
+.enviar {
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: 42px;
+    height: 42px;
+    padding: 0;
+    border: 2px solid var(--cor3);
+    border-radius: 50%;
+    background-color: var(--cor3);
+    cursor: pointer;
+}
+
+.enviar:hover {
+    border-color: #fff;
+}
+
+.enviar .material-symbols-outlined {
+    color: #1e003f;
+}
+
+/* ---------- Animações ---------- */
+@keyframes mensagem-entrar {
+    from { opacity: 0; transform: translateY(6px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes mensagem-destacar {
+    0%, 60% { box-shadow: 0 0 0 3px var(--cor3); }
+    100%    { box-shadow: 0 0 0 3px transparent; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .mensagem.nova,
+    .mensagem.destacada {
+        animation: none;
+    }
+
+    .acao {
+        transition: none;
+    }
+}
+
+/* ---------- Telas estreitas ---------- */
+@media (max-width: 520px) {
+    .compositor {
+        margin-right: 4.5rem;
+    }
+
+    .compositor-linha .avatar {
+        display: none;
+    }
+}
