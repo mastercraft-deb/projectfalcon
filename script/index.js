@@ -6,29 +6,36 @@
    frente vai para o fim da fila. O CSS (style/index.css) cuida da animação:
    quando o data-pos muda, o navegador faz a transição sozinho.
 
-   A troca só roda quando faz sentido. Ela PARA se:
-   - a pilha não está na tela (não gasta processamento à toa);
-   - o mouse está em cima ou o teclado está dentro dela (dá tempo de olhar);
+   A troca PARA se:
+   - a pilha não está na tela;
+   - o mouse está em cima ou o teclado está dentro dela;
    - a aba do navegador está em segundo plano;
    - a pessoa apertou o botão de pausa;
-   - o sistema está configurado para reduzir movimento (aí nem roda).
+   - o sistema pede para reduzir movimento (se RESPEITAR_MENOS_MOVIMENTO = true).
    ===================================================== */
 
 (() => {
+    const INTERVALO = 4000; // 4 segundos entre uma troca e outra
+
+    // Para TESTAR: coloque false. Se a troca passar a funcionar, o problema era
+    // a configuração "reduzir animações" do seu sistema (comum no Windows).
+    // Em produção, deixe true por acessibilidade.
+    const RESPEITAR_MENOS_MOVIMENTO = true;
+
     const pilha = document.querySelector('.pilha');
     const botao = document.querySelector('.pilha-pausa');
-    if (!pilha || !botao) return;
+    if (!pilha) return;
 
     const bloco = pilha.parentElement;
     const imagens = [...pilha.querySelectorAll('.pilha-img')];
-    const INTERVALO = 4500; // milissegundos entre uma troca e outra
-    const menosMovimento = window.matchMedia('(prefers-reduced-motion: reduce)');
-
     if (imagens.length < 2) return;
 
-    // "Estado" da troca: tudo que pode pará-la fica registrado aqui
+    const menosMovimento = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const reduzir = () => RESPEITAR_MENOS_MOVIMENTO && menosMovimento.matches;
+
+    // Estado: tudo que pode pausar a troca fica registrado aqui
     let timer = null;
-    let naTela = false;
+    let naTela = true; // começa true: se o observador falhar, a troca ainda roda
     let mouseEmCima = false;
     let focoDentro = false;
     let pausadoPeloUsuario = false;
@@ -41,14 +48,13 @@
         });
     }
 
-    // Olha o estado e liga ou desliga o relógio. Todo evento abaixo só
-    // atualiza uma variável e chama esta função.
+    // Olha o estado e liga ou desliga o relógio
     function atualizar() {
         const deveRodar = naTela
             && !mouseEmCima
             && !focoDentro
             && !pausadoPeloUsuario
-            && !menosMovimento.matches
+            && !reduzir()
             && !document.hidden;
 
         if (deveRodar && !timer) {
@@ -59,36 +65,41 @@
         }
     }
 
-    // Só começa quando a pilha aparece na tela (a seção fica abaixo da dobra)
-    new IntersectionObserver(entradas => {
-        naTela = entradas[0].isIntersecting;
-        atualizar();
-    }, { threshold: 0.4 }).observe(pilha);
+    // Só roda quando a pilha está visível. Threshold 0 = basta um pedacinho
+    // aparecer (0.4 exigia 40% e podia nunca ser atingido em telas pequenas).
+    if ('IntersectionObserver' in window) {
+        naTela = false;
+        new IntersectionObserver(entradas => {
+            naTela = entradas[0].isIntersecting;
+            atualizar();
+        }, { threshold: 0 }).observe(pilha);
+    }
 
-    // Mouse em cima pausa. Em tela de toque não vale: ali o "mouseenter" ficaria
-    // preso depois de um toque e a troca nunca mais voltaria.
+    // Mouse em cima pausa (só mouse; em toque o "enter" ficaria preso)
     bloco.addEventListener('pointerenter', e => { if (e.pointerType === 'mouse') { mouseEmCima = true; atualizar(); } });
     bloco.addEventListener('pointerleave', e => { if (e.pointerType === 'mouse') { mouseEmCima = false; atualizar(); } });
 
-    // Teclado dentro da pilha (ex.: foco no botão de pausa) também pausa
+    // Teclado dentro do bloco também pausa
     bloco.addEventListener('focusin',  () => { focoDentro = true;  atualizar(); });
     bloco.addEventListener('focusout', () => { focoDentro = false; atualizar(); });
 
     document.addEventListener('visibilitychange', atualizar);
 
     // Botão de pausa / retomar
-    botao.addEventListener('click', () => {
-        pausadoPeloUsuario = !pausadoPeloUsuario;
-        botao.querySelector('.material-symbols-outlined').textContent =
-            pausadoPeloUsuario ? 'play_arrow' : 'pause';
-        botao.setAttribute('aria-label',
-            pausadoPeloUsuario ? 'Retomar a troca de imagens' : 'Pausar a troca de imagens');
-        atualizar();
-    });
+    if (botao) {
+        botao.addEventListener('click', () => {
+            pausadoPeloUsuario = !pausadoPeloUsuario;
+            botao.querySelector('.material-symbols-outlined').textContent =
+                pausadoPeloUsuario ? 'play_arrow' : 'pause';
+            botao.setAttribute('aria-label',
+                pausadoPeloUsuario ? 'Retomar a troca de imagens' : 'Pausar a troca de imagens');
+            atualizar();
+        });
+    }
 
-    // O botão só aparece quando existe troca automática (some se o sistema pede menos movimento)
+    // O botão só aparece quando existe troca automática
     function ajustarBotao() {
-        botao.hidden = menosMovimento.matches;
+        if (botao) botao.hidden = reduzir();
         atualizar();
     }
     menosMovimento.addEventListener('change', ajustarBotao);
