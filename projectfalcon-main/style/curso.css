@@ -1,0 +1,350 @@
+@charset "UTF-8";
+
+/* =====================================================
+   TELA DE CURSO (pages/courses/*.html)
+   Carregado DEPOIS do style.css. Serve para qualquer curso:
+   o que muda de um curso para outro é só o conteúdo do HTML
+   (título, imagem de capa, descrição e números).
+
+   Esta página NÃO fica dentro do iframe: ela ocupa a janela
+   inteira. Por isso usa 100vh/100svh em vez de larguras fixas.
+
+   Lembrete: o style.css tem `* { color: white }`, então a
+   cor é definida direto no elemento que queremos pintar.
+   ===================================================== */
+
+:root {
+    --sombra-capa: rgba(12, 0, 28, 0.88);
+    --vidro: rgba(12, 0, 28, 0.45);
+    --texto-suave: rgba(255, 255, 255, 0.78);
+    --sucesso: #2ecc71;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+}
+
+/* ---------- Primeira tela: capa + rodapé ---------- */
+.curso-tela {
+    display: grid;
+    grid-template-rows: minmax(0, 1fr) auto; /* a capa toma todo o espaço que sobrar */
+    gap: 14px;
+    min-height: 100vh;
+    min-height: 100svh; /* svh = altura "segura" em celulares com barra de endereço */
+    padding: 16px clamp(12px, 3vw, 36px) 18px;
+    box-sizing: border-box;
+}
+
+/* ---------- Capa ---------- */
+.capa {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* topo em cima, título embaixo */
+    min-height: 380px;
+    border: 1px solid var(--cor4);
+    border-radius: 14px;
+    overflow: hidden;
+    isolation: isolate; /* mantém os z-index da capa só dentro dela */
+}
+
+.capa-img {
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 45% 25%; /* ajuste o ponto de foco conforme a foto de cada curso */
+}
+
+/* Degradê escuro: garante contraste do texto e dos ícones sobre qualquer foto */
+.capa::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background:
+        linear-gradient(to bottom, rgba(12, 0, 28, 0.6) 0%, transparent 28%),
+        linear-gradient(to top, var(--sombra-capa) 0%, rgba(12, 0, 28, 0.35) 42%, transparent 70%);
+    pointer-events: none;
+}
+
+.capa-topo {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1rem 1.25rem;
+}
+
+.voltar {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.4rem 0.9rem 0.4rem 0.6rem;
+    border-radius: 999px;
+    background-color: var(--vidro);
+    font-size: 0.95rem;
+    text-decoration: none;
+    transition: background-color 0.3s;
+}
+
+.voltar:hover {
+    background-color: rgba(12, 0, 28, 0.75);
+}
+
+.capa-icones {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.icone-botao {
+    position: relative;
+    display: inline-flex;
+    padding: 0.4rem;
+    border: 0;
+    border-radius: 10px;
+    background: transparent;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.icone-botao:hover {
+    background-color: var(--vidro);
+}
+
+.capa .material-symbols-outlined {
+    font-size: 2rem;
+}
+
+/* Bolinha verde de "tem amigo online" (decorativa: o botão já tem aria-label) */
+.icone-amigos::after {
+    content: "";
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    width: 10px;
+    height: 10px;
+    border: 2px solid #1e003f;
+    border-radius: 50%;
+    background-color: var(--sucesso);
+}
+
+.voltar:focus-visible,
+.icone-botao:focus-visible,
+.botao-comecar:focus-visible,
+.botao-progresso:focus-visible,
+.mais-detalhes:focus-visible,
+.avatar:focus-visible {
+    outline: 3px solid var(--cor3);
+    outline-offset: 3px;
+}
+
+/* ---------- Título + botões ---------- */
+.capa-info {
+    padding: 1rem clamp(1rem, 3vw, 2rem) clamp(1.25rem, 3vw, 2rem);
+}
+
+.capa-info h1 {
+    margin: 0 0 1.1rem;
+    font-size: clamp(2rem, 4.6vw, 3.4rem);
+    line-height: 1.1;
+    text-wrap: balance;
+}
+
+.capa-botoes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+.botao-comecar,
+.botao-progresso {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-height: 52px;
+    padding: 0 1.5rem 0 1.1rem;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    text-decoration: none;
+    cursor: pointer;
+    transition: transform 0.25s ease, background-color 0.3s, border-color 0.3s,
+                box-shadow 0.3s;
+}
+
+.botao-comecar .material-symbols-outlined,
+.botao-progresso .material-symbols-outlined {
+    font-size: 1.9rem;
+}
+
+/* Texto escuro sobre o laranja: o branco dava só 2,6:1 de contraste */
+.botao-comecar {
+    border: 0;
+    background-color: var(--cor4);
+    color: #1e003f;
+}
+
+.botao-comecar .material-symbols-outlined {
+    color: #1e003f;
+}
+
+.botao-comecar:hover {
+    background-color: var(--cor3);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(241, 135, 1, 0.35);
+}
+
+.botao-progresso {
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    background-color: var(--vidro);
+    backdrop-filter: blur(4px);
+}
+
+.botao-progresso:hover {
+    border-color: var(--cor4);
+    transform: translateY(-2px);
+}
+
+.botao-comecar:active,
+.botao-progresso:active {
+    transform: translateY(0);
+}
+
+/* ---------- Rodapé da primeira tela ---------- */
+.rodape-curso {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 56px;
+}
+
+.mais-detalhes {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.mais-detalhes .material-symbols-outlined {
+    font-size: 2rem;
+    color: var(--cor4);
+    transition: transform 0.3s ease;
+}
+
+.mais-detalhes:hover .material-symbols-outlined {
+    transform: translateY(4px);
+}
+
+.avatar {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    width: 56px;
+    height: 56px;
+    transform: translateY(-50%);
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.avatar img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* ---------- Segunda tela: detalhes ---------- */
+.detalhes {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 4rem clamp(1rem, 4vw, 2rem) 6rem;
+    box-sizing: border-box;
+}
+
+.detalhes h2 {
+    margin: 0 0 1rem;
+    font-size: clamp(1.5rem, 2.8vw, 2rem);
+}
+
+.detalhes p {
+    max-width: 62ch;
+    margin: 0 0 2rem;
+    font-size: 1.1rem;
+    line-height: 1.65;
+}
+
+.fatos {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin: 0;
+}
+
+.fato {
+    display: flex;
+    flex-direction: column-reverse; /* o número aparece em cima, o rótulo embaixo */
+    min-width: 140px;
+    padding: 0.9rem 1.25rem;
+    border: 2px solid var(--cor4);
+    border-radius: 14px;
+    background-color: rgba(30, 0, 63, 0.55);
+}
+
+.fato dt {
+    font-size: 0.9rem;
+    color: var(--texto-suave);
+}
+
+.fato dd {
+    margin: 0;
+    font-size: 1.6rem;
+    font-weight: 700;
+}
+
+/* ---------- Telas estreitas ---------- */
+@media (max-width: 600px) {
+    .capa-botoes {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .botao-comecar,
+    .botao-progresso {
+        justify-content: center;
+    }
+
+    /* o avatar não pode ficar em cima do "Mais detalhes" */
+    .rodape-curso {
+        justify-content: flex-start;
+    }
+
+    .mais-detalhes {
+        margin-left: 0.25rem;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+
+    .voltar,
+    .icone-botao,
+    .botao-comecar,
+    .botao-progresso,
+    .mais-detalhes .material-symbols-outlined {
+        transition: none;
+    }
+}

@@ -1,0 +1,290 @@
+@charset "UTF-8";
+
+/* =====================================================
+   MEUS CURSOS (pages/mycourses.html), carrossel por "slots"
+   Carregado DEPOIS do style.css.
+
+   A ideia: todos os cartões têm o MESMO tamanho-base e ficam
+   empilhados no mesmo canto. O atributo data-slot diz em qual
+   "vaga" cada um está, e cada vaga é só um transform:
+
+       slot 0  -> grande, selecionado (escala 1)
+       slot 1  -> menor (escala --s1), logo à direita
+       slot 2  -> ainda menor (--s2)
+       slot 3  -> o menor visível (--s3), geralmente cortado pela borda
+       slot 4  -> esperando escondido à direita
+       slot -1 -> já passou: sumiu para a esquerda
+
+   O JavaScript (script/mycourses.js) só troca o número do slot.
+   Como o CSS tem `transition`, o navegador anima sozinho: o que
+   estava no slot 1 cresce até o 0, o que estava no 0 some, etc.
+
+   Lembrete: o style.css tem `* { color: white }`, então a cor é
+   definida direto no elemento que queremos mudar.
+   ===================================================== */
+
+.pagina-cursos {
+    margin: 0;
+    overflow: hidden;
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+.carrossel {
+    /* Medidas: mude aqui e tudo se reajusta */
+    --B: min(48vw, 115vh);   /* largura do cartão grande (vw/vh = tamanho do iframe) */
+    --L: 44px;               /* margem à esquerda do cartão grande */
+    --gap: 14px;             /* espaço entre os cartões */
+    --s1: 0.53;              /* escala dos cartões menores */
+    --s2: 0.33;
+    --s3: 0.21;
+    --s4: 0.13;
+    --selecao: #2b8cf0;      /* anel azul do cartão selecionado (do Figma) */
+
+    /* Quanto cada vaga se desloca para a direita (soma dos tamanhos anteriores) */
+    --x1: calc(var(--B) + var(--gap));
+    --x2: calc(var(--x1) + var(--B) * var(--s1) + var(--gap));
+    --x3: calc(var(--x2) + var(--B) * var(--s2) + var(--gap));
+    --x4: calc(var(--x3) + var(--B) * var(--s3) + var(--gap));
+
+    position: relative;
+    height: 100vh;
+    min-height: 360px;
+    overflow: hidden;
+}
+
+.carrossel-lista {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+/* ---------- Cartão (a "moldura" que se move) ---------- */
+.cartao {
+    position: absolute;
+    left: var(--L);
+    top: 50%;
+    width: var(--B);
+    aspect-ratio: 33 / 20;
+    transform-origin: 0 50%;   /* cresce e encolhe a partir da borda esquerda */
+    transition: transform 0.65s cubic-bezier(0.4, 0, 0.2, 1),
+                opacity 0.5s ease,
+                visibility 0.65s;   /* visibility só "desliga" no fim da animação */
+    will-change: transform;
+}
+
+/* Cada vaga: posição + tamanho + ordem de empilhamento */
+.cartao[data-slot="0"]  { transform: translate(0, -50%) scale(1);                    z-index: 10; }
+.cartao[data-slot="1"]  { transform: translate(var(--x1), -50%) scale(var(--s1));    z-index: 9;  }
+.cartao[data-slot="2"]  { transform: translate(var(--x2), -50%) scale(var(--s2));    z-index: 8;  }
+.cartao[data-slot="3"]  { transform: translate(var(--x3), -50%) scale(var(--s3));    z-index: 7;  }
+
+/* Esperando entrar pela direita */
+.cartao[data-slot="4"] {
+    transform: translate(var(--x4), -50%) scale(var(--s4));
+    z-index: 6;
+    opacity: 0;
+    visibility: hidden;
+}
+
+/* Já passou: some para a esquerda */
+.cartao[data-slot="-1"] {
+    transform: translate(-6%, -50%) scale(0.92);
+    z-index: 11;
+    opacity: 0;
+    visibility: hidden;
+}
+
+/* ---------- Conteúdo do cartão ---------- */
+.cartao-link {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 100%;
+    border-radius: 16px;
+    overflow: hidden;
+    text-decoration: none;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+    transition: box-shadow 0.5s ease;
+}
+
+/* anel azul só no selecionado */
+.cartao[data-slot="0"] .cartao-link {
+    box-shadow: 0 0 0 3px var(--selecao), 0 12px 30px rgba(0, 0, 0, 0.5);
+}
+
+.cartao-link:focus-visible {
+    outline: 3px solid var(--cor3);
+    outline-offset: 5px;
+}
+
+.cartao-img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    background-color: #555;
+    transition: transform 0.6s ease, filter 0.6s ease;
+}
+
+/* os menores ficam mais escuros: o grande ganha destaque */
+.cartao:not([data-slot="0"]) .cartao-img {
+    filter: brightness(0.7);
+}
+
+/* o selecionado dá um leve zoom na imagem com o mouse em cima */
+.cartao[data-slot="0"] .cartao-link:hover .cartao-img {
+    transform: scale(1.04);
+}
+
+/* os menores são clicáveis (trazem o curso para a frente): o cursor avisa */
+.cartao:not([data-slot="0"]) .cartao-link {
+    cursor: pointer;
+}
+
+.cartao:not([data-slot="0"]) .cartao-link:hover .cartao-img {
+    filter: brightness(0.9);
+}
+
+/* Título + descrição: aparecem só no cartão grande, depois que ele termina de crescer */
+.cartao-texto {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 3.5rem 1.4rem 1.2rem;
+    background: linear-gradient(to top,
+                rgba(12, 0, 28, 0.92) 0%,
+                rgba(12, 0, 28, 0.6) 55%,
+                transparent 100%);
+    opacity: 0;
+    transition: opacity 0.25s ease;
+}
+
+.cartao[data-slot="0"] .cartao-texto {
+    opacity: 1;
+    transition: opacity 0.4s ease 0.3s;
+}
+
+.cartao-texto h2 {
+    margin: 0 0 0.45rem;
+    font-size: clamp(1.1rem, calc(var(--B) * 0.045), 2.2rem);
+    line-height: 1.1;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+}
+
+.cartao-texto p {
+    margin: 0;
+    max-width: 62ch;
+    font-size: clamp(0.78rem, calc(var(--B) * 0.02), 1rem);
+    line-height: 1.5;
+    color: rgba(255, 255, 255, 0.85);
+    /* no máximo 3 linhas */
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* ---------- Setas ---------- */
+.seta {
+    position: absolute;
+    top: 50%;
+    z-index: 20;
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background-color: var(--cor1);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.4);
+    cursor: pointer;
+    transition: background-color 0.3s, opacity 0.3s;
+}
+
+/* a seta esquerda fica no meio da borda esquerda do cartão grande */
+.seta-ant {
+    left: var(--L);
+    transform: translate(-50%, -50%);
+}
+
+.seta-prox {
+    right: 28px;
+    transform: translateY(-50%);
+}
+
+.seta svg {
+    width: 24px;
+    height: 24px;
+    fill: none;
+    stroke: #fff;
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.seta:hover {
+    background-color: var(--cor2);
+}
+
+.seta:focus-visible {
+    outline: 3px solid var(--cor3);
+    outline-offset: 3px;
+}
+
+/* Sem curso para aquele lado: fica apagada (não usamos o atributo "disabled"
+   para o foco do teclado não se perder quando chegar ao fim da fila) */
+.seta[aria-disabled="true"] {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+
+.seta[aria-disabled="true"]:hover {
+    background-color: var(--cor1);
+}
+
+/* ---------- Entrada dos cartões ao abrir a página ----------
+   Só o ponto de PARTIDA é descrito (sem "to"): o final é onde o cartão já está.
+   Usa a propriedade `translate`, que se soma ao `transform` do slot sem brigar com ele. */
+@keyframes cartao-entrar {
+    from { opacity: 0; translate: 80px 0; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    .cartao {
+        animation: cartao-entrar 0.7s ease backwards;
+        animation-delay: calc(var(--i, 0) * 90ms);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .cartao,
+    .cartao-link,
+    .cartao-img,
+    .cartao-texto,
+    .seta {
+        transition: none;
+    }
+}
+
+/* ---------- Telas estreitas (o iframe é que é estreito) ---------- */
+@media (max-width: 700px) {
+    .carrossel {
+        --B: min(72vw, 115vh);
+        --L: 36px;
+    }
+}

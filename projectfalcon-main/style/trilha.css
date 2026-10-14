@@ -1,0 +1,354 @@
+@charset "UTF-8";
+
+
+/* =====================================================
+   TRILHA DE MÓDULOS (pages/trilha.html)
+   Carregado DEPOIS do style.css. A página abre dentro do
+   iframe da home, então o fundo estrelado vem da home.
+
+   Como o zigue-zague funciona (sem JavaScript):
+   - Cada <li> tem a altura de um "passo" (--passo-y).
+   - A posição horizontal do módulo vem da ORDEM do <li>,
+     num ciclo de 4: centro, esquerda, centro, direita.
+   - Cada <li> (menos o primeiro) desenha, com ::before, uma
+     barra que vai do centro do seu círculo até o centro do
+     círculo anterior. O comprimento e o ângulo saem de
+     hypot() e atan2() a partir de --passo-x e --passo-y.
+
+   Lembrete: o style.css tem `* { color: white }`, então a
+   cor é definida direto no elemento que queremos pintar.
+   ===================================================== */
+
+.trilha-pagina {
+    /* Medidas do mapa: mude aqui e tudo se reajusta */
+    --no: 78px;          /* diâmetro do círculo */
+    --passo-x: 112px;    /* quanto o zigue-zague anda para o lado */
+    --passo-y: 104px;    /* distância vertical entre um módulo e o próximo */
+    --cx: 30%;           /* onde fica a coluna central do mapa */
+
+    --linha: #fff4dc;
+    --sucesso: #2ecc71;
+    --bloqueado: #b8650f;
+    --escuro: #1e003f;
+    --texto-suave: rgba(255, 255, 255, 0.78);
+
+    max-width: 760px;
+}
+
+body {
+    margin: 0;
+    padding: 0.5rem 1.25rem 0;
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* ---------- Faixa do topo (fica visível ao rolar) ---------- */
+.trilha-topo {
+    position: sticky;
+    top: 0.5rem;
+    z-index: 5;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.6rem 1.25rem;
+    padding: 0.75rem 1.1rem;
+    border: 2px solid var(--cor4);
+    border-radius: 14px;
+    background-color: rgba(30, 0, 63, 0.82);
+    backdrop-filter: blur(6px);
+}
+
+.trilha-voltar {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-size: 0.9rem;
+    text-decoration: none;
+}
+
+.trilha-voltar .material-symbols-outlined {
+    font-size: 1.3rem;
+    color: var(--cor4);
+}
+
+.trilha-voltar:hover {
+    text-decoration: underline;
+    text-underline-offset: 4px;
+}
+
+.trilha-titulo h1 {
+    margin: 0;
+    font-size: 1.2rem;
+    line-height: 1.2;
+}
+
+.trilha-titulo p {
+    margin: 0.15rem 0 0;
+    font-size: 0.85rem;
+    color: var(--texto-suave);
+}
+
+.trilha-barra {
+    width: 130px;
+    height: 8px;
+    margin-left: auto;
+    border-radius: 999px;
+    background-color: var(--cor1);
+    overflow: hidden;
+}
+
+.trilha-barra-preenchimento {
+    display: block;
+    height: 100%;
+    width: var(--progresso, 0%);
+    border-radius: inherit;
+    background-color: var(--cor3);
+    transition: width 0.6s ease;
+}
+
+.trilha-voltar:focus-visible,
+.modulo-botao:focus-visible {
+    outline: 3px solid var(--cor3);
+    outline-offset: 4px;
+}
+
+/* ---------- O mapa ---------- */
+.trilha {
+    position: relative;
+    isolation: isolate; /* linhas (z 0) ficam sempre atrás dos círculos (z 1) */
+    margin: 0;
+    padding: 1.75rem 0 3rem;
+    list-style: none;
+}
+
+.modulo {
+    --dx: 0px; /* deslocamento horizontal deste módulo em relação à coluna central */
+    /* para onde a linha aponta: do círculo atual para o anterior (cima e para a direita) */
+    --ang: atan2(calc(var(--passo-y) * -1), var(--passo-x));
+
+    position: relative;
+    height: var(--passo-y);
+}
+
+/* ciclo de 4 posições: centro, esquerda, centro, direita */
+.modulo:nth-child(4n + 2) { --dx: calc(var(--passo-x) * -1); }
+.modulo:nth-child(4n + 4) { --dx: var(--passo-x); }
+
+/* quando o módulo anterior está à ESQUERDA, a linha aponta para cima e para a esquerda */
+.modulo:nth-child(4n + 3),
+.modulo:nth-child(4n + 4) {
+    --ang: atan2(calc(var(--passo-y) * -1), calc(var(--passo-x) * -1));
+}
+
+/* Linha de ligação com o módulo anterior */
+.modulo::before {
+    content: "";
+    position: absolute;
+    left: calc(var(--cx) + var(--dx));
+    top: 50%;
+    z-index: 0;
+    width: hypot(var(--passo-x), var(--passo-y));
+    height: 10px;
+    margin-top: -5px;
+    border-radius: 5px;
+    background-color: var(--linha);
+    transform-origin: 0 50%;
+    transform: rotate(var(--ang));
+}
+
+.modulo:first-child::before {
+    display: none;
+}
+
+/* ---------- Círculo + rótulo (um botão) ---------- */
+.modulo-botao {
+    position: absolute;
+    left: calc(var(--cx) + var(--dx));
+    top: 50%;
+    z-index: 1;
+    width: var(--no);
+    height: var(--no);
+    padding: 0;
+    border: 0;
+    background: transparent;
+    font-size: 1rem;
+    transform: translate(-50%, -50%);
+    cursor: pointer;
+}
+
+.modulo-botao[aria-disabled="true"] {
+    cursor: not-allowed;
+}
+
+/* o foco aparece em volta do círculo, não do botão inteiro */
+.modulo-botao:focus-visible {
+    outline: none;
+}
+
+.modulo-botao:focus-visible .modulo-no {
+    outline: 3px solid var(--cor3);
+    outline-offset: 5px;
+}
+
+.modulo-no {
+    display: grid;
+    place-items: center;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.35);
+    transition: transform 0.2s ease;
+}
+
+.modulo-no .material-symbols-outlined {
+    font-size: 2.4rem;
+}
+
+/* ---------- Rótulo (título do módulo) ---------- */
+.modulo-rotulo {
+    position: absolute;
+    left: calc(100% + 18px);
+    top: 50%;
+    width: max-content;
+    max-width: 280px;
+    transform: translateY(-50%);
+    text-align: left;
+    font-size: 1.05rem;
+    line-height: 1.25;
+    color: var(--texto-suave);
+}
+
+/* ---------- Estado: concluído ---------- */
+.modulo-concluido .modulo-no {
+    background-color: var(--sucesso);
+}
+
+.modulo-concluido .modulo-no .material-symbols-outlined {
+    color: var(--escuro);
+}
+
+/* ---------- Estado: atual (o próximo passo) ---------- */
+.modulo-atual .modulo-no {
+    background-color: var(--cor3);
+    /* anel em volta: destaca o círculo sem depender só da cor */
+    box-shadow: 0 0 0 8px rgba(247, 184, 1, 0.28), 0 6px 14px rgba(0, 0, 0, 0.35);
+}
+
+.modulo-atual .modulo-no .material-symbols-outlined {
+    color: var(--escuro);
+}
+
+/* O título do módulo atual vira um cartão amarelo com uma "pontinha" */
+.modulo-atual .modulo-rotulo {
+    min-width: 240px;
+    padding: 1.1rem 1.6rem;
+    border-radius: 14px;
+    background-color: var(--cor3);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+    font-weight: 700;
+    color: var(--escuro);
+}
+
+.modulo-atual .modulo-rotulo::before {
+    content: "";
+    position: absolute;
+    left: -7px;
+    top: 50%;
+    width: 16px;
+    height: 16px;
+    border-radius: 3px;
+    background-color: var(--cor3);
+    transform: translateY(-50%) rotate(45deg);
+}
+
+/* ---------- Estado: bloqueado ---------- */
+.modulo-bloqueado .modulo-no {
+    background-color: var(--bloqueado);
+}
+
+.modulo-bloqueado .modulo-no .material-symbols-outlined {
+    color: #fff;
+}
+
+/* ---------- Interação (só nos módulos liberados) ---------- */
+.modulo-concluido .modulo-botao:hover .modulo-no,
+.modulo-atual .modulo-botao:hover .modulo-no {
+    transform: scale(1.07);
+}
+
+.modulo-concluido .modulo-botao:active .modulo-no,
+.modulo-atual .modulo-botao:active .modulo-no {
+    transform: scale(0.97);
+}
+
+/* ---------- Animações (só para quem não pediu menos movimento) ----------
+   `backwards` evita deixar um transform "preso" depois que termina. */
+@keyframes trilha-aparecer {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+@keyframes trilha-no-entrar {
+    from { opacity: 0; transform: scale(0.6); }
+    to   { opacity: 1; transform: scale(1); }
+}
+
+/* o anel do módulo atual "pulsa" 3 vezes e depois fica parado */
+@keyframes trilha-halo {
+    from { box-shadow: 0 0 0 8px rgba(247, 184, 1, 0.5), 0 6px 14px rgba(0, 0, 0, 0.35); }
+    to   { box-shadow: 0 0 0 22px rgba(247, 184, 1, 0),  0 6px 14px rgba(0, 0, 0, 0.35); }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    .modulo::before,
+    .modulo-rotulo {
+        animation: trilha-aparecer 0.5s ease backwards;
+        animation-delay: calc(var(--i, 0) * 70ms);
+    }
+
+    .modulo-no {
+        animation: trilha-no-entrar 0.5s ease calc(var(--i, 0) * 70ms) backwards;
+    }
+
+    .modulo-atual .modulo-no {
+        animation: trilha-no-entrar 0.5s ease calc(var(--i, 0) * 70ms) backwards,
+                   trilha-halo 1.8s ease-out calc(var(--i, 0) * 70ms + 0.9s) 3;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .modulo-no,
+    .trilha-barra-preenchimento {
+        transition: none;
+    }
+}
+
+/* ---------- Telas estreitas (o @media mede a largura do iframe) ---------- */
+@media (max-width: 640px) {
+    .trilha-pagina {
+        --no: 66px;
+        --passo-x: 72px;
+        --passo-y: 96px;
+        --cx: 26%;
+    }
+
+    .modulo-rotulo {
+        max-width: 190px;
+        font-size: 0.95rem;
+    }
+
+    .modulo-atual .modulo-rotulo {
+        min-width: 0;
+        padding: 0.8rem 1rem;
+    }
+}

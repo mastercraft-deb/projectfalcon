@@ -1,0 +1,527 @@
+@charset "UTF-8";
+
+/* =====================================================
+   PERFIL (pages/account.html)
+   Carregado DEPOIS do style.css, que fornece as variáveis
+   --cor1 ... --cor5 e a fonte global.
+
+   ATENÇÃO: o style.css tem `* { color: white }`. Isso faz
+   cada elemento ter sua própria cor branca, então a cor
+   NÃO é herdada do pai. Por isso aqui a cor é aplicada
+   direto no elemento que queremos pintar (ex.: o ícone).
+   ===================================================== */
+
+body {
+    margin: 0;
+    padding: 1rem 1.25rem;
+}
+
+/* Texto só para leitores de tela (a informação existe, mas não aparece) */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* ---------- Estrutura geral ---------- */
+.perfil {
+    --borda: 2px solid var(--cor4);
+    --raio: 14px;
+    --fundo-cartao: rgba(30, 0, 63, 0.55);
+    --linha-suave: rgba(255, 255, 255, 0.18);
+    --texto-suave: rgba(255, 255, 255, 0.72);
+
+    --sucesso: #2ecc71;
+
+    --trofeu-platina: #e6e6f2;
+    --trofeu-ouro: var(--cor3);
+    --trofeu-prata: #a9aebb;
+    --trofeu-bronze: #b8733a;
+
+    display: grid;
+    grid-template-columns: 150px minmax(0, 1fr);
+    column-gap: 1.5rem;
+    align-items: start;
+    max-width: 900px;
+}
+
+.perfil-foto {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+/* A foto pequena é um botão (abre a foto ampliada). Zera o visual padrão do botão. */
+.perfil-foto-botao {
+    display: block;
+    width: 150px;
+    height: 150px;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: none;
+    cursor: zoom-in;
+    transition: transform 0.2s ease;
+}
+
+.perfil-foto-botao:hover {
+    transform: scale(1.04);
+}
+
+.perfil-foto-botao:focus-visible,
+.foto-fechar:focus-visible {
+    outline: 3px solid var(--cor3);
+    outline-offset: 3px;
+}
+
+/* ---------- Foto ampliada (janela no centro) ---------- */
+.foto-ampliada {
+    position: fixed;       /* centraliza na janela, não importa a rolagem */
+    inset: 0;
+    margin: auto;
+    width: fit-content;
+    height: fit-content;
+    max-width: none;
+    max-height: none;
+    padding: 0;
+    border: 0;
+    background: none;
+    overflow: visible;
+}
+
+.foto-ampliada[open] {
+    animation: foto-entrar 0.25s ease;
+}
+
+.foto-ampliada::backdrop {
+    background-color: rgba(12, 0, 28, 0.85);
+}
+
+.foto-ampliada img {
+    display: block;
+    width: auto;
+    height: auto;
+    max-width: min(90vw, 560px);
+    max-height: 80vh;
+    border: 3px solid var(--cor4);
+    border-radius: 16px;
+    object-fit: contain;
+}
+
+.foto-fechar {
+    position: absolute;
+    top: -14px;
+    right: -14px;
+    display: grid;
+    place-items: center;
+    width: 38px;
+    height: 38px;
+    padding: 0;
+    border: 2px solid var(--cor4);
+    border-radius: 50%;
+    background-color: var(--cor1);
+    cursor: pointer;
+}
+
+.foto-fechar .material-symbols-outlined {
+    font-size: 1.4rem;
+}
+
+@keyframes foto-entrar {
+    from { opacity: 0; transform: scale(0.85); }
+    to   { opacity: 1; transform: scale(1); }
+}
+
+/* ---------- Janela de edição do perfil ---------- */
+.editar-dialogo {
+    width: min(92vw, 420px);
+    max-width: none;
+    max-height: 92vh;
+    padding: 1.25rem 1.4rem;
+    border: 2px solid var(--cor4);
+    border-radius: 16px;
+    background-color: #1e003f;
+    overflow-y: auto;
+}
+
+.editar-dialogo[open] {
+    animation: foto-entrar 0.25s ease;
+}
+
+.editar-dialogo::backdrop {
+    background-color: rgba(12, 0, 28, 0.85);
+}
+
+.editar-titulo {
+    margin: 0 0 1rem;
+    font-size: 1.3rem;
+}
+
+.editar-texto {
+    margin: 0 0 0.8rem;
+    color: var(--texto-suave, rgba(255, 255, 255, 0.72));
+}
+
+.editar-foto {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.1rem;
+}
+
+.editar-previa {
+    flex: none;
+    width: 96px;
+    height: 96px;
+    border: 2px solid var(--cor4);
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.editar-dica {
+    margin: 0.5rem 0 0;
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.72);
+}
+
+.editar-rotulo {
+    display: block;
+    margin-bottom: 0.35rem;
+    font-size: 0.9rem;
+}
+
+.editar-campo {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 0.5rem 0.7rem;
+    border: 2px solid var(--cor2);
+    border-radius: 10px;
+    background-color: rgba(61, 52, 139, 0.45);
+    font: inherit;
+    font-size: 1.1rem;
+}
+
+.editar-campo:focus-visible {
+    outline: 3px solid var(--cor3);
+    outline-offset: 2px;
+}
+
+.editar-erro {
+    margin: 0.6rem 0 0;
+    font-size: 0.9rem;
+    color: #ff8a80;
+}
+
+.editar-acoes {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.6rem;
+    margin-top: 1.25rem;
+}
+
+.editar-acoes .botao-editar,
+.editar-foto .botao-editar {
+    padding: 0.45rem 1.1rem;
+    font-size: 0.95rem;
+}
+
+/* Botão principal da janela (Salvar / Sim, alterar) */
+.botao-destaque {
+    border-color: var(--cor3);
+    background-color: var(--cor3);
+    color: #1e003f;
+    font-weight: 700;
+}
+
+.botao-destaque:hover {
+    border-color: #fff;
+}
+
+.editar-resumo {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.8rem 1rem;
+    border: 1px solid var(--linha-suave, rgba(255, 255, 255, 0.18));
+    border-radius: 12px;
+    background-color: rgba(61, 52, 139, 0.35);
+}
+
+.editar-resumo strong {
+    font-size: 1.2rem;
+    overflow-wrap: anywhere;
+}
+
+.perfil-conteudo {
+    min-width: 0;
+}
+
+/* ---------- Nome + botão Editar ---------- */
+.perfil-topo {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem 0.9rem;
+    padding-bottom: 0.7rem;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid var(--cor4);
+}
+
+.perfil-nome {
+    margin: 0;
+    font-size: 1.9rem;
+    line-height: 1.1;
+    overflow-wrap: anywhere;
+}
+
+.botao-editar {
+    padding: 0.3rem 0.95rem;
+    border: 1px solid var(--cor2);
+    border-radius: 999px;
+    background-color: var(--cor1);
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: border-color 0.3s;
+}
+
+.botao-editar:hover {
+    border-color: var(--cor4);
+}
+
+.botao-editar:focus-visible,
+.curso-item:focus-visible {
+    outline: 3px solid var(--cor3);
+    outline-offset: 3px;
+}
+
+/* ---------- Faixa de resumo (XP + troféus) ---------- */
+.perfil-resumo {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.9rem 2rem;
+    padding: 0.6rem 1.1rem;
+    border: var(--borda);
+    border-radius: var(--raio);
+    background-color: var(--fundo-cartao);
+}
+
+.perfil .material-symbols-outlined {
+    font-size: 1.7rem;
+}
+
+.xp {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.xp-valor,
+.trofeu-qtd {
+    font-size: 1.5rem;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+}
+
+.xp-barra {
+    width: 90px;
+    height: 8px;
+    margin-left: 0.2rem;
+    border-radius: 999px;
+    background-color: var(--cor1);
+    overflow: hidden;
+}
+
+.xp-barra-preenchimento {
+    display: block;
+    height: 100%;
+    width: var(--progresso, 0%);
+    border-radius: inherit;
+    background-color: var(--cor3);
+    transition: width 0.6s ease; /* anima quando o JS atualizar o --progresso */
+}
+
+.xp-percentual {
+    font-size: 0.8rem;
+    color: var(--texto-suave);
+}
+
+.trofeus {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem 1.5rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.trofeu {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+}
+
+.trofeu-platina .material-symbols-outlined { color: var(--trofeu-platina); }
+.trofeu-ouro    .material-symbols-outlined { color: var(--trofeu-ouro); }
+.trofeu-prata   .material-symbols-outlined { color: var(--trofeu-prata); }
+.trofeu-bronze  .material-symbols-outlined { color: var(--trofeu-bronze); }
+
+/* ---------- Colunas de baixo ---------- */
+.perfil-colunas {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 1.25rem;
+    margin-top: 1.25rem;
+}
+
+.cartao {
+    padding: 1rem 1.1rem;
+    border: var(--borda);
+    border-radius: var(--raio);
+    background-color: var(--fundo-cartao);
+}
+
+.cartao-bloco + .cartao-bloco {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--linha-suave);
+}
+
+.cartao-titulo {
+    margin: 0 0 0.75rem;
+    font-size: 1.05rem;
+    font-weight: 400;
+}
+
+.cartao-contador {
+    font-size: 1.3rem;
+    font-weight: 700;
+}
+
+.lista-cursos {
+    max-height: 11rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    overflow-y: auto;
+}
+
+.curso-item {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.55rem 0.2rem;
+    border-bottom: 1px solid var(--linha-suave);
+}
+
+.curso-item span {
+    transition: color 0.3s;
+}
+
+a.curso-item:hover span {
+    color: var(--cor4);
+}
+
+.curso-item-progresso {
+    font-variant-numeric: tabular-nums;
+}
+
+/* Curso concluído: ícone + texto "Concluído" (não depende só da cor) */
+.curso-item-concluido {
+    align-items: center;
+}
+
+.curso-concluido-selo {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-size: 0.85rem;
+}
+
+.curso-concluido-selo .material-symbols-outlined {
+    font-size: 1.3rem;
+    color: var(--sucesso);
+}
+
+.perfil-lateral {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.secao-titulo {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin: 0 0 0.6rem;
+    font-size: 1.1rem;
+    font-weight: 400;
+}
+
+/* Ícone de amigos com a bolinha verde de "online" */
+.amigos-icone {
+    position: relative;
+    display: inline-flex;
+}
+
+.amigos-icone::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -2px;
+    width: 9px;
+    height: 9px;
+    border: 2px solid #1e003f;
+    border-radius: 50%;
+    background-color: var(--sucesso);
+}
+
+.vazio {
+    margin: 0;
+    max-width: 38ch;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: var(--texto-suave);
+}
+
+/* ---------- Telas estreitas ----------
+   Dentro de um iframe, o @media mede a largura do IFRAME,
+   não a da janela inteira. */
+@media (max-width: 640px) {
+    .perfil {
+        grid-template-columns: 1fr;
+        row-gap: 1rem;
+    }
+
+    .perfil-foto,
+    .perfil-foto-botao {
+        width: 110px;
+        height: 110px;
+    }
+
+    .perfil-colunas {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .botao-editar,
+    .curso-item span,
+    .xp-barra-preenchimento,
+    .perfil-foto-botao {
+        transition: none;
+    }
+
+    .foto-ampliada[open],
+    .editar-dialogo[open] {
+        animation: none;
+    }
+}
