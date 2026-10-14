@@ -7,60 +7,83 @@
 
     <link rel="stylesheet" href="../style/style.css">
     <link rel="stylesheet" href="../style/mycourses.css">
-    <script src="../script/script.js" defer></script>
+    <script src="../script/mycourses.js" defer></script>
 </head>
-<body>
-    <div class="cursos-container">
+<body class="pagina-cursos">
 
-        <button type="button" class="seta seta-L" id="setaEsquerda" aria-label="Cursos anteriores">&lt;</button>
+    <main class="carrossel" aria-label="Meus cursos">
 
-        <div class="div_cursos" id="slider">
+        <!--
+            Cada <li> é um curso. O data-slot diz ONDE ele está agora:
+              0 = grande (selecionado)   1, 2, 3 = menores à direita
+              4 = esperando escondido    -1 = já passou (sumiu à esquerda)
+            O script.js troca esses números ao clicar nas setas; o CSS faz a animação.
+            Cursos de exemplo: depois virão do banco de dados.
+        -->
+        <ul class="carrossel-lista">
 
-            <a class="curso-link" href="courses/eletrica.html" style="--i: 0">
-                <div class="curso">
-                    <div class="curso-img"><img src="https://www.meer.com/attachments/f5a5d221264e9fb9ea60ff5a8e4813b10d0aee06/store/fill/860/645/e13059b688401aa2d7345800e6e5e932731e3f1550b7ca7e85943f6a5120/A-glow-of-nitrogen-fills-the-atmosphere-as-Nikola-Tesla-is-photographed-sitting-in-front-of-his.jpg" alt=""></div>
-                    <h2>Curso de Elétrica</h2>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores magni enim quibusdam, velit quos animi! Vel est omnis, consequuntur rerum dignissimos laudantium! Aperiam sequi vero nulla, obcaecati non nihil corrupti!</p>
-                </div>
-            </a>
+            <li class="cartao" data-slot="0" style="--i: 0">
+                <a class="cartao-link" href="courses/eletrica.html">
+                    <img class="cartao-img" src="https://www.meer.com/attachments/f5a5d221264e9fb9ea60ff5a8e4813b10d0aee06/store/fill/860/645/e13059b688401aa2d7345800e6e5e932731e3f1550b7ca7e85943f6a5120/A-glow-of-nitrogen-fills-the-atmosphere-as-Nikola-Tesla-is-photographed-sitting-in-front-of-his.jpg" alt="">
+                    <div class="cartao-texto">
+                        <h2>Curso de Elétrica</h2>
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores magni enim quibusdam, velit quos animi! Vel est omnis, consequuntur rerum dignissimos laudantium! Aperiam sequi vero nulla, obcaecati non nihil corrupti!</p>
+                    </div>
+                </a>
+            </li>
 
             <!-- target="_top": a tela do curso ocupa a janela inteira, saindo do iframe da home -->
-            <a class="curso-link" href="courses/fisica.html" target="_top" style="--i: 1">
-                <div class="curso">
-                    <div class="curso-img"><img src="../images/others/img-cursos/isaac-newton.jpg" alt=""></div>
-                    <h2>Curso de Física</h2>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores magni enim quibusdam, velit quos animi! Vel est omnis, consequuntur rerum dignissimos laudantium! Aperiam sequi vero nulla, obcaecati non nihil corrupti!</p>
-                </div>
-            </a>
+            <li class="cartao" data-slot="1" style="--i: 1">
+                <a class="cartao-link" href="courses/fisica.html" target="_top">
+                    <img class="cartao-img" src="../images/others/img-cursos/isaac-newton.jpg" alt="">
+                    <div class="cartao-texto">
+                        <h2>Curso de Física</h2>
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores magni enim quibusdam, velit quos animi! Vel est omnis, consequuntur rerum dignissimos laudantium! Aperiam sequi vero nulla, obcaecati non nihil corrupti!</p>
+                    </div>
+                </a>
+            </li>
 
-            <a class="curso-link" href="courses/python.html" style="--i: 2">
-                <div class="curso">
-                    <div class="curso-img"><img src="../images/others/img-cursos/python.jpg" alt=""></div>
-                    <h2>Python</h2>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores magni enim quibusdam, velit quos animi! Vel est omnis, consequuntur rerum dignissimos laudantium! Aperiam sequi vero nulla, obcaecati non nihil corrupti!</p>
-                </div>
-            </a>
+            <li class="cartao" data-slot="2" style="--i: 2">
+                <a class="cartao-link" href="courses/python.html">
+                    <img class="cartao-img" src="../images/others/img-cursos/python.jpg" alt="">
+                    <div class="cartao-texto">
+                        <h2>Python</h2>
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores magni enim quibusdam, velit quos animi! Vel est omnis, consequuntur rerum dignissimos laudantium! Aperiam sequi vero nulla, obcaecati non nihil corrupti!</p>
+                    </div>
+                </a>
+            </li>
 
-            <a class="curso-link" href="courses/web.html" style="--i: 3">
-                <div class="curso">
-                    <div class="curso-img"><img src="../images/others/img-cursos/dev-web.png" alt=""></div>
-                    <h2>Programação web</h2>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores magni enim quibusdam, velit quos animi! Vel est omnis, consequuntur rerum dignissimos laudantium! Aperiam sequi vero nulla, obcaecati non nihil corrupti!</p>
-                </div>
-            </a>
+            <li class="cartao" data-slot="3" style="--i: 3">
+                <a class="cartao-link" href="courses/web.html">
+                    <img class="cartao-img" src="../images/others/img-cursos/dev-web.png" alt="">
+                    <div class="cartao-texto">
+                        <h2>Programação web</h2>
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores magni enim quibusdam, velit quos animi! Vel est omnis, consequuntur rerum dignissimos laudantium! Aperiam sequi vero nulla, obcaecati non nihil corrupti!</p>
+                    </div>
+                </a>
+            </li>
 
-            <a class="curso-link" href="courses/musica.html" style="--i: 4">
-                <div class="curso">
-                    <div class="curso-img"><img src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2F1%2F1e%2FWolfgang-amadeus-mozart_1.jpg&f=1&nofb=1&ipt=4e1a19be9c6f473998fbc19dc8c53d5d4f5d78e1e437073d6445b6e81bb83649" alt=""></div>
-                    <h2>Teoria musical</h2>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores magni enim quibusdam, velit quos animi! Vel est omnis, consequuntur rerum dignissimos laudantium! Aperiam sequi vero nulla, obcaecati non nihil corrupti!</p>
-                </div>
-            </a>
+            <li class="cartao" data-slot="4" style="--i: 4">
+                <a class="cartao-link" href="courses/musica.html">
+                    <img class="cartao-img" src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2F1%2F1e%2FWolfgang-amadeus-mozart_1.jpg&amp;f=1&amp;nofb=1&amp;ipt=4e1a19be9c6f473998fbc19dc8c53d5d4f5d78e1e437073d6445b6e81bb83649" alt="">
+                    <div class="cartao-texto">
+                        <h2>Teoria musical</h2>
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores magni enim quibusdam, velit quos animi! Vel est omnis, consequuntur rerum dignissimos laudantium! Aperiam sequi vero nulla, obcaecati non nihil corrupti!</p>
+                    </div>
+                </a>
+            </li>
+        </ul>
 
-        </div>
+        <button type="button" class="seta seta-ant" aria-label="Curso anterior">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+        </button>
+        <button type="button" class="seta seta-prox" aria-label="Próximo curso">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+        </button>
 
-        <button type="button" class="seta seta-R" id="setaDireita" aria-label="Próximos cursos">&gt;</button>
+        <!-- Avisa leitores de tela qual curso está selecionado -->
+        <p class="sr-only" id="carrossel-aviso" aria-live="polite"></p>
+    </main>
 
-    </div>
 </body>
 </html>

@@ -9,38 +9,82 @@
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
     <link rel="stylesheet" href="style/style.css">
 </head>
-<body class="body">
-    <div class="develop">
-        <div class="header">
-                <img src="images/logos/logo.png" alt="logo" height="90" width="95"><h1 id="galea">Galea</h1>
-            </div>
-            <div class="capa-icones">
-                    <button type="button" class="icone-botao" aria-label="Notificações">
-                        <span class="material-symbols-outlined" aria-hidden="true">notifications</span>
-                    </button>
-                    <button type="button" class="icone-botao icone-amigos" aria-label="Amigos online">
-                        <span class="material-symbols-outlined" aria-hidden="true">contacts</span>
-                    </button>
-                </div>
-        <div class="menu">
-            <button class="botoes" onclick="alterarLink('pages/search.html')"><span class="material-symbols-outlined">search</span> Pesquisar</button> 
-            <button class="botoes" onclick="alterarLink('pages/mycourses.html')"><span class="material-symbols-outlined">library_books</span> Meus cursos</button>
-            <button class="botoes" onclick="alterarLink('pages/classes.html')"><span class="material-symbols-outlined">school</span> Turmas</button>
-            <button class="botoes" onclick="alterarLink('pages/community.html')"><span class="material-symbols-outlined">language</span> Comunidade</button>
-            <button class="botoes" onclick="alterarLink('pages/account.html')"><span class="material-symbols-outlined">account_circle</span> Perfil</button>
-            <button class="botoes" onclick="alterarLink('pages/settings.html')"><span class="material-symbols-outlined">settings</span> Configurações</button>
+<body class="body pagina-home">
+
+    <!-- Menu lateral: fica fixo na tela -->
+    <aside class="lateral">
+        <div class="lateral-marca">
+            <img src="images/logos/logo.png" alt="" width="56" height="56">
+            <span class="lateral-nome">Galea</span>
         </div>
 
-        <div class="navegacao"><br>
-            <iframe id="teste001" src="pages/mycourses.html" frameborder="0" width="100%" height="520px"></iframe>
-        </div>
+        <nav class="menu" aria-label="Menu principal">
+            <button class="botoes" data-menu="pesquisar" onclick="alterarLink('pages/search.html')"><span class="material-symbols-outlined" aria-hidden="true">search</span><span class="menu-texto">Descobrir</span></button>
+            <button class="botoes" data-menu="cursos" onclick="alterarLink('pages/mycourses.html')"><span class="material-symbols-outlined" aria-hidden="true">library_books</span><span class="menu-texto">Meus cursos</span></button>
+            <button class="botoes" data-menu="turmas" onclick="alterarLink('pages/classes.html')"><span class="material-symbols-outlined" aria-hidden="true">school</span><span class="menu-texto">Turmas</span></button>
+            <button class="botoes" data-menu="comunidade" onclick="alterarLink('pages/community.html')"><span class="material-symbols-outlined" aria-hidden="true">language</span><span class="menu-texto">Comunidade</span></button>
+            <button class="botoes" data-menu="perfil" onclick="alterarLink('pages/account.html')"><span class="material-symbols-outlined" aria-hidden="true">account_circle</span><span class="menu-texto">Perfil</span></button>
+            <button class="botoes" data-menu="config" onclick="alterarLink('pages/settings.html')"><span class="material-symbols-outlined" aria-hidden="true">settings</span><span class="menu-texto">Configurações</span></button>
+        </nav>
+    </aside>
+
+    <!-- Tudo que fica à direita do menu -->
+    <div class="conteudo">
+
+        <header class="topo">
+            <!-- Espaço para links de atalho (no Figma: "ABCDE" e "EFGHI").
+                 Quando decidirem os nomes, é só descomentar:
+            <nav class="topo-links" aria-label="Atalhos">
+                <a href="...">Nome do link</a>
+            </nav>
+            -->
+            <button type="button" class="sino" aria-label="Notificações">
+                <span class="material-symbols-outlined" aria-hidden="true">notifications</span>
+            </button>
+        </header>
+
+        <main class="area">
+            <!-- O id "teste001" é usado pelo script.js (função alterarLink) -->
+            <iframe id="teste001" title="Conteúdo da página" src="pages/mycourses.html"></iframe>
+        </main>
     </div>
+
+    <!-- Foto de perfil: vai virar o menu rápido (por enquanto só visual) -->
+    <div class="perfil-rapido">
+        <img src="images/boiola.jpg" alt="">
+    </div>
+
     <script src="script/script.js"></script>
     <script>
-        // Permite abrir a home já numa página, por exemplo: home.html#perfil
-        const rotasIniciais = { perfil: 'pages/account.html' };
-        const rotaInicial = rotasIniciais[location.hash.slice(1)];
-        if (rotaInicial) alterarLink(rotaInicial);
+        (() => {
+            // Páginas que a home abre direto pelo endereço (home.html#perfil, home.html#trilha).
+            // "menu" é o item do menu lateral que fica marcado quando a página abre.
+            const rotas = {
+                perfil: { url: 'pages/account.html', menu: 'perfil' },
+                trilha: { url: 'pages/trilha.html',  menu: 'cursos' }
+            };
+            const menu = document.querySelector('.menu');
+
+            function marcarMenu(nome) {
+                menu.querySelectorAll('.botoes').forEach(botao => {
+                    const ativo = botao.dataset.menu === nome;
+                    botao.classList.toggle('ativo', ativo);
+                    if (ativo) botao.setAttribute('aria-current', 'page');
+                    else botao.removeAttribute('aria-current');
+                });
+            }
+
+            // clicar num item do menu marca esse item
+            menu.addEventListener('click', evento => {
+                const botao = evento.target.closest('.botoes');
+                if (botao) marcarMenu(botao.dataset.menu);
+            });
+
+            // ao abrir: a página pedida no endereço ou, por padrão, "Meus cursos"
+            const rota = rotas[location.hash.slice(1)];
+            if (rota) alterarLink(rota.url);
+            marcarMenu(rota ? rota.menu : 'cursos');
+        })();
     </script>
 </body>
 </html>
