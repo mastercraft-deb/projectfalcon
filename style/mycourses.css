@@ -49,7 +49,7 @@
     --s2: 0.33;
     --s3: 0.21;
     --s4: 0.13;
-    --selecao: #2b8cf0;      /* anel azul do cartão selecionado (do Figma) */
+    --selecao: var(--cor3);      /* anel azul do cartão selecionado (do Figma) */
 
     /* Quanto cada vaga se desloca para a direita (soma dos tamanhos anteriores) */
     --x1: calc(var(--B) + var(--gap));
