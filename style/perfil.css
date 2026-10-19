@@ -194,12 +194,15 @@ body {
 .editar-rotulo {
     display: block;
     margin-bottom: 0.35rem;
+    color: #fff;   /* o style.css deixa label/input pretos (login); aqui o fundo é escuro */
     font-size: 0.9rem;
 }
 
 .editar-campo {
     box-sizing: border-box;
     width: 100%;
+    margin-top: 0;
+    color: #fff;
     padding: 0.5rem 0.7rem;
     border: 2px solid var(--cor2);
     border-radius: 10px;
@@ -406,12 +409,12 @@ body {
     font-weight: 700;
 }
 
+/* A lista cresce conforme os cursos adicionados. (Antes tinha altura máxima com rolagem interna,
+   mas o style.css esconde as barras de rolagem, então os últimos cursos ficavam invisíveis.) */
 .lista-cursos {
-    max-height: 11rem;
     margin: 0;
     padding: 0;
     list-style: none;
-    overflow-y: auto;
 }
 
 .curso-item {

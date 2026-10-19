@@ -76,50 +76,20 @@
 
                     <section class="cartao-bloco">
                         <h2 class="cartao-titulo">
-                            Cursos em andamento: <span class="cartao-contador" id="perfil-qtd-cursos">3</span>
+                            Cursos em andamento: <span class="cartao-contador" id="perfil-qtd-cursos">0</span>
                         </h2>
 
-                        <!-- Itens de exemplo: depois virão do banco de dados -->
-                        <ul class="lista-cursos" id="perfil-lista-cursos">
-                            <li>
-                                <a class="curso-item" href="courses/fisica.html">
-                                    <span>Física quântica – 2026</span>
-                                    <span class="curso-item-progresso">45%</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a class="curso-item" href="courses/python.html">
-                                    <span>Python</span>
-                                    <span class="curso-item-progresso">20%</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a class="curso-item" href="courses/web.html">
-                                    <span>Programação web</span>
-                                    <span class="curso-item-progresso">8%</span>
-                                </a>
-                            </li>
-                        </ul>
+                        <!-- Montada pelo script/account-cursos.js a partir da lista "Meus cursos" -->
+                        <ul class="lista-cursos" id="perfil-lista-cursos"></ul>
                     </section>
 
                     <section class="cartao-bloco">
                         <h2 class="cartao-titulo">
-                            Cursos concluídos: <span class="cartao-contador" id="perfil-qtd-concluidos">1</span>
+                            Cursos concluídos: <span class="cartao-contador" id="perfil-qtd-concluidos">0</span>
                         </h2>
 
-                        <!-- Sem link por enquanto: a página do curso de Matemática ainda não existe.
-                             Quando existir, troque o <div> por <a class="curso-item" href="..."> -->
-                        <ul class="lista-cursos" id="perfil-lista-concluidos">
-                            <li>
-                                <div class="curso-item curso-item-concluido">
-                                    <span>Matemática</span>
-                                    <span class="curso-concluido-selo">
-                                        <span class="material-symbols-outlined" aria-hidden="true">check_circle</span>
-                                        Concluído
-                                    </span>
-                                </div>
-                            </li>
-                        </ul>
+                        <!-- Montada pelo script/account-cursos.js (cursos com 100%) -->
+                        <ul class="lista-cursos" id="perfil-lista-concluidos"></ul>
                     </section>
 
                 </div>
@@ -254,12 +224,24 @@
 
             // ---------- ao abrir: mostra nome e foto salvos ----------
             // (Por enquanto ficam só neste navegador. Com o banco de dados, virão do PHP.)
+            let nomeSalvo = null;          // nome escolhido pelo usuário (null = ainda o padrão)
+            let fotoPersonalizada = null;  // foto escolhida pelo usuário (null = ainda a padrão)
             try {
-                const nomeSalvo = localStorage.getItem(CHAVE_NOME);
+                nomeSalvo = localStorage.getItem(CHAVE_NOME);
                 if (nomeSalvo) nome.textContent = nomeSalvo;
                 const fotoSalva = localStorage.getItem(CHAVE_FOTO);
-                if (fotoSalva && fotoSalva.startsWith('data:image/')) aplicarFoto(fotoSalva);
+                if (fotoSalva && fotoSalva.startsWith('data:image/')) {
+                    aplicarFoto(fotoSalva);
+                    fotoPersonalizada = fotoSalva;
+                }
             } catch (e) { /* sem armazenamento: segue com os padrões */ }
+
+            // Informa a home do nome/foto atuais. É a home que entrega o perfil às outras páginas
+            // (comunidade etc.), mesmo quando o navegador não compartilha o armazenamento entre elas.
+            function avisarPerfil() {
+                falarComHome({ tipo: 'perfil-atualizado', nome: nomeSalvo, foto: fotoPersonalizada });
+            }
+            if (nomeSalvo || fotoPersonalizada) avisarPerfil();
 
             // ---------- foto ampliada ----------
             abrirFoto.addEventListener('click', () => {
@@ -373,13 +355,16 @@
             // "Sim, alterar" -> aplica de verdade
             botaoSim.addEventListener('click', () => {
                 nome.textContent = nomePendente;
+                nomeSalvo = nomePendente;
                 try { localStorage.setItem(CHAVE_NOME, nomePendente); } catch (e) { /* ignora */ }
 
                 if (novaFoto) {
                     aplicarFoto(novaFoto);
+                    fotoPersonalizada = novaFoto;
                     try { localStorage.setItem(CHAVE_FOTO, novaFoto); } catch (e) { /* ignora */ }
-                    falarComHome({ tipo: 'foto-perfil', src: novaFoto }); // atualiza a foto do canto
                 }
+
+                avisarPerfil(); // a home atualiza a foto do canto e guarda o perfil para as outras páginas
 
                 aviso.textContent = 'Perfil atualizado.';
                 dialogoEditar.close();
@@ -388,6 +373,17 @@
             // Fechou por qualquer motivo (Cancelar, Esc, Sim): a foto do canto volta
             dialogoEditar.addEventListener('close', () => esconderFotoDoCanto(false));
         })();
+    </script>
+    <script src="../script/cursos.js"></script>
+    <script src="../script/account-cursos.js"></script>
+    <script>
+        // Se os dois arquivos acima não carregaram (faltando ou na pasta errada), avisa na tela
+        if (!document.documentElement.dataset.cursosOk) {
+            const aviso = document.createElement('li');
+            aviso.innerHTML = '<p class="vazio">Não foi possível carregar a lista de cursos. Confira se ' +
+                'cursos.js e account-cursos.js estão na pasta script/ do projeto.</p>';
+            document.getElementById('perfil-lista-cursos').replaceChildren(aviso);
+        }
     </script>
 </body>
 </html>

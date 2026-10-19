@@ -48,6 +48,10 @@
     let novaId = null;           // id da mensagem recém-enviada (só ela faz a animação de entrada)
 
     // ---------- perfil (nick e foto de quem está logado) ----------
+    // Prioridade: o que a home entregar (perfilDaHome) > o que estiver salvo no navegador > padrão.
+    // A home é consultada porque esta página pode não compartilhar o armazenamento com a do perfil.
+    let perfilDaHome = { nome: null, foto: null };
+
     function lerPerfil() {
         let nome = NOME_PADRAO;
         let foto = FOTO_PADRAO;
@@ -57,6 +61,8 @@
             const fotoSalva = localStorage.getItem(CHAVE_FOTO);
             if (fotoSalva && fotoSalva.startsWith('data:image/')) foto = fotoSalva;
         } catch (e) { /* sem armazenamento: usa os padrões */ }
+        if (perfilDaHome.nome) nome = perfilDaHome.nome;
+        if (perfilDaHome.foto) foto = perfilDaHome.foto;
         return { nome, foto };
     }
 
@@ -373,4 +379,24 @@
     avatarCompositor.src = lerPerfil().foto;
     renderizar();
     rolarParaOFim();
+
+    // Pede à home (a página que contém este iframe) o nome e a foto atuais do perfil.
+    // Quando ela responder, atualiza todas as mensagens suas e o avatar da caixa de escrever.
+    if (window.parent !== window) {
+        window.addEventListener('message', evento => {
+            if (evento.source !== window.parent) return;   // só aceita resposta da home
+            const dados = evento.data;
+            if (!dados || dados.tipo !== 'perfil') return;
+
+            if (typeof dados.nome === 'string' && dados.nome.trim()) {
+                perfilDaHome.nome = dados.nome.trim().slice(0, 40);
+            }
+            if (typeof dados.foto === 'string' && dados.foto.startsWith('data:image/')) {
+                perfilDaHome.foto = dados.foto;
+            }
+            avatarCompositor.src = lerPerfil().foto;
+            renderizar();
+        });
+        window.parent.postMessage({ tipo: 'pedir-perfil' }, '*');
+    }
 })();

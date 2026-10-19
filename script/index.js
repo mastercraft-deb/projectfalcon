@@ -15,7 +15,7 @@
    ===================================================== */
 
 (() => {
-    const INTERVALO = 4000; // 4 segundos entre uma troca e outra
+    const INTERVALO = 5000; // 5 segundos entre uma troca e outra
 
     // Para TESTAR: coloque false. Se a troca passar a funcionar, o problema era
     // a configuração "reduzir animações" do seu sistema (comum no Windows).

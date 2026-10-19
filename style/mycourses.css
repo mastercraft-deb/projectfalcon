@@ -49,8 +49,8 @@
     --s2: 0.33;
     --s3: 0.21;
     --s4: 0.13;
-    --selecao: var(--cor3);      /* anel azul do cartão selecionado (do Figma) */
-
+     --selecao: var(--cor3);      /* anel azul do cartão selecionado (do Figma) */
+     
     /* Quanto cada vaga se desloca para a direita (soma dos tamanhos anteriores) */
     --x1: calc(var(--B) + var(--gap));
     --x2: calc(var(--x1) + var(--B) * var(--s1) + var(--gap));
@@ -61,6 +61,10 @@
     height: 100vh;
     min-height: 360px;
     overflow: hidden;
+}
+
+.carrossel-vazio[hidden] {
+    display: none;
 }
 
 .carrossel-lista {
@@ -287,4 +291,20 @@
         --B: min(72vw, 115vh);
         --L: 36px;
     }
+}
+
+
+/* ---------- Sem cursos na lista ---------- */
+.carrossel-vazio {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-content: center;
+    gap: 0.4rem;
+    padding: 0 2rem;
+    text-align: center;
+}
+
+.carrossel-vazio p {
+    margin: 0;
 }

@@ -1,13 +1,40 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Descobrir - Galea</title>
 
+    <!-- Os ícones precisam ser carregados aqui também: o iframe é um documento separado da home.html -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
     <link rel="stylesheet" href="../style/style.css">
+    <link rel="stylesheet" href="../style/search.css">
+    <script src="../script/cursos.js" defer></script>
+    <script src="../script/search.js" defer></script>
 </head>
-<body>
-    <p>Em desenvolvimento ...</p>
+<body class="pagina-busca">
+    <main class="busca">
+
+        <!-- Barra de pesquisa -->
+        <form class="busca-form" id="busca-form" role="search">
+            <span class="material-symbols-outlined busca-icone" aria-hidden="true">search</span>
+            <label class="sr-only" for="busca-campo">Pesquisar cursos</label>
+            <input type="search" class="busca-campo" id="busca-campo" autocomplete="off"
+                   placeholder="Pesquisar cursos (ex.: Python, Física)">
+        </form>
+
+        <!-- Quantos cursos aparecem (também lido por leitores de tela) -->
+        <p class="busca-resumo" id="busca-resumo" aria-live="polite"></p>
+
+        <!-- Os cartões são montados pelo script/search.js a partir do catálogo (script/cursos.js) -->
+        <ul class="busca-grade" id="busca-grade"></ul>
+
+        <p class="busca-vazio" id="busca-vazio" hidden>
+            Nenhum curso encontrado. Tente outro nome, como "Python" ou "Física".
+        </p>
+    </main>
+
+    <!-- Aviso rápido ao adicionar ou remover um curso -->
+    <p class="busca-aviso" id="busca-aviso" role="status" hidden></p>
 </body>
 </html>

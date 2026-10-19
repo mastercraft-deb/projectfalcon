@@ -1,0 +1,298 @@
+@charset "UTF-8";
+
+/* =====================================================
+   DESCOBRIR (pages/search.html)
+   Carregado DEPOIS do style.css (variáveis --cor1 ... --cor5).
+   Lembrete: o style.css tem `* { color: white }`, então a cor é
+   definida direto no elemento que queremos mudar.
+   ===================================================== */
+
+.pagina-busca {
+    margin: 0;
+    padding: 1.2rem 1.5rem 6.5rem;   /* folga embaixo: a foto de perfil da home fica no canto */
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+.busca {
+    --texto-suave: rgba(255, 255, 255, 0.75);
+}
+
+/* ---------- Barra de pesquisa ---------- */
+.busca-form {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    box-sizing: border-box;
+    width: min(520px, 100%);
+    margin: 0 auto 0.6rem;
+    padding: 0.35rem 1rem;
+    border: 3px solid var(--cor4);
+    border-radius: 999px;
+    background-color: rgba(30, 0, 63, 0.35);
+}
+
+.busca-form:focus-within {
+    border-color: var(--cor3);
+}
+
+.busca-icone {
+    color: var(--cor3);
+}
+
+/* O style.css tem `input { color: black; margin-top: 5px }` para o login; aqui precisa ser branco */
+.busca-campo {
+    flex: 1;
+    min-width: 0;
+    margin: 0;
+    border: 0;
+    background: none;
+    color: #fff;
+    caret-color: var(--cor3);
+    font: inherit;
+    font-size: 1rem;
+}
+
+/* "x" para limpar a pesquisa, visível no fundo escuro */
+.busca-campo::-webkit-search-cancel-button {
+    filter: invert(1);
+    cursor: pointer;
+}
+
+.busca-campo:focus {
+    outline: none;
+}
+
+.busca-campo::placeholder {
+    color: var(--texto-suave);
+}
+
+.busca-resumo {
+    margin: 0 0 1rem;
+    text-align: center;
+    font-size: 0.85rem;
+    color: var(--texto-suave);
+}
+
+/* ---------- Grade de cursos ---------- */
+.busca-grade {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+    gap: 1.1rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.curso {
+    position: relative;
+    aspect-ratio: 33 / 20;
+    border: 1px solid var(--cor4);
+    border-radius: 12px;
+    background-color: var(--cor1);
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.35);
+    overflow: hidden;
+}
+
+/* Curso que já está nos meus cursos: borda azul (a laranja é dos que ainda não estão) */
+.curso.nos-meus {
+    border-color: #2b8cf0;
+    box-shadow: 0 0 0 1px #2b8cf0, 0 6px 14px rgba(0, 0, 0, 0.35);
+}
+
+.curso-link {
+    position: absolute;
+    inset: 0;
+    display: block;
+    text-decoration: none;
+}
+
+.curso-link:focus-visible {
+    outline: 3px solid var(--cor3);
+    outline-offset: -3px;
+}
+
+.curso-img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+
+.curso:hover .curso-img {
+    transform: scale(1.05);
+}
+
+/* Faixa escura com o nome do curso */
+.curso-nome {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+    padding: 1.6rem 0.7rem 0.5rem;
+    background: linear-gradient(to top, rgba(12, 0, 28, 0.9), transparent);
+    font-size: 0.95rem;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+}
+
+/* Escurece o cartão enquanto o mouse está em cima, para destacar o botão */
+.curso-link::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-color: rgba(12, 0, 28, 0.6);
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.curso:hover .curso-link::after,
+.curso:focus-within .curso-link::after {
+    opacity: 1;
+}
+
+/* ---------- Botão que aparece ao passar o mouse ---------- */
+.curso-acao {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 2;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    box-sizing: border-box;
+    max-width: calc(100% - 1.2rem);   /* nunca passa da largura do cartão: o texto quebra em 2 linhas */
+    padding: 0.45rem 0.85rem;
+    border: 2px solid var(--cor3);
+    border-radius: 18px;
+    background-color: var(--cor3);
+    color: #1e003f;
+    font-size: 0.8rem;
+    font-weight: 700;
+    line-height: 1.15;
+    text-align: left;
+    cursor: pointer;
+    opacity: 0;
+    transform: translate(-50%, -50%);
+    transition: opacity 0.2s ease, border-color 0.2s ease;
+}
+
+.curso-acao .material-symbols-outlined {
+    flex: none;
+    color: #1e003f;
+    font-size: 1.2rem;
+}
+
+.curso:hover .curso-acao,
+.curso:focus-within .curso-acao {
+    opacity: 1;
+}
+
+.curso-acao:hover,
+.curso-acao:focus-visible {
+    border-color: #fff;
+    outline: none;
+}
+
+/* Curso que já está nos meus cursos: o botão vira "Remover" */
+.curso-acao.remover {
+    border-color: #ff8a80;
+    background-color: #b3261e;
+    color: #fff;
+}
+
+.curso-acao.remover .material-symbols-outlined {
+    color: #fff;
+}
+
+/* Selo sempre visível: mostra quais cursos você já tem */
+.curso-selo {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    z-index: 2;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.15rem 0.6rem;
+    border-radius: 999px;
+    background-color: var(--cor1);
+    border: 1px solid var(--cor2);
+    font-size: 0.72rem;
+    white-space: nowrap;
+}
+
+.curso-selo .material-symbols-outlined {
+    font-size: 0.95rem;
+    color: var(--cor3);
+}
+
+/* Telas de toque não têm "passar o mouse": o botão fica sempre visível, no canto */
+@media (hover: none) {
+    .curso-acao {
+        top: auto;
+        bottom: 2.3rem;
+        left: auto;
+        right: 0.5rem;
+        opacity: 1;
+        transform: none;
+        padding: 0.3rem 0.7rem;
+        font-size: 0.75rem;
+    }
+}
+
+.busca-vazio {
+    margin: 2rem 0;
+    text-align: center;
+    color: var(--texto-suave);
+}
+
+/* ---------- Aviso rápido ---------- */
+.busca-aviso {
+    position: fixed;
+    left: 50%;
+    bottom: 1.5rem;
+    z-index: 5;
+    max-width: 80vw;
+    margin: 0;
+    padding: 0.6rem 1.2rem;
+    border: 2px solid var(--cor3);
+    border-radius: 999px;
+    background-color: #1e003f;
+    font-size: 0.9rem;
+    transform: translateX(-50%);
+    animation: aviso-entrar 0.25s ease;
+}
+
+@keyframes aviso-entrar {
+    from { opacity: 0; transform: translate(-50%, 8px); }
+    to   { opacity: 1; transform: translate(-50%, 0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .curso-img,
+    .curso-link::after,
+    .curso-acao {
+        transition: none;
+    }
+
+    .curso:hover .curso-img {
+        transform: none;
+    }
+
+    .busca-aviso {
+        animation: none;
+    }
+}

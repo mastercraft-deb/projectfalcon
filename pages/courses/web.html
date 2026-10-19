@@ -1,11 +1,93 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Programação web - Galea</title>
+    <link rel="icon" href="../../images/group_2.png" type="image/png">
+
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+    <link rel="stylesheet" href="../../style/style.css">
+    <link rel="stylesheet" href="../../style/curso.css">
 </head>
-<body>
-    <img src="../../images/others/img-cursos/dev-web.png" alt="" width="500px">
+<body class="body">
+
+    <!-- PRIMEIRA TELA: ocupa a janela inteira -->
+    <div class="curso-tela">
+
+        <section class="capa" aria-labelledby="curso-titulo">
+            <img class="capa-img" src="../../images/others/img-cursos/dev-web.png" alt="">
+
+            <div class="capa-topo">
+                <a class="voltar" href="../../home.html">
+                    <span class="material-symbols-outlined" aria-hidden="true">arrow_back</span>
+                    Meus cursos
+                </a>
+
+                <div class="capa-icones">
+                    <button type="button" class="icone-botao" aria-label="Notificações">
+                        <span class="material-symbols-outlined" aria-hidden="true">notifications</span>
+                    </button>
+                    <button type="button" class="icone-botao icone-amigos" aria-label="Amigos online">
+                        <span class="material-symbols-outlined" aria-hidden="true">contacts</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="capa-info">
+                <h1 id="curso-titulo">Programação web – 2026</h1>
+
+                <!-- Os dois levam ao mapa de módulos, que abre dentro da home (menu lateral visível) -->
+                <div class="capa-botoes">
+                    <a class="botao-comecar" href="../trilha.html">
+                        <span class="material-symbols-outlined" aria-hidden="true">play_arrow</span>
+                        Começar
+                    </a>
+                    <a class="botao-progresso" href="../../home.html#trilha">
+                        <span class="material-symbols-outlined" aria-hidden="true">map</span>
+                        Progresso
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <div class="rodape-curso">
+            <a class="mais-detalhes" href="#detalhes">
+                <span class="material-symbols-outlined" aria-hidden="true">keyboard_arrow_down</span>
+                Mais detalhes
+            </a>
+
+            <!-- Atalho para o perfil: a home abre a página de perfil quando recebe #perfil -->
+            <a class="avatar" href="../../home.html#perfil" aria-label="Meu perfil">
+                <img src="../../images/boiola.jpg" alt="">
+            </a>
+        </div>
+    </div>
+
+    <!-- SEGUNDA TELA: aparece ao rolar ("Mais detalhes") -->
+    <section class="detalhes" id="detalhes" aria-labelledby="detalhes-titulo">
+        <h2 id="detalhes-titulo">Sobre o curso</h2>
+
+        <!-- Texto e números de exemplo: depois virão do banco de dados -->
+        <p id="curso-descricao">
+            HTML, CSS e JavaScript para criar suas primeiras páginas. Cada lição é curta e termina com um desafio rápido para você ganhar pontos de experiência.
+        </p>
+
+        <dl class="fatos">
+            <div class="fato">
+                <dt>Lições</dt>
+                <dd id="curso-licoes">28</dd>
+            </div>
+            <div class="fato">
+                <dt>XP no curso</dt>
+                <dd id="curso-xp">1400</dd>
+            </div>
+            <div class="fato">
+                <dt>Nível</dt>
+                <dd id="curso-nivel">Iniciante</dd>
+            </div>
+        </dl>
+    </section>
+
 </body>
 </html>
