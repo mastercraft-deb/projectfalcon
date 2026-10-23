@@ -216,6 +216,23 @@ body {
     outline-offset: 2px;
 }
 
+.editar-rotulo-sobre {
+    margin-top: 0.9rem;
+}
+
+/* Contador "12/50" abaixo do campo Sobre mim */
+.editar-contador {
+    margin: 0.25rem 0 0;
+    text-align: right;
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.72);
+}
+
+.editar-sobre-confirmar {
+    margin: 0.8rem 0 0;
+    overflow-wrap: anywhere;
+}
+
 .editar-erro {
     margin: 0.6rem 0 0;
     font-size: 0.9rem;
@@ -236,14 +253,15 @@ body {
 }
 
 /* Botão principal da janela (Salvar / Sim, alterar) */
-.botao-destaque {
+/* Dois seletores de classe para ganhar do .botao-editar (que vem depois no arquivo) */
+.botao-editar.botao-destaque {
     border-color: var(--cor3);
     background-color: var(--cor3);
     color: #1e003f;
     font-weight: 700;
 }
 
-.botao-destaque:hover {
+.botao-editar.botao-destaque:hover {
     border-color: #fff;
 }
 
@@ -493,6 +511,15 @@ a.curso-item:hover span {
     font-size: 0.9rem;
     line-height: 1.5;
     color: var(--texto-suave);
+}
+
+/* "Sobre mim" preenchido (até 50 caracteres) */
+.sobre-texto {
+    margin: 0;
+    max-width: 38ch;
+    font-size: 1rem;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
 }
 
 /* ---------- Telas estreitas ----------

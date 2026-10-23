@@ -2,7 +2,9 @@
    Home (home.html)
 
    - Marca o item ativo do menu lateral e abre a página pedida pelo endereço
-     (home.html#perfil, home.html#trilha).
+     (home.html#perfil, #trilha-python, #comunidade-python...).
+   - Recolhe e expande o menu lateral (botão na divisa amarela); lembra a escolha.
+   - Botão Sair (rodapé do menu): pede confirmação e volta para o login.
    - A foto de perfil do canto abre a página de perfil.
    - Guarda o nome e a foto do perfil e entrega para as páginas do iframe
      (ex.: comunidade), que pedem por mensagem.
@@ -34,6 +36,49 @@
     menu.addEventListener('click', evento => {
         const botao = evento.target.closest('.botoes');
         if (botao) marcarMenu(botao.dataset.menu);
+    });
+
+    // ---------- menu lateral recolhível ----------
+    // Recolhido = só ícones. O nome de cada item vira dica (title) ao passar o mouse.
+    const CHAVE_MENU = 'galea_menu_recolhido';
+    const botaoMenu = document.getElementById('menu-alternar');
+    const iconeMenu = botaoMenu.querySelector('.material-symbols-outlined');
+
+    function aplicarMenu(recolhido) {
+        document.body.classList.toggle('lateral-recolhida', recolhido);
+        const rotulo = recolhido ? 'Expandir menu lateral' : 'Recolher menu lateral';
+        botaoMenu.setAttribute('aria-expanded', String(!recolhido));
+        botaoMenu.setAttribute('aria-label', rotulo);
+        botaoMenu.title = rotulo;
+        iconeMenu.textContent = recolhido ? 'chevron_right' : 'chevron_left';
+        document.querySelectorAll('.lateral .botoes').forEach(botao => {
+            if (recolhido) botao.title = botao.querySelector('.menu-texto').textContent;
+            else botao.removeAttribute('title');
+        });
+    }
+
+    let menuRecolhido = false;
+    try { menuRecolhido = localStorage.getItem(CHAVE_MENU) === '1'; } catch (e) { /* sem armazenamento */ }
+    aplicarMenu(menuRecolhido);
+
+    botaoMenu.addEventListener('click', () => {
+        menuRecolhido = !menuRecolhido;
+        aplicarMenu(menuRecolhido);
+        try { localStorage.setItem(CHAVE_MENU, menuRecolhido ? '1' : '0'); } catch (e) { /* ignora */ }
+    });
+
+    // ---------- Sair da conta ----------
+    const dialogoSair = document.getElementById('sair-dialogo');
+    document.getElementById('botao-sair').addEventListener('click', () => dialogoSair.showModal());
+    document.getElementById('sair-cancelar').addEventListener('click', () => dialogoSair.close());
+    dialogoSair.addEventListener('click', evento => {
+        if (evento.target === dialogoSair) dialogoSair.close();   // clique no fundo escuro
+    });
+    document.getElementById('sair-confirmar').addEventListener('click', () => {
+        // Ainda não existe sessão real (login com PHP). Por enquanto só volta para a tela de login.
+        // Quando houver login no servidor, é aqui que entra o pedido de logout (ex.: fetch('logout.php')
+        // para encerrar a sessão) antes de redirecionar.
+        window.location.href = 'login.html';
     });
 
     // a foto de perfil no canto abre o perfil e marca "Perfil" no menu
@@ -122,6 +167,12 @@
             quadro.contentWindow.postMessage({ tipo: 'meus-cursos', lista: meusCursos }, '*');
         }
 
+        // a trilha de um curso pediu para abrir o chat daquele curso na Comunidade
+        if (dados.tipo === 'abrir-chat' && typeof dados.chat === 'string' && /^[a-z0-9_-]{1,40}$/.test(dados.chat)) {
+            alterarLink('pages/community.html?chat=' + dados.chat);
+            marcarMenu('comunidade');
+        }
+
         // uma página (ex.: comunidade) pediu o perfil atual
         if (dados.tipo === 'pedir-perfil') {
             quadro.contentWindow.postMessage(
@@ -132,8 +183,30 @@
     // trocou de página dentro do iframe: a foto do canto volta ao normal
     quadro.addEventListener('load', () => { fotoCanto.hidden = false; });
 
+    // Rota pelo endereço: home.html#perfil, #trilha, #trilha-python (trilha de um curso),
+    // #comunidade e #comunidade-python (chat de um curso)
+    function rotaDoEndereco() {
+        const hash = location.hash.slice(1);
+        if (rotas[hash]) return rotas[hash];
+        let achou = hash.match(/^trilha-([a-z0-9_-]{1,40})$/);
+        if (achou) return { url: 'pages/trilha.html?curso=' + achou[1], menu: 'cursos' };
+        if (hash === 'comunidade') return { url: 'pages/community.html', menu: 'comunidade' };
+        achou = hash.match(/^comunidade-([a-z0-9_-]{1,40})$/);
+        if (achou) return { url: 'pages/community.html?chat=' + achou[1], menu: 'comunidade' };
+        return null;
+    }
+
     // ao abrir: a página pedida no endereço ou, por padrão, "Meus cursos"
-    const rota = rotas[location.hash.slice(1)];
+    const rota = rotaDoEndereco();
     if (rota) alterarLink(rota.url);
     marcarMenu(rota ? rota.menu : 'cursos');
+
+    // se só o final do endereço mudar (ex.: botões voltar/avançar do navegador), abre a página pedida
+    window.addEventListener('hashchange', () => {
+        const nova = rotaDoEndereco();
+        if (nova) {
+            alterarLink(nova.url);
+            marcarMenu(nova.menu);
+        }
+    });
 })();

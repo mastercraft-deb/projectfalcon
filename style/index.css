@@ -4,7 +4,13 @@
    LANDING (index.html)
    Carregado DEPOIS do style.css, que fornece as variáveis
    --cor1 ... --cor5, a fonte global e a classe .body
-   (fundo estrelado).
+   (fundo estrelado fixo).
+
+   A página tem 4 partes, cada uma com um fundo diferente:
+     1. .hero    -> vídeo de fundo + frase
+     2. .sobre   -> fundo escuro liso
+     3. .quem    -> sem fundo próprio (aparece o céu estrelado do .body)
+     4. .rodape  -> roxo escuro liso
 
    Lembrete: o style.css tem `* { color: white }`, então a
    cor não é herdada. Aqui a cor é definida direto no
@@ -15,99 +21,47 @@
     /* Roxo um pouco mais escuro que a --cor2: com texto branco
        passa de 5:1 de contraste (a --cor2 dá cerca de 3,7:1). */
     --botao-principal: #5a50d8;
-    /* Roxo claro para o link secundário, legível sobre o fundo escuro */
+    /* Roxo claro para links, legível sobre fundo escuro */
     --link-secundario: #a8aaff;
     --texto-suave: rgba(255, 255, 255, 0.78);
+    --fundo-escuro: #1a1720;   /* seção 2 */
+    --fundo-rodape: #1e003f;   /* seção 4 */
 }
 
 html {
     scroll-behavior: smooth;
+    /* o cabeçalho fixo cobre o topo: os links de âncora (#sobre...) param um pouco antes */
+    scroll-padding-top: 6rem;
 }
 
 body {
     margin: 0;
 }
 
-/* ---------- Topo ---------- */
-.topo {
+/* Link "Ir para o conteúdo": só aparece quando recebe foco do teclado */
+.pular {
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    padding: 1.5rem clamp(1.25rem, 6vw, 4rem);
-    z-index: 5;
-}
-
-.marca {
-    font-size: 2rem;
-    font-weight: 700;
-    letter-spacing: 0.02em;
+    left: 1rem;
+    top: -4rem;
+    z-index: 100;
+    padding: 0.6rem 1rem;
+    border-radius: 8px;
+    background-color: #fff;
+    color: #1e003f;
     text-decoration: none;
 }
 
-/* ---------- Seção 1: hero ---------- */
-.hero {
-    position: relative;
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    align-items: center;
-    gap: clamp(2rem, 6vw, 5rem);
-    min-height: 100vh;
-    min-height: 100svh;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 6rem clamp(1.25rem, 6vw, 4rem) 5rem;
-    box-sizing: border-box;
+.pular:focus {
+    top: 1rem;
 }
 
-.hero-mascote {
-    justify-self: center;
-    width: min(100%, 320px);
-    height: auto;
-    border-radius: 50%;
-}
-
-.hero-texto {
-    text-align: center;
-}
-
-.citacao {
-    margin: 0 0 1.75rem;
-}
-
-.citacao blockquote {
-    margin: 0;
-}
-
-.citacao p {
-    margin: 0;
-    font-size: clamp(1.6rem, 3.4vw, 2.5rem);
-    font-weight: 700;
-    line-height: 1.25;
-    text-wrap: balance;
-}
-
-.citacao figcaption {
-    margin-top: 0.6rem;
-    font-size: 0.85rem;
-    color: var(--texto-suave);
-}
-
-/* ---------- Botões (usados nas duas seções) ---------- */
-.acoes {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
-    gap: 0.75rem 1.5rem;
-}
-
+/* ---------- Botões e links (usados no cabeçalho) ---------- */
 .botao-principal {
     display: inline-block;
-    padding: 0.7rem 2rem;
+    padding: 0.5rem 1.4rem;
     border-radius: 999px;
     background-color: var(--botao-principal);
-    font-size: 1.15rem;
+    font-size: 1.05rem;
     font-weight: 700;
     text-decoration: none;
     transition: background-color 0.3s, transform 0.3s;
@@ -119,7 +73,7 @@ body {
 }
 
 .link-secundario {
-    font-size: 1.05rem;
+    font-size: 1rem;
     color: var(--link-secundario);
     text-decoration: none;
 }
@@ -129,15 +83,119 @@ body {
     text-underline-offset: 4px;
 }
 
-.botao-principal:focus-visible,
-.link-secundario:focus-visible,
-.rolar:focus-visible,
-.marca:focus-visible {
+a:focus-visible,
+button:focus-visible {
     outline: 3px solid var(--cor3);
     outline-offset: 4px;
 }
 
-/* ---------- "Conheça a Galea" (convida a rolar a página) ---------- */
+/* ---------- Cabeçalho fixo ---------- */
+.topo {
+    position: fixed;
+    top: 16px;
+    left: 50%;
+    z-index: 50;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    width: min(1100px, calc(100% - 2rem));
+    box-sizing: border-box;
+    padding: 0.45rem 0.6rem 0.45rem 1rem;
+    border: 2px solid rgba(255, 255, 255, 0.9);
+    border-radius: 22px;
+    background-color: rgba(30, 0, 63, 0.55);
+    /* o vidro fosco mantém o texto legível sobre o vídeo e sobre as outras seções */
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+    transform: translateX(-50%);
+}
+
+.marca {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: 1.25rem;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.marca img {
+    display: block;
+    width: 40px;
+    height: auto;
+    border-radius: 50%;
+}
+
+.topo-acoes {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+}
+
+/* ---------- Seção 1: vídeo + frase ---------- */
+.hero {
+    position: relative;
+    display: grid;
+    place-items: center;
+    min-height: 100vh;
+    min-height: 100svh;
+    padding: 7rem clamp(1.25rem, 6vw, 4rem) 6rem;
+    box-sizing: border-box;
+    overflow: hidden;
+    isolation: isolate;   /* os z-index negativos ficam só dentro do hero */
+    /* se o vídeo não carregar ou não puder tocar, o quadro de reserva aparece */
+    background: #050816 url("../images/others/hero-poster.webp") center / cover no-repeat;
+}
+
+.hero-video {
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Camada escura por cima do vídeo: garante a leitura da frase em qualquer
+   momento (a Terra passa por trás do texto) e "derrete" o vídeo na seção 2 */
+.hero-sombra {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background:
+        linear-gradient(to top, var(--fundo-escuro) 0%, transparent 22%),
+        radial-gradient(ellipse at center, rgba(8, 0, 24, 0.6) 0%, rgba(8, 0, 24, 0.25) 70%),
+        rgba(8, 0, 24, 0.25);
+}
+
+.citacao {
+    max-width: 900px;
+    margin: 0;
+    text-align: center;
+}
+
+.citacao blockquote {
+    margin: 0;
+}
+
+.citacao p {
+    margin: 0;
+    font-size: clamp(1.7rem, 3.8vw, 2.9rem);
+    font-weight: 700;
+    line-height: 1.25;
+    text-wrap: balance;
+    text-shadow: 0 2px 18px rgba(0, 0, 0, 0.6);
+}
+
+.citacao figcaption {
+    margin-top: 1rem;
+    font-size: 0.95rem;
+    color: var(--texto-suave);
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.6);
+}
+
+/* "Conheça a Galea" (convida a rolar a página) */
 .rolar {
     position: absolute;
     left: 50%;
@@ -156,15 +214,49 @@ body {
     color: var(--cor3);
 }
 
-/* ---------- Seção 2: sobre ---------- */
+/* Botão de pausa do vídeo (quem não quer coisa se mexendo ao fundo pode parar) */
+.video-pausa {
+    position: absolute;
+    right: clamp(1rem, 3vw, 2rem);
+    bottom: 1.5rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    border-radius: 50%;
+    background-color: rgba(12, 0, 28, 0.45);
+    cursor: pointer;
+    transition: border-color 0.3s;
+}
+
+.video-pausa[hidden] {
+    display: none;
+}
+
+.video-pausa:hover {
+    border-color: var(--cor4);
+}
+
+.video-pausa .material-symbols-outlined {
+    font-size: 1.5rem;
+}
+
+/* ---------- Seção 2: fundo escuro ---------- */
 .sobre {
+    background-color: var(--fundo-escuro);
+}
+
+.sobre-conteudo {
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     align-items: center;
     gap: clamp(2rem, 6vw, 5rem);
     max-width: 1200px;
     margin: 0 auto;
-    padding: 4rem clamp(1.25rem, 6vw, 4rem) 6rem;
+    padding: 4rem clamp(1.25rem, 6vw, 4rem) 7rem;
     box-sizing: border-box;
 }
 
@@ -195,7 +287,7 @@ body {
     aspect-ratio: 3 / 4;
     object-fit: cover;
     object-position: 40% center;
-    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.45);
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.55);
     transition: transform 0.9s cubic-bezier(0.4, 0, 0.2, 1),
                 z-index 0.9s,
                 filter 0.9s,
@@ -214,7 +306,7 @@ body {
     filter: brightness(0.6);
 }
 
-/* Botão de pausa (quem não quer coisa se mexendo sozinha pode parar) */
+/* Botão de pausa da pilha */
 .pilha-pausa {
     display: inline-flex;
     align-items: center;
@@ -235,11 +327,6 @@ body {
 
 .pilha-pausa:hover {
     border-color: var(--cor4);
-}
-
-.pilha-pausa:focus-visible {
-    outline: 3px solid var(--cor3);
-    outline-offset: 3px;
 }
 
 .pilha-pausa .material-symbols-outlined {
@@ -263,48 +350,190 @@ body {
     text-align: left;
 }
 
-.sobre-texto .acoes {
-    justify-content: flex-start;
-    margin-top: 1.75rem;
+/* ---------- Seção 3: quem somos ---------- */
+.quem-conteudo {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    align-items: center;
+    gap: clamp(2rem, 6vw, 5rem);
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 7rem clamp(1.25rem, 6vw, 4rem);
+    box-sizing: border-box;
 }
 
-/* ---------- Entrada suave (só para quem não pediu menos movimento) ---------- */
+.quem-texto h2 {
+    margin: 0 0 1.25rem;
+    font-size: clamp(1.9rem, 3.6vw, 2.8rem);
+    line-height: 1.1;
+}
+
+.quem-texto p {
+    margin: 0 0 1rem;
+    max-width: 52ch;
+    font-size: 1.1rem;
+    line-height: 1.65;
+    text-align: left;
+}
+
+.quem-figura {
+    display: grid;
+    place-items: center;
+    aspect-ratio: 16 / 10;
+    margin: 0;
+    padding: 1rem;
+    box-sizing: border-box;
+    border: 2px solid var(--cor4);
+    border-radius: 18px;
+    background-color: rgba(30, 0, 63, 0.55);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+}
+
+.quem-figura img {
+    display: block;
+    height: 100%;
+    width: auto;
+    max-width: 100%;
+    object-fit: contain;
+}
+
+/* ---------- Seção 4: rodapé ---------- */
+.rodape {
+    background-color: var(--fundo-rodape);
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.rodape-conteudo {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr;
+    gap: 2.5rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 4rem clamp(1.25rem, 6vw, 4rem) 2.5rem;
+    box-sizing: border-box;
+}
+
+.rodape-marca p {
+    max-width: 30ch;
+    margin: 1rem 0 0;
+    line-height: 1.55;
+    color: var(--texto-suave);
+}
+
+.rodape-titulo {
+    margin: 0 0 1rem;
+    font-size: 0.95rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--cor3);
+}
+
+.rodape ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.rodape li + li {
+    margin-top: 0.6rem;
+}
+
+.rodape li a {
+    color: var(--texto-suave);
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.rodape li a:hover {
+    color: #fff;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+}
+
+.rodape-base {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 clamp(1.25rem, 6vw, 4rem);
+    box-sizing: border-box;
+}
+
+.rodape-copy {
+    margin: 0;
+    padding: 1.5rem 0 2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+    font-size: 0.85rem;
+    color: var(--texto-suave);
+}
+
+/* ---------- Entrada suave da frase (só para quem não pediu menos movimento) ---------- */
 @keyframes subir {
     from { opacity: 0; transform: translateY(16px); }
     to   { opacity: 1; transform: translateY(0); }
 }
 
 @media (prefers-reduced-motion: no-preference) {
-    .hero-mascote { animation: subir 0.7s ease both; }
-    .citacao      { animation: subir 0.7s 0.15s ease both; }
-    .hero .acoes  { animation: subir 0.7s 0.3s ease both; }
+    .citacao { animation: subir 0.9s 0.2s ease both; }
 }
 
 @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
     .botao-principal,
+    .video-pausa,
     .pilha-img,
-    .pilha-pausa { transition: none; }
+    .pilha-pausa,
+    .rodape li a { transition: none; }
 }
 
 /* ---------- Telas estreitas ---------- */
 @media (max-width: 800px) {
-    .hero,
-    .sobre {
+    .sobre-conteudo,
+    .quem-conteudo {
         grid-template-columns: 1fr;
     }
 
-    .hero {
-        padding-top: 5.5rem;
-        padding-bottom: 6rem;
+    .sobre-conteudo {
+        padding-bottom: 5rem;
     }
 
-    .hero-mascote {
-        width: min(60%, 240px);
+    .quem-conteudo {
+        padding-top: 5rem;
+        padding-bottom: 5rem;
     }
 
     .sobre-texto h2,
-    .sobre-texto p {
+    .sobre-texto p,
+    .quem-texto p {
         max-width: none;
+    }
+
+    .rodape-conteudo {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .rodape-marca {
+        grid-column: 1 / -1;
+    }
+}
+
+@media (max-width: 480px) {
+    .topo {
+        padding-left: 0.75rem;
+    }
+
+    .marca {
+        font-size: 1.1rem;
+    }
+
+    .topo-acoes {
+        gap: 0.75rem;
+    }
+
+    .link-secundario {
+        font-size: 0.9rem;
+    }
+
+    .botao-principal {
+        padding: 0.45rem 1rem;
+        font-size: 1rem;
     }
 }

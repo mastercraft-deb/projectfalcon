@@ -4,22 +4,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Comunidade - Galea</title>
+    <link rel="icon" href="../images/logos/logo.png" type="image/png">
 
     <!-- Os ícones precisam ser carregados aqui também: o iframe é um documento separado da home.html -->
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
     <link rel="stylesheet" href="../style/style.css">
     <link rel="stylesheet" href="../style/comunidade.css">
+
+    <!-- cursos.js (lista "Meus cursos") precisa vir antes do comunidade.js -->
+    <script src="../script/cursos.js" defer></script>
+    <script src="../script/comunidade.js" defer></script>
 </head>
 <body>
     <main class="comunidade">
 
         <header class="comunidade-topo">
             <h1>Comunidade</h1>
-            <p>Converse com outros alunos, tire dúvidas e responda às mensagens.</p>
+            <p>Converse com outros alunos. Cada curso que você adiciona a Meus cursos ganha o seu próprio chat.</p>
         </header>
 
-        <!-- As mensagens são montadas pelo script/comunidade.js -->
-        <ol class="mensagens" id="mensagens" aria-label="Mensagens da comunidade"></ol>
+        <!-- Troca de chat: "Geral" + um chat por curso de Meus cursos (montado pelo script/comunidade.js) -->
+        <div class="chats" id="chats" role="tablist" aria-label="Chats da comunidade"></div>
+        <p class="chat-descricao" id="chat-descricao"></p>
+
+        <!-- As mensagens do chat escolhido -->
+        <div class="painel" id="painel" role="tabpanel">
+            <ol class="mensagens" id="mensagens" aria-label="Mensagens do chat"></ol>
+        </div>
 
         <!-- Caixa para escrever. A faixa "Respondendo a..." só aparece ao clicar em Responder -->
         <form class="compositor" id="compositor">
@@ -48,7 +59,5 @@
 
     <!-- Aviso invisível para leitores de tela -->
     <p class="sr-only" id="aviso" aria-live="polite"></p>
-
-    <script src="../script/comunidade.js" defer></script>
 </body>
 </html>

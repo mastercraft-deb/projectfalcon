@@ -4,15 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Galea - O futuro da educação</title>
+    <link rel="icon" href="images/logos/logo.png" type="image/png">
 
-    <link rel="shortcut icon" href="images/logos/logo.png" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
     <link rel="stylesheet" href="style/style.css">
 </head>
 <body class="body pagina-home">
 
     <!-- Menu lateral: fica fixo na tela -->
-    <aside class="lateral">
+    <aside class="lateral" id="menu-lateral">
         <div class="lateral-marca">
             <img src="images/logos/logo.png" alt="" width="56" height="56">
             <span class="lateral-nome">Galea</span>
@@ -25,7 +25,20 @@
             <button class="botoes" data-menu="perfil" onclick="alterarLink('pages/account.html')"><span class="material-symbols-outlined" aria-hidden="true">account_circle</span><span class="menu-texto">Perfil</span></button>
             <button class="botoes" data-menu="config" onclick="alterarLink('pages/settings.html')"><span class="material-symbols-outlined" aria-hidden="true">settings</span><span class="menu-texto">Configurações</span></button>
         </nav>
+
+        <!-- Rodapé do menu: fica no fim da barra lateral -->
+        <div class="lateral-rodape">
+            <button type="button" class="botoes botao-sair" id="botao-sair" aria-haspopup="dialog">
+                <span class="material-symbols-outlined" aria-hidden="true">logout</span><span class="menu-texto">Sair</span>
+            </button>
+        </div>
     </aside>
+
+    <!-- Botão que recolhe/expande o menu: fica em cima da divisa amarela da barra lateral -->
+    <button type="button" class="lateral-alternar" id="menu-alternar"
+            aria-controls="menu-lateral" aria-expanded="true" aria-label="Recolher menu lateral">
+        <span class="material-symbols-outlined" aria-hidden="true">chevron_left</span>
+    </button>
 
     <!-- Tudo que fica à direita do menu -->
     <div class="conteudo">
@@ -52,6 +65,16 @@
     <button type="button" class="perfil-rapido" id="perfil-rapido" aria-label="Abrir meu perfil">
         <img src="images/boiola.jpg" alt="">
     </button>
+
+    <!-- Confirmação ao clicar em Sair -->
+    <dialog class="sair-dialogo" id="sair-dialogo" aria-labelledby="sair-titulo">
+        <h2 class="sair-titulo" id="sair-titulo">Sair da conta?</h2>
+        <p class="sair-texto">Você vai ser desconectado e voltar para a tela de login.</p>
+        <div class="sair-acoes">
+            <button type="button" class="sair-botao" id="sair-cancelar">Cancelar</button>
+            <button type="button" class="sair-botao perigo" id="sair-confirmar">Sim, sair</button>
+        </div>
+    </dialog>
 
     <script src="script/script.js"></script>
     <script src="script/home.js"></script>

@@ -4,88 +4,170 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Galea: cursos gamificados que tornam o estudo mais leve e divertido, pensados para pessoas com TDAH.">
+    <meta name="theme-color" content="#1e003f">
     <title>Galea - Cursos gamificados</title>
     <link rel="icon" href="images/group_2.png" type="image/png">
 
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
     <link rel="stylesheet" href="style/style.css">
     <link rel="stylesheet" href="style/index.css">
+    <script src="script/index.js" defer></script>
 </head>
 <body class="body">
 
+    <!-- Atalho para quem navega pelo teclado: pula o cabeçalho -->
+    <a class="pular" href="#conteudo">Ir para o conteúdo</a>
+
+    <!-- CABEÇALHO FIXO: continua na tela enquanto a página rola -->
     <header class="topo">
-        <a class="marca" href="index.html">Galea</a>
+        <a class="marca" href="index.html" aria-label="Galea, página inicial">
+            <img src="images/logos/logo-96.webp" alt="" width="40" height="38">
+            <span>Galea</span>
+        </a>
+
+        <nav class="topo-acoes" aria-label="Acesso à plataforma">
+            <a class="link-secundario" href="login.html">Já tenho conta</a>
+            <a class="botao-principal" href="cadastro.html">Começar</a>
+        </nav>
     </header>
 
-    <main>
+    <main id="conteudo">
 
-        <!-- SEÇÃO 1: apresentação -->
-        <section class="hero">
-            <img class="hero-mascote" src="images/group_2.png"
-                 alt="Desenho de uma ave em traços coloridos sobre um círculo preto, o mascote da Galea"
-                 width="312" height="311">
+        <!-- SEÇÃO 1: frase com vídeo de fundo -->
+        <section class="hero" aria-label="Apresentação">
+            <!-- Vídeo decorativo: sem som, em loop, e com botão de pausa (canto inferior direito).
+                 O "poster" é o quadro que aparece enquanto carrega ou se o vídeo não puder tocar.
+                 Vídeo otimizado em video/ (o original 4K tinha 39 MB). -->
+            <video class="hero-video" autoplay muted loop playsinline preload="metadata"
+                   poster="images/others/hero-poster.webp" aria-hidden="true" tabindex="-1">
+                <source src="video/hero.mp4" type="video/mp4">
+                <source src="video/hero.webm" type="video/webm">
+            </video>
+            <div class="hero-sombra"></div>
 
-            <div class="hero-texto">
-                <figure class="citacao">
-                    <blockquote>
-                        <p>“A sabedoria é um círculo, o que recebemos devemos devolver”</p>
-                    </blockquote>
-                    <figcaption>— Vert Wheeler</figcaption>
-                </figure>
-
-                <div class="acoes">
-                    <a class="botao-principal" href="cadastro.html">Começar</a>
-                    <a class="link-secundario" href="login.html">Já tenho conta</a>
-                </div>
-            </div>
+            <figure class="citacao">
+                <blockquote>
+                    <p>“A sabedoria é um círculo, o que recebemos devemos devolver”</p>
+                </blockquote>
+                <figcaption>— Vert Wheeler</figcaption>
+            </figure>
 
             <a class="rolar" href="#sobre">
                 Conheça a Galea
                 <span class="material-symbols-outlined" aria-hidden="true">expand_more</span>
             </a>
+
+            <!-- Escondido por padrão: o script mostra quando o vídeo pode tocar -->
+            <button type="button" class="video-pausa" aria-label="Pausar o vídeo de fundo" hidden>
+                <span class="material-symbols-outlined" aria-hidden="true">pause</span>
+            </button>
         </section>
 
-        <!-- SEÇÃO 2: o que é a Galea -->
+        <!-- SEÇÃO 2: fundo escuro, o que é a Galea -->
         <section class="sobre" id="sobre" aria-labelledby="sobre-titulo">
+            <div class="sobre-conteudo">
 
-            <!-- Pilha de capas de cursos que troca sozinha (script/index.js).
-                 data-pos: 0 = frente, 1 = meio, 2 = fundo. Sem JavaScript ela fica parada assim.
-                 Para incluir mais imagens, basta acrescentar <img> com data-pos="3", "4"... -->
-            <div class="pilha-bloco">
-                <div class="pilha">
-                    <img class="pilha-img" data-pos="2" src="images/others/img-cursos/teoria-musical.png" alt="Capa do curso de Teoria musical" loading="lazy">
-                    <img class="pilha-img" data-pos="1" src="images/others/img-cursos/python.jpg"         alt="Capa do curso de Python" loading="lazy">
-                    <img class="pilha-img" data-pos="0" src="images/others/img-cursos/isaac-newton.jpg"   alt="Capa do curso de Física" loading="lazy">
+                <!-- Pilha de capas de cursos que troca sozinha (script/index.js).
+                     data-pos: 0 = frente, 1 = meio, 2 = fundo. Sem JavaScript ela fica parada assim.
+                     Para incluir mais imagens, basta acrescentar <img> com data-pos="3", "4"... -->
+                <div class="pilha-bloco">
+                    <div class="pilha">
+                        <img class="pilha-img" data-pos="2" src="images/others/img-cursos/teoria-musical.png" alt="Capa do curso de Teoria musical" loading="lazy">
+                        <img class="pilha-img" data-pos="1" src="images/others/img-cursos/python.jpg"         alt="Capa do curso de Python" loading="lazy">
+                        <img class="pilha-img" data-pos="0" src="images/others/img-cursos/isaac-newton.jpg"   alt="Capa do curso de Física" loading="lazy">
+                    </div>
+
+                    <!-- Escondido por padrão: o script mostra quando a troca automática está ativa -->
+                    <button type="button" class="pilha-pausa" aria-label="Pausar a troca de imagens" hidden>
+                        <span class="material-symbols-outlined" aria-hidden="true">pause</span>
+                    </button>
                 </div>
 
-                <!-- Escondido por padrão: o script mostra quando a troca automática está ativa -->
-                <button type="button" class="pilha-pausa" aria-label="Pausar a troca de imagens" hidden>
-                    <span class="material-symbols-outlined" aria-hidden="true">pause</span>
-                </button>
+                <div class="sobre-texto">
+                    <h2 id="sobre-titulo">Estudar no seu ritmo, sem perder o foco</h2>
+                    <p>
+                        A Galea é uma plataforma de cursos gamificados pensada para quem tem TDAH.
+                        As lições são curtas, cada passo tem uma recompensa e você sempre sabe
+                        qual é a próxima etapa.
+                    </p>
+                    <p>
+                        Ganhe pontos de experiência, suba de nível, desbloqueie troféus e acompanhe
+                        seu progresso em trilhas claras. Errou? Sem problema: é só tentar de novo,
+                        no seu tempo.
+                    </p>
+                </div>
+
             </div>
+        </section>
 
-            <div class="sobre-texto">
-                <h2 id="sobre-titulo">Estudar no seu ritmo, sem perder o foco</h2>
-                <p>
-                    A Galea é uma plataforma de cursos gamificados pensada para quem tem TDAH.
-                    As lições são curtas, cada passo tem uma recompensa e você sempre sabe
-                    qual é a próxima etapa.
-                </p>
-                <p>
-                    Ganhe pontos de experiência, suba de nível, desbloqueie troféus e acompanhe
-                    seu progresso em trilhas claras. Errou? Sem problema: é só tentar de novo,
-                    no seu tempo.
-                </p>
+        <!-- SEÇÃO 3: quem somos (mostra o fundo estrelado da página) -->
+        <section class="quem" id="quem-somos" aria-labelledby="quem-titulo">
+            <div class="quem-conteudo">
 
-                <div class="acoes">
-                    <a class="botao-principal" href="cadastro.html">Começar</a>
-                    <a class="link-secundario" href="login.html">Já tenho conta</a>
+                <div class="quem-texto">
+                    <h2 id="quem-titulo">Quem somos</h2>
+                    <!-- Texto de rascunho: ajuste com a história real do projeto e da equipe -->
+                    <p>
+                        A Galea nasceu como um Trabalho de Conclusão de Curso em Desenvolvimento
+                        de Sistemas, a partir de uma pergunta: como tornar o estudo mais leve para
+                        quem tem dificuldade de manter o foco?
+                    </p>
+                    <p>
+                        Nossa resposta une cursos curtos, organizados em trilhas, a elementos de
+                        jogos como pontos, níveis e troféus, para que cada pequena conquista seja
+                        vista e comemorada. Aqui o ritmo é seu, sem pressa e sem punição.
+                    </p>
                 </div>
+
+                <!-- Troque pela foto da equipe ou do projeto quando tiver -->
+                <figure class="quem-figura">
+                    <img src="images/logos/logo-640.webp"
+                         alt="Ilustração de uma ave sobre um céu estrelado e uma lua, o mascote da Galea"
+                         width="640" height="612" loading="lazy">
+                </figure>
+
             </div>
         </section>
 
     </main>
 
-    <script src="script/index.js" defer></script>
+    <!-- SEÇÃO 4: rodapé -->
+    <footer class="rodape">
+        <div class="rodape-conteudo">
+
+            <div class="rodape-marca">
+                <a class="marca" href="index.html" aria-label="Galea, página inicial">
+                    <img src="images/logos/logo-96.webp" alt="" width="40" height="38">
+                    <span>Galea</span>
+                </a>
+                <p>Cursos gamificados para estudar com mais leveza e foco.</p>
+            </div>
+
+            <nav aria-labelledby="rodape-explore">
+                <h2 class="rodape-titulo" id="rodape-explore">Explore</h2>
+                <ul>
+                    <li><a href="#sobre">O que é a Galea</a></li>
+                    <li><a href="#quem-somos">Quem somos</a></li>
+                    <li><a href="cadastro.html">Criar conta</a></li>
+                    <li><a href="login.html">Já tenho conta</a></li>
+                </ul>
+            </nav>
+
+            <nav aria-labelledby="rodape-legal">
+                <h2 class="rodape-titulo" id="rodape-legal">Legal</h2>
+                <ul>
+                    <li><a href="termos.html">Termos de uso</a></li>
+                    <li><a href="privacidade.html">Política de privacidade</a></li>
+                </ul>
+            </nav>
+
+        </div>
+
+        <div class="rodape-base">
+            <!-- Créditos: se o vídeo de fundo ou as imagens exigirem crédito, inclua aqui -->
+            <p class="rodape-copy">© 2026 Galea. Projeto de Trabalho de Conclusão de Curso em Desenvolvimento de Sistemas.</p>
+        </div>
+    </footer>
+
 </body>
 </html>

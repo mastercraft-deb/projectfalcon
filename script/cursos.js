@@ -48,7 +48,7 @@ window.GaleaCursos = (() => {
           descricao: 'HTML, CSS e JavaScript para criar suas primeiras páginas.',
           palavras: ['html', 'css', 'javascript', 'site', 'desenvolvimento'] },
         { id: 'musica', nome: 'Teoria musical', pagina: 'courses/musica.html',
-          imagem: 'images/others/img-cursos/teoria-musical.png',
+          imagem: 'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2F1%2F1e%2FWolfgang-amadeus-mozart_1.jpg&f=1&nofb=1&ipt=4e1a19be9c6f473998fbc19dc8c53d5d4f5d78e1e437073d6445b6e81bb83649',
           descricao: 'Notas, escalas, ritmos e acordes explicados de forma simples.',
           palavras: ['musica', 'notas', 'escalas', 'acordes', 'ritmo'] },
         { id: 'matematica', nome: 'Matemática', pagina: 'courses/matematica.html',

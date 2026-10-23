@@ -19,6 +19,19 @@
    cor é definida direto no elemento que queremos pintar.
    ===================================================== */
 
+/* Mapa (esquerda) + cartão do chat (direita). As cores do curso vêm do script/trilha.js:
+   --tema-claro (aula atual) e --tema-bloqueado (aulas trancadas). Os valores abaixo são os da Física. */
+.trilha-layout {
+    --tema-claro: var(--cor3);
+    --tema-bloqueado: #b8650f;
+    --escuro: #1e003f;
+    --texto-suave: rgba(255, 255, 255, 0.78);
+
+    display: flex;
+    align-items: flex-start;
+    gap: 2rem;
+}
+
 .trilha-pagina {
     /* Medidas do mapa: mude aqui e tudo se reajusta */
     --no: 78px;          /* diâmetro do círculo */
@@ -28,10 +41,12 @@
 
     --linha: #fff4dc;
     --sucesso: #2ecc71;
-    --bloqueado: #b8650f;
+    --bloqueado: var(--tema-bloqueado);
     --escuro: #1e003f;
     --texto-suave: rgba(255, 255, 255, 0.78);
 
+    flex: 1 1 520px;
+    min-width: 0;
     max-width: 760px;
 }
 
@@ -112,7 +127,7 @@ body {
     height: 100%;
     width: var(--progresso, 0%);
     border-radius: inherit;
-    background-color: var(--cor3);
+    background-color: var(--tema-claro);
     transition: width 0.6s ease;
 }
 
@@ -239,9 +254,9 @@ body {
 
 /* ---------- Estado: atual (o próximo passo) ---------- */
 .modulo-atual .modulo-no {
-    background-color: var(--cor3);
+    background-color: var(--tema-claro);
     /* anel em volta: destaca o círculo sem depender só da cor */
-    box-shadow: 0 0 0 8px rgba(247, 184, 1, 0.28), 0 6px 14px rgba(0, 0, 0, 0.35);
+    box-shadow: 0 0 0 8px color-mix(in srgb, var(--tema-claro) 28%, transparent), 0 6px 14px rgba(0, 0, 0, 0.35);
 }
 
 .modulo-atual .modulo-no .material-symbols-outlined {
@@ -253,7 +268,7 @@ body {
     min-width: 240px;
     padding: 1.1rem 1.6rem;
     border-radius: 14px;
-    background-color: var(--cor3);
+    background-color: var(--tema-claro);
     box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
     font-weight: 700;
     color: var(--escuro);
@@ -267,7 +282,7 @@ body {
     width: 16px;
     height: 16px;
     border-radius: 3px;
-    background-color: var(--cor3);
+    background-color: var(--tema-claro);
     transform: translateY(-50%) rotate(45deg);
 }
 
@@ -305,8 +320,8 @@ body {
 
 /* o anel do módulo atual "pulsa" 3 vezes e depois fica parado */
 @keyframes trilha-halo {
-    from { box-shadow: 0 0 0 8px rgba(247, 184, 1, 0.5), 0 6px 14px rgba(0, 0, 0, 0.35); }
-    to   { box-shadow: 0 0 0 22px rgba(247, 184, 1, 0),  0 6px 14px rgba(0, 0, 0, 0.35); }
+    from { box-shadow: 0 0 0 8px color-mix(in srgb, var(--tema-claro) 50%, transparent), 0 6px 14px rgba(0, 0, 0, 0.35); }
+    to   { box-shadow: 0 0 0 22px color-mix(in srgb, var(--tema-claro) 0%, transparent), 0 6px 14px rgba(0, 0, 0, 0.35); }
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -328,8 +343,119 @@ body {
 
 @media (prefers-reduced-motion: reduce) {
     .modulo-no,
-    .trilha-barra-preenchimento {
+    .trilha-barra-preenchimento,
+    .trilha-chat-botao {
         transition: none;
+    }
+}
+
+/* ---------- Cartão do chat do curso (lado direito) ---------- */
+.trilha-chat {
+    position: sticky;
+    top: 0.5rem;
+    flex: 0 0 300px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    box-sizing: border-box;
+    padding: 1.1rem 1.2rem 1.3rem;
+    border: 2px solid var(--tema-claro);
+    border-radius: 14px;
+    background-color: rgba(30, 0, 63, 0.82);
+    backdrop-filter: blur(6px);
+}
+
+.trilha-chat-icone {
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background-color: var(--tema-claro);
+}
+
+.trilha-chat-icone .material-symbols-outlined {
+    font-size: 1.7rem;
+    color: var(--escuro);
+}
+
+.trilha-chat h2 {
+    margin: 0;
+    font-size: 1.15rem;
+}
+
+.trilha-chat p {
+    margin: 0.35rem 0 0;
+    font-size: 0.9rem;
+    line-height: 1.4;
+    color: var(--texto-suave);
+}
+
+.trilha-chat-botao {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    box-sizing: border-box;
+    width: 100%;
+    margin-top: 0.9rem;
+    padding: 0.6rem 1rem;
+    border: 2px solid var(--tema-claro);
+    border-radius: 999px;
+    background-color: var(--tema-claro);
+    color: var(--escuro);
+    font-size: 0.95rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: border-color 0.2s ease;
+}
+
+.trilha-chat-botao .material-symbols-outlined {
+    font-size: 1.3rem;
+    color: var(--escuro);
+}
+
+.trilha-chat-botao:hover {
+    border-color: #fff;
+}
+
+.trilha-chat-botao:focus-visible {
+    outline: 3px solid #fff;
+    outline-offset: 3px;
+}
+
+/* ---------- Pouco espaço (o @media mede a largura do iframe): o cartão vai para cima do mapa ---------- */
+@media (max-width: 1080px) {
+    .trilha-layout {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.75rem;
+    }
+
+    .trilha-pagina {
+        flex: none;
+        width: 100%;
+    }
+
+    .trilha-chat {
+        position: static;
+        order: -1;
+        flex: none;
+        flex-direction: row;
+        align-items: center;
+        gap: 1rem;
+        padding: 0.8rem 1.1rem;
+    }
+
+    .trilha-chat-corpo {
+        flex: 1;
+        min-width: 0;
+    }
+
+    .trilha-chat-botao {
+        width: auto;
+        margin-top: 0.6rem;
     }
 }
 

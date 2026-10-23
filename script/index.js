@@ -105,3 +105,90 @@
     menosMovimento.addEventListener('change', ajustarBotao);
     ajustarBotao();
 })();
+
+
+/* =====================================================
+   Vídeo de fundo da seção 1 (index.html)
+
+   O vídeo é decorativo: sem som, em loop e com botão de pausa.
+
+   Ele começa sozinho, MAS:
+   - se o sistema pede menos movimento (ou economia de dados), ele
+     NÃO começa sozinho: aparece o quadro de reserva (o "poster") e
+     o botão vira "Reproduzir", para a pessoa escolher assistir;
+   - ele pausa quando o hero sai da tela e quando a aba fica em segundo plano.
+   ===================================================== */
+
+(() => {
+    // Para TESTAR no Windows com "efeitos de animação" desligados: coloque false.
+    // Em produção, deixe true por acessibilidade (o mesmo vale para a pilha de imagens acima).
+    const RESPEITAR_MENOS_MOVIMENTO = true;
+
+    const hero = document.querySelector('.hero');
+    const video = hero && hero.querySelector('.hero-video');
+    const botao = hero && hero.querySelector('.video-pausa');
+    if (!video || !botao) return;
+
+    const menosMovimento = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const poupaDados = Boolean(navigator.connection && navigator.connection.saveData);
+
+    // O vídeo deve começar sozinho neste momento?
+    const comecaSozinho = () => !(RESPEITAR_MENOS_MOVIMENTO && menosMovimento.matches) && !poupaDados;
+
+    let querTocar = comecaSozinho(); // a "vontade" atual: do sistema no início e, depois, da pessoa
+    let naTela = true;
+
+    video.muted = true; // alguns navegadores só liberam o autoplay se isso estiver ligado por script
+
+    if (!querTocar) {
+        // não baixa nem toca até a pessoa pedir
+        video.removeAttribute('autoplay');
+        video.preload = 'none';
+        video.pause();
+    }
+
+    // Liga ou desliga o vídeo olhando todas as condições de uma vez
+    function atualizar() {
+        const deveTocar = querTocar && naTela && !document.hidden;
+
+        if (deveTocar) {
+            // o navegador pode bloquear o autoplay (ex.: economia de bateria):
+            // nesse caso o quadro de reserva continua aparecendo e o botão mostra "Reproduzir"
+            const promessa = video.play();
+            if (promessa) promessa.catch(() => {});
+        } else {
+            video.pause();
+        }
+    }
+
+    // O ícone do botão acompanha o que o vídeo está realmente fazendo
+    function mostrarEstado() {
+        const tocando = !video.paused;
+        botao.querySelector('.material-symbols-outlined').textContent = tocando ? 'pause' : 'play_arrow';
+        botao.setAttribute('aria-label', tocando ? 'Pausar o vídeo de fundo' : 'Reproduzir o vídeo de fundo');
+    }
+    video.addEventListener('play', mostrarEstado);
+    video.addEventListener('pause', mostrarEstado);
+
+    botao.addEventListener('click', () => {
+        querTocar = video.paused; // estava parado: o clique pede para tocar; estava tocando: pede para parar
+        if (querTocar) video.preload = 'auto';
+        atualizar();
+    });
+
+    new IntersectionObserver(entradas => {
+        naTela = entradas[0].isIntersecting;
+        atualizar();
+    }, { threshold: 0.15 }).observe(hero);
+
+    document.addEventListener('visibilitychange', atualizar);
+
+    // Se a pessoa mudar a configuração do sistema com a página aberta
+    menosMovimento.addEventListener('change', () => {
+        querTocar = comecaSozinho();
+        atualizar();
+    });
+
+    botao.hidden = false;
+    mostrarEstado();
+})();

@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Perfil - Galea</title>
+    <link rel="icon" href="../images/logos/logo.png" type="image/png">
 
     <!-- Os ícones precisam ser carregados aqui também: o iframe é um documento separado da home.html -->
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
@@ -147,6 +148,11 @@
             <label class="editar-rotulo" for="editar-nome">Nome</label>
             <input type="text" class="editar-campo" id="editar-nome" maxlength="40" autocomplete="name">
 
+            <label class="editar-rotulo editar-rotulo-sobre" for="editar-sobre">Sobre mim</label>
+            <input type="text" class="editar-campo" id="editar-sobre" maxlength="50" autocomplete="off"
+                   placeholder="Uma frase sobre você" aria-describedby="editar-sobre-contador">
+            <p class="editar-contador" id="editar-sobre-contador">0/50</p>
+
             <p class="editar-erro" id="editar-erro" role="alert" hidden></p>
 
             <div class="editar-acoes">
@@ -164,6 +170,7 @@
                 <img class="editar-previa" id="confirmar-foto" src="../images/boiola.jpg" alt="">
                 <strong id="confirmar-nome"></strong>
             </div>
+            <p class="editar-texto editar-sobre-confirmar">Sobre mim: <span id="confirmar-sobre"></span></p>
 
             <div class="editar-acoes">
                 <button type="button" class="botao-editar" id="confirmar-voltar">Voltar</button>
@@ -176,6 +183,9 @@
         (() => {
             const CHAVE_NOME = 'galea_nome_perfil';
             const CHAVE_FOTO = 'galea_foto_perfil';
+            const CHAVE_SOBRE = 'galea_sobre_perfil';
+            const MAX_SOBRE = 50;
+            const TEXTO_SOBRE_VAZIO = 'Você ainda não escreveu nada aqui. Clique em Editar para contar um pouco sobre você.';
             const TAMANHO_MAXIMO = 5 * 1024 * 1024; // 5 MB
 
             // ---- elementos do perfil ----
@@ -202,11 +212,23 @@
             const erro = document.getElementById('editar-erro');
             const confirmarFoto = document.getElementById('confirmar-foto');
             const confirmarNome = document.getElementById('confirmar-nome');
+            const perfilSobre = document.getElementById('perfil-sobre');
+            const campoSobre = document.getElementById('editar-sobre');
+            const contadorSobre = document.getElementById('editar-sobre-contador');
+            const confirmarSobre = document.getElementById('confirmar-sobre');
             const botaoVoltar = document.getElementById('confirmar-voltar');
             const botaoSim = document.getElementById('confirmar-sim');
 
             let novaFoto = null;      // foto escolhida (texto base64), ou null se não mudou
             let nomePendente = '';    // nome digitado, esperando a confirmação
+            let sobreSalvo = '';      // "Sobre mim" atual ('' = ainda não escreveu)
+            let sobrePendente = '';   // "Sobre mim" digitado, esperando a confirmação
+
+            // mostra o "Sobre mim" na página (ou a mensagem de vazio)
+            function mostrarSobre(texto) {
+                perfilSobre.textContent = texto || TEXTO_SOBRE_VAZIO;
+                perfilSobre.className = texto ? 'sobre-texto' : 'vazio';
+            }
 
             // ---------- conversa com a home (a página que contém este iframe) ----------
             function falarComHome(mensagem) {
@@ -234,7 +256,9 @@
                     aplicarFoto(fotoSalva);
                     fotoPersonalizada = fotoSalva;
                 }
+                sobreSalvo = (localStorage.getItem(CHAVE_SOBRE) || '').slice(0, MAX_SOBRE);
             } catch (e) { /* sem armazenamento: segue com os padrões */ }
+            mostrarSobre(sobreSalvo);
 
             // Informa a home do nome/foto atuais. É a home que entrega o perfil às outras páginas
             // (comunidade etc.), mesmo quando o navegador não compartilha o armazenamento entre elas.
@@ -286,10 +310,17 @@
                 });
             }
 
+            function atualizarContadorSobre() {
+                contadorSobre.textContent = campoSobre.value.length + '/' + MAX_SOBRE;
+            }
+            campoSobre.addEventListener('input', atualizarContadorSobre);
+
             function abrirEdicao() {
                 novaFoto = null;
                 previa.src = fotoPerfil.src;
                 campoNome.value = nome.textContent.trim();
+                campoSobre.value = sobreSalvo;
+                atualizarContadorSobre();
                 esconderErro();
                 painelForm.hidden = false;
                 painelConfirmar.hidden = true;
@@ -333,13 +364,17 @@
                     campoNome.focus();
                     return;
                 }
+                const novoSobre = campoSobre.value.trim().slice(0, MAX_SOBRE);
                 const mudouNome = novoNome !== nome.textContent.trim();
-                if (!mudouNome && !novaFoto) {   // nada mudou: só fecha
+                const mudouSobre = novoSobre !== sobreSalvo;
+                if (!mudouNome && !novaFoto && !mudouSobre) {   // nada mudou: só fecha
                     dialogoEditar.close();
                     return;
                 }
                 nomePendente = novoNome;
+                sobrePendente = novoSobre;
                 confirmarNome.textContent = novoNome;
+                confirmarSobre.textContent = novoSobre || '(sem descrição)';
                 confirmarFoto.src = novaFoto || fotoPerfil.src;
                 painelForm.hidden = true;
                 painelConfirmar.hidden = false;
@@ -363,6 +398,14 @@
                     fotoPersonalizada = novaFoto;
                     try { localStorage.setItem(CHAVE_FOTO, novaFoto); } catch (e) { /* ignora */ }
                 }
+
+                // "Sobre mim" (só aparece nesta página; vazio apaga a descrição)
+                sobreSalvo = sobrePendente;
+                mostrarSobre(sobreSalvo);
+                try {
+                    if (sobreSalvo) localStorage.setItem(CHAVE_SOBRE, sobreSalvo);
+                    else localStorage.removeItem(CHAVE_SOBRE);
+                } catch (e) { /* ignora */ }
 
                 avisarPerfil(); // a home atualiza a foto do canto e guarda o perfil para as outras páginas
 

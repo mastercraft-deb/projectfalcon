@@ -52,6 +52,64 @@ body {
     color: var(--texto-suave);
 }
 
+/* ---------- Abas: um chat por curso ---------- */
+.chats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.aba {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.35rem 0.9rem;
+    border: 2px solid var(--cor2);
+    border-radius: 999px;
+    background-color: var(--fundo-cartao);
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: border-color 0.15s ease;
+}
+
+.aba:hover {
+    border-color: var(--cor3);
+}
+
+.aba[aria-selected="true"] {
+    border-color: var(--cor3);
+    background-color: var(--cor3);
+    color: #1e003f;
+    font-weight: 700;
+}
+
+.aba .material-symbols-outlined {
+    font-size: 1.1rem;
+}
+
+.aba[aria-selected="true"] .material-symbols-outlined {
+    color: #1e003f;
+}
+
+.aba:focus-visible {
+    outline: 3px solid #fff;
+    outline-offset: 2px;
+}
+
+.chat-descricao {
+    margin: -0.25rem 0 0;
+    color: var(--texto-suave);
+    font-size: 0.85rem;
+}
+
+/* Área das mensagens (a lista rola dentro dela) */
+.painel {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+}
+
 .mensagens {
     flex: 1 1 auto;
     display: flex;
@@ -269,6 +327,11 @@ body {
     white-space: nowrap;
 }
 
+/* Sem esta linha o "display: flex" acima ganha do atributo hidden e a barra aparece sempre */
+.compositor-resposta[hidden] {
+    display: none;
+}
+
 #resposta-resumo {
     color: var(--texto-suave);
 }
@@ -352,7 +415,8 @@ body {
         animation: none;
     }
 
-    .acao {
+    .acao,
+    .aba {
         transition: none;
     }
 }

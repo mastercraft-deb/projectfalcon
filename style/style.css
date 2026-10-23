@@ -267,9 +267,168 @@
     }
 }
 
+/* ---------- Menu lateral recolhível ----------
+   O botão na divisa do menu (home.js) liga/desliga a classe .lateral-recolhida no <body>:
+   o menu vira uma faixa só com ícones (mesmo visual da tela estreita) e o conteúdo ganha espaço. */
+.lateral {
+    transition: width 0.25s ease;
+}
+
+.conteudo {
+    transition: margin-left 0.25s ease;
+}
+
+/* Botão redondo em cima da divisa amarela (borda direita da barra lateral).
+   Acompanha a largura do menu: a posição vem de --largura-lateral, então anda junto ao recolher. */
+.lateral-alternar {
+    position: fixed;
+    /* Mesma altura das setas do carrossel: o meio da área de conteúdo (a tela menos a barra do topo).
+       As setas ficam em top: 50% do iframe, que começa logo abaixo do topo, então a conta é esta. */
+    top: calc(50vh + var(--altura-topo) / 2);
+    top: calc(50svh + var(--altura-topo) / 2);
+    left: calc(var(--largura-lateral) - 2.5px);     /* meio da borda amarela de 5px */
+    z-index: 40;
+    display: grid;
+    place-items: center;
+    width: 30px;
+    height: 30px;
+    padding: 0;
+    border: 3px solid var(--destaque);
+    border-radius: 50%;
+    background-color: var(--cor1);
+    transform: translate(-50%, -50%);
+    cursor: pointer;
+    transition: left 0.25s ease, background-color 0.2s;
+}
+
+.lateral-alternar .material-symbols-outlined {
+    font-size: 1.3rem;
+}
+
+.lateral-alternar:hover {
+    background-color: var(--destaque);
+}
+
+.lateral-alternar:hover .material-symbols-outlined {
+    color: #1e003f;
+}
+
+.lateral-alternar:focus-visible {
+    outline: 3px solid #fff;
+    outline-offset: 2px;
+}
+
+/* Rodapé do menu (botão Sair): vai para o fim da barra lateral */
+.lateral-rodape {
+    margin-top: auto;
+}
+
+.botao-sair {
+    border-width: 1px 0 0;     /* só a linha de cima separa o Sair dos itens do menu */
+}
+
+.botao-sair:hover {
+    background-color: rgba(179, 38, 30, 0.7);
+}
+
+/* Confirmação do Sair */
+.sair-dialogo {
+    width: min(92vw, 380px);
+    padding: 1.25rem 1.4rem;
+    border: 2px solid var(--cor4);
+    border-radius: 16px;
+    background-color: #1e003f;
+}
+
+.sair-dialogo::backdrop {
+    background-color: rgba(12, 0, 28, 0.85);
+}
+
+.sair-titulo {
+    margin: 0 0 0.6rem;
+    font-size: 1.3rem;
+}
+
+.sair-texto {
+    margin: 0;
+    line-height: 1.4;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.sair-acoes {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.6rem;
+    margin-top: 1.25rem;
+}
+
+.sair-botao {
+    padding: 0.45rem 1.1rem;
+    border: 2px solid rgba(255, 255, 255, 0.6);
+    border-radius: 999px;
+    background: none;
+    font-size: 0.95rem;
+    cursor: pointer;
+}
+
+.sair-botao:hover {
+    border-color: #fff;
+}
+
+.sair-botao.perigo {
+    border-color: #ff8a80;
+    background-color: #b3261e;
+    font-weight: 700;
+}
+
+.sair-botao:focus-visible {
+    outline: 3px solid var(--cor3);
+    outline-offset: 2px;
+}
+
+.pagina-home.lateral-recolhida {
+    --largura-lateral: 64px;
+}
+
+.pagina-home.lateral-recolhida .menu-texto,
+.pagina-home.lateral-recolhida .lateral-nome {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+}
+
+.pagina-home.lateral-recolhida .lateral-marca {
+    justify-content: center;
+    padding: 0;
+}
+
+.pagina-home.lateral-recolhida .lateral-marca img {
+    width: 40px;
+    height: 40px;
+}
+
+.pagina-home.lateral-recolhida .botoes {
+    justify-content: center;
+    padding: 0;
+}
+
+/* Em tela estreita o menu já é só ícones, então o botão não é necessário */
+@media (max-width: 900px) {
+    .lateral-alternar {
+        display: none;
+    }
+}
+
 @media (prefers-reduced-motion: reduce) {
     .botoes,
-    .sino {
+    .sino,
+    .lateral-alternar,
+    .lateral,
+    .conteudo {
         transition: none;
     }
 }
