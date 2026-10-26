@@ -6,6 +6,9 @@
     <title>Galea - O futuro da educação</title>
     <link rel="icon" href="images/logos/logo.png" type="image/png">
 
+    <!-- Preferências (Configurações) valem para o site todo: este arquivo vem cedo, no <head> -->
+    <script src="script/preferencias.js"></script>
+
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
     <link rel="stylesheet" href="style/style.css">
 </head>
@@ -75,6 +78,13 @@
             <button type="button" class="sair-botao perigo" id="sair-confirmar">Sim, sair</button>
         </div>
     </dialog>
+
+    <!-- Lembrete de pausa (Configurações > Foco e pausas) -->
+    <div class="aviso-pausa" id="aviso-pausa" role="status" hidden>
+        <span class="material-symbols-outlined" aria-hidden="true">self_improvement</span>
+        <p id="aviso-pausa-texto"></p>
+        <button type="button" class="aviso-pausa-botao" id="aviso-pausa-ok">Ok</button>
+    </div>
 
     <script src="script/script.js"></script>
     <script src="script/home.js"></script>

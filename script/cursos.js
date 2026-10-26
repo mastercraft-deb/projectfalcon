@@ -172,6 +172,11 @@ window.GaleaCursos = (() => {
             return true;
         },
 
+        // volta para a lista de exemplo (usado em Configurações)
+        restaurarExemplo() {
+            definir(SEMENTE.map(item => ({ ...item })));
+        },
+
         aoMudar(funcao) {
             ouvintes.add(funcao);
         },

@@ -9,7 +9,9 @@
    - Guarda o nome e a foto do perfil e entrega para as páginas do iframe
      (ex.: comunidade), que pedem por mensagem.
    - Esconde a foto do canto enquanto uma janela com a foto está aberta.
-   - Guarda a lista "Meus cursos" e entrega para as páginas do iframe.
+   - Guarda a lista "Meus cursos" e as preferências (Configurações) e entrega para as páginas do iframe.
+   - Lembrete de pausa (Configurações > Foco e pausas).
+   - Atende pedidos das páginas: abrir o perfil, abrir o "Sair da conta", abrir o chat de um curso.
 
    Precisa ser carregado DEPOIS do script/script.js, que define alterarLink().
    ===================================================== */
@@ -66,6 +68,40 @@
         aplicarMenu(menuRecolhido);
         try { localStorage.setItem(CHAVE_MENU, menuRecolhido ? '1' : '0'); } catch (e) { /* ignora */ }
     });
+
+    // ---------- Lembrete de pausa (Configurações > Foco e pausas) ----------
+    // Conta só o tempo com a aba aberta e avisa de forma gentil, sem tirar o foco de onde você está.
+    const avisoPausa = document.getElementById('aviso-pausa');
+    const textoPausa = document.getElementById('aviso-pausa-texto');
+    let relogioPausa = null;
+    let minutosDaPausa = -1;     // para só reiniciar a contagem quando a opção mudar
+    let segundosAtivos = 0;
+
+    function configurarPausa() {
+        const minutos = GaleaPreferencias.ler().pausa;
+        if (minutos === minutosDaPausa) return;
+        minutosDaPausa = minutos;
+        clearInterval(relogioPausa);
+        relogioPausa = null;
+        segundosAtivos = 0;
+        avisoPausa.hidden = true;
+        if (!minutos) return;
+
+        relogioPausa = setInterval(() => {
+            if (document.visibilityState !== 'visible') return;
+            segundosAtivos += 15;
+            if (segundosAtivos >= minutos * 60) {
+                segundosAtivos = 0;
+                textoPausa.textContent = 'Você está estudando há ' + minutos + ' minutos. Que tal uma pausa de 5 minutos? ' +
+                    'Levante, beba água, respire fundo e volte quando quiser.';
+                avisoPausa.hidden = false;
+            }
+        }, 15000);
+    }
+
+    document.getElementById('aviso-pausa-ok').addEventListener('click', () => { avisoPausa.hidden = true; });
+    GaleaPreferencias.aoMudar(configurarPausa);
+    configurarPausa();
 
     // ---------- Sair da conta ----------
     const dialogoSair = document.getElementById('sair-dialogo');
@@ -160,6 +196,25 @@
                 meusCursos = nova;
                 try { localStorage.setItem(CHAVE_CURSOS, JSON.stringify(nova)); } catch (e) { /* ignora */ }
             }
+        }
+
+        // uma página mudou as preferências (tela Configurações): aplica aqui na home e guarda
+        if (dados.tipo === 'preferencias-atualizadas' && dados.prefs) {
+            GaleaPreferencias.importar(dados.prefs);
+        }
+
+        // uma página pediu as preferências atuais
+        if (dados.tipo === 'pedir-preferencias') {
+            quadro.contentWindow.postMessage({ tipo: 'preferencias', prefs: GaleaPreferencias.ler() }, '*');
+        }
+
+        // a tela Configurações pediu para abrir o perfil ou a confirmação de sair
+        if (dados.tipo === 'abrir-pagina' && dados.pagina === 'perfil') {
+            alterarLink('pages/account.html');
+            marcarMenu('perfil');
+        }
+        if (dados.tipo === 'abrir-sair') {
+            dialogoSair.showModal();
         }
 
         // uma página pediu a lista de cursos atual

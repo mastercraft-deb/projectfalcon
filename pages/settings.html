@@ -1,16 +1,223 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Configurações</title>
+    <title>Configurações - Galea</title>
     <link rel="icon" href="../images/logos/logo.png" type="image/png">
 
-    <link rel="stylesheet" href="../style/style.css">
-</head>
-<body>
-    <p>Em desenvolvimento ...</p>
-    
+    <!-- As preferências valem para o site inteiro: este arquivo vem primeiro, no <head> -->
+    <script src="../script/preferencias.js"></script>
 
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+    <link rel="stylesheet" href="../style/style.css">
+    <link rel="stylesheet" href="../style/settings.css">
+    <script src="../script/cursos.js" defer></script>
+    <script src="../script/settings.js" defer></script>
+</head>
+<body class="body">
+    <main class="config">
+
+        <header class="config-topo">
+            <span class="material-symbols-outlined" aria-hidden="true">settings</span>
+            <h1>Configurações</h1>
+        </header>
+
+        <div class="config-corpo">
+
+            <!-- Lista de categorias (esquerda): ↑ ↓ trocam de categoria -->
+            <div class="config-lista" role="tablist" aria-orientation="vertical" aria-label="Categorias de configurações">
+                <button type="button" class="config-item" role="tab" id="aba-conta" aria-controls="painel-conta" aria-selected="true">
+                    <span class="material-symbols-outlined" aria-hidden="true">account_circle</span>
+                    <span class="config-item-nome">Conta</span>
+                    <span class="material-symbols-outlined config-seta" aria-hidden="true">chevron_right</span>
+                </button>
+                <button type="button" class="config-item" role="tab" id="aba-aparencia" aria-controls="painel-aparencia" aria-selected="false" tabindex="-1">
+                    <span class="material-symbols-outlined" aria-hidden="true">accessibility_new</span>
+                    <span class="config-item-nome">Aparência e acessibilidade</span>
+                    <span class="material-symbols-outlined config-seta" aria-hidden="true">chevron_right</span>
+                </button>
+                <button type="button" class="config-item" role="tab" id="aba-foco" aria-controls="painel-foco" aria-selected="false" tabindex="-1">
+                    <span class="material-symbols-outlined" aria-hidden="true">timer</span>
+                    <span class="config-item-nome">Foco e pausas</span>
+                    <span class="material-symbols-outlined config-seta" aria-hidden="true">chevron_right</span>
+                </button>
+                <button type="button" class="config-item" role="tab" id="aba-dados" aria-controls="painel-dados" aria-selected="false" tabindex="-1">
+                    <span class="material-symbols-outlined" aria-hidden="true">storage</span>
+                    <span class="config-item-nome">Dados deste navegador</span>
+                    <span class="material-symbols-outlined config-seta" aria-hidden="true">chevron_right</span>
+                </button>
+                <button type="button" class="config-item" role="tab" id="aba-sobre" aria-controls="painel-sobre" aria-selected="false" tabindex="-1">
+                    <span class="material-symbols-outlined" aria-hidden="true">info</span>
+                    <span class="config-item-nome">Sobre a Galea</span>
+                    <span class="material-symbols-outlined config-seta" aria-hidden="true">chevron_right</span>
+                </button>
+            </div>
+
+            <!-- Opções da categoria escolhida (direita) -->
+            <div class="config-detalhe">
+
+                <!-- CONTA -->
+                <section class="config-painel" id="painel-conta" role="tabpanel" aria-labelledby="aba-conta" tabindex="0">
+                    <h2>Conta</h2>
+
+                    <div class="conta-perfil">
+                        <img class="conta-foto" id="conta-foto" src="../images/boiola.jpg" alt="">
+                        <div>
+                            <strong class="conta-nome" id="conta-nome">Jack Mic Ael Son</strong>
+                            <p class="config-ajuda">A foto e o nome vêm do seu perfil.</p>
+                        </div>
+                    </div>
+
+                    <div class="config-linha">
+                        <div class="config-texto">
+                            <span class="config-rotulo">Editar perfil</span>
+                            <span class="config-ajuda">Troque a foto, o nome e o “Sobre mim”.</span>
+                        </div>
+                        <button type="button" class="config-botao" id="acao-perfil">Abrir perfil</button>
+                    </div>
+
+                    <div class="config-linha">
+                        <div class="config-texto">
+                            <span class="config-rotulo">Sair da conta</span>
+                            <span class="config-ajuda">Desconecta e volta para a tela de login.</span>
+                        </div>
+                        <button type="button" class="config-botao perigo" id="acao-sair">Sair</button>
+                    </div>
+
+                    <p class="config-nota">E-mail e senha poderão ser alterados aqui quando o login estiver ligado ao banco de dados.</p>
+                </section>
+
+                <!-- APARÊNCIA E ACESSIBILIDADE -->
+                <section class="config-painel" id="painel-aparencia" role="tabpanel" aria-labelledby="aba-aparencia" tabindex="0" hidden>
+                    <h2>Aparência e acessibilidade</h2>
+
+                    <div class="config-linha">
+                        <div class="config-texto">
+                            <span class="config-rotulo" id="rot-texto">Tamanho do texto</span>
+                            <span class="config-ajuda">Aumenta as letras e os espaços de todo o site.</span>
+                        </div>
+                        <div class="seg" role="radiogroup" aria-labelledby="rot-texto">
+                            <button type="button" class="seg-opcao" role="radio" aria-checked="false" data-pref="texto" data-valor="normal">Normal</button>
+                            <button type="button" class="seg-opcao" role="radio" aria-checked="false" data-pref="texto" data-valor="grande">Grande</button>
+                            <button type="button" class="seg-opcao" role="radio" aria-checked="false" data-pref="texto" data-valor="muito-grande">Muito grande</button>
+                        </div>
+                    </div>
+
+                    <div class="config-linha">
+                        <div class="config-texto">
+                            <span class="config-rotulo" id="rot-movimento">Reduzir animações</span>
+                            <span class="config-ajuda">Animações e transições ficam quase instantâneas.</span>
+                        </div>
+                        <button type="button" class="chave" role="switch" aria-checked="false" aria-labelledby="rot-movimento" data-pref="movimento"><span class="chave-bola"></span></button>
+                    </div>
+
+                    <div class="config-linha">
+                        <div class="config-texto">
+                            <span class="config-rotulo" id="rot-contraste">Alto contraste</span>
+                            <span class="config-ajuda">Fundo mais escuro e textos secundários em branco.</span>
+                        </div>
+                        <button type="button" class="chave" role="switch" aria-checked="false" aria-labelledby="rot-contraste" data-pref="contraste"><span class="chave-bola"></span></button>
+                    </div>
+
+                    <div class="config-linha">
+                        <div class="config-texto">
+                            <span class="config-rotulo" id="rot-foco">Contorno de foco forte</span>
+                            <span class="config-ajuda">Deixa bem visível onde você está ao navegar pelo teclado.</span>
+                        </div>
+                        <button type="button" class="chave" role="switch" aria-checked="false" aria-labelledby="rot-foco" data-pref="foco"><span class="chave-bola"></span></button>
+                    </div>
+
+                    <div class="config-linha">
+                        <div class="config-texto">
+                            <span class="config-rotulo" id="rot-espaco">Espaçamento amplo</span>
+                            <span class="config-ajuda">Mais espaço entre letras e palavras, para facilitar a leitura.</span>
+                        </div>
+                        <button type="button" class="chave" role="switch" aria-checked="false" aria-labelledby="rot-espaco" data-pref="espaco"><span class="chave-bola"></span></button>
+                    </div>
+                </section>
+
+                <!-- FOCO E PAUSAS -->
+                <section class="config-painel" id="painel-foco" role="tabpanel" aria-labelledby="aba-foco" tabindex="0" hidden>
+                    <h2>Foco e pausas</h2>
+
+                    <div class="config-linha">
+                        <div class="config-texto">
+                            <span class="config-rotulo" id="rot-pausa">Lembrete de pausa</span>
+                            <span class="config-ajuda">Um aviso gentil depois de um tempo estudando. O tempo só conta com a aba aberta.</span>
+                        </div>
+                        <div class="seg" role="radiogroup" aria-labelledby="rot-pausa">
+                            <button type="button" class="seg-opcao" role="radio" aria-checked="false" data-pref="pausa" data-valor="0">Desligado</button>
+                            <button type="button" class="seg-opcao" role="radio" aria-checked="false" data-pref="pausa" data-valor="15">15 min</button>
+                            <button type="button" class="seg-opcao" role="radio" aria-checked="false" data-pref="pausa" data-valor="25">25 min</button>
+                            <button type="button" class="seg-opcao" role="radio" aria-checked="false" data-pref="pausa" data-valor="45">45 min</button>
+                        </div>
+                    </div>
+
+                    <div class="config-linha">
+                        <div class="config-texto">
+                            <span class="config-rotulo" id="rot-modofoco">Modo foco</span>
+                            <span class="config-ajuda">Esconde o sino de notificações e a foto do canto para você se distrair menos.</span>
+                        </div>
+                        <button type="button" class="chave" role="switch" aria-checked="false" aria-labelledby="rot-modofoco" data-pref="modoFoco"><span class="chave-bola"></span></button>
+                    </div>
+                </section>
+
+                <!-- DADOS DESTE NAVEGADOR -->
+                <section class="config-painel" id="painel-dados" role="tabpanel" aria-labelledby="aba-dados" tabindex="0" hidden>
+                    <h2>Dados deste navegador</h2>
+                    <p class="config-nota">Por enquanto seus dados ficam salvos só neste navegador. Cada ação abaixo pede uma confirmação.</p>
+
+                    <div class="config-linha">
+                        <div class="config-texto">
+                            <span class="config-rotulo">Restaurar configurações padrão</span>
+                            <span class="config-ajuda">Volta todas as opções desta tela ao padrão.</span>
+                        </div>
+                        <button type="button" class="config-botao" data-dados="preferencias">Restaurar</button>
+                    </div>
+
+                    <div class="config-linha">
+                        <div class="config-texto">
+                            <span class="config-rotulo">Restaurar os cursos de exemplo</span>
+                            <span class="config-ajuda">Volta a lista de Meus cursos e o progresso para o exemplo inicial.</span>
+                        </div>
+                        <button type="button" class="config-botao" data-dados="cursos">Restaurar</button>
+                    </div>
+
+                    <div class="config-linha">
+                        <div class="config-texto">
+                            <span class="config-rotulo">Apagar minhas mensagens da comunidade</span>
+                            <span class="config-ajuda">Remove o que você escreveu nos chats. As mensagens de exemplo continuam.</span>
+                        </div>
+                        <button type="button" class="config-botao perigo" data-dados="mensagens">Apagar</button>
+                    </div>
+
+                    <p class="config-status" id="dados-status" role="status"></p>
+                </section>
+
+                <!-- SOBRE -->
+                <section class="config-painel" id="painel-sobre" role="tabpanel" aria-labelledby="aba-sobre" tabindex="0" hidden>
+                    <h2>Sobre a Galea</h2>
+                    <p class="config-paragrafo">A Galea é uma plataforma de cursos gamificados pensada para pessoas com TDAH, mas aberta a todo mundo: lições curtas, recompensas a cada passo e trilhas claras.</p>
+                    <p class="config-paragrafo">Projeto de Trabalho de Conclusão de Curso em Desenvolvimento de Sistemas.</p>
+                    <p class="config-nota">Versão: em desenvolvimento.</p>
+                </section>
+            </div>
+        </div>
+
+        <p class="config-dica">Use ↑ ↓ para trocar de categoria e Tab para entrar nas opções.</p>
+    </main>
+
+    <!-- Confirmação das ações de "Dados deste navegador" -->
+    <dialog class="config-dialogo" id="config-dialogo" aria-labelledby="dialogo-titulo">
+        <h2 id="dialogo-titulo"></h2>
+        <p id="dialogo-texto"></p>
+        <div class="config-dialogo-acoes">
+            <button type="button" class="config-botao" id="dialogo-cancelar">Cancelar</button>
+            <button type="button" class="config-botao destaque" id="dialogo-confirmar">Confirmar</button>
+        </div>
+    </dialog>
+
+    <p class="sr-only" id="config-aviso" aria-live="polite"></p>
 </body>
 </html>

@@ -553,3 +553,119 @@
         color: var(--cor5);
         text-decoration: underline;
     }
+
+
+/* =====================================================
+   PREFERÊNCIAS (tela Configurações)
+   O script/preferencias.js liga estes atributos no <html> de cada página.
+   ===================================================== */
+
+/* Tamanho do texto: as medidas em rem acompanham */
+html[data-texto="grande"] {
+    font-size: 112.5%;
+}
+
+html[data-texto="muito-grande"] {
+    font-size: 125%;
+}
+
+/* Reduzir animações: quase instantâneas (mantém o estado final, então nada some) */
+html[data-movimento="reduzido"] *,
+html[data-movimento="reduzido"] *::before,
+html[data-movimento="reduzido"] *::after {
+    animation-duration: 0.001ms !important;
+    animation-delay: 0s !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    transition-delay: 0s !important;
+    scroll-behavior: auto !important;
+}
+
+/* Alto contraste: fundo mais escuro e textos secundários em branco */
+html[data-contraste="alto"] * {
+    --texto-suave: #fff !important;
+    --linha-suave: #fff !important;
+}
+
+html[data-contraste="alto"] body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background-color: rgba(0, 0, 0, 0.6);
+    pointer-events: none;
+}
+
+/* Contorno de foco forte (navegação pelo teclado) */
+html[data-foco="forte"] :focus-visible {
+    outline: 4px solid #fff !important;
+    outline-offset: 3px !important;
+    box-shadow: 0 0 0 7px #000 !important;
+}
+
+/* Espaçamento amplo entre letras e palavras */
+html[data-espaco="amplo"] * {
+    letter-spacing: 0.04em;
+    word-spacing: 0.12em;
+}
+
+/* Modo foco: menos distrações na home */
+html[data-modo-foco="ligado"] .sino,
+html[data-modo-foco="ligado"] .perfil-rapido {
+    display: none;
+}
+
+/* Lembrete de pausa (aparece embaixo, no centro, sem tirar o foco) */
+.aviso-pausa {
+    position: fixed;
+    left: 50%;
+    bottom: 1.5rem;
+    z-index: 60;
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    box-sizing: border-box;
+    max-width: min(92vw, 560px);
+    padding: 0.9rem 1.2rem;
+    border: 2px solid var(--cor3);
+    border-radius: 16px;
+    background-color: #1e003f;
+    transform: translateX(-50%);
+}
+
+.aviso-pausa[hidden] {
+    display: none;
+}
+
+.aviso-pausa .material-symbols-outlined {
+    flex: none;
+    font-size: 2rem;
+    color: var(--cor3);
+}
+
+.aviso-pausa p {
+    margin: 0;
+    font-size: 0.95rem;
+    line-height: 1.4;
+}
+
+.aviso-pausa-botao {
+    flex: none;
+    padding: 0.4rem 1.1rem;
+    border: 2px solid var(--cor3);
+    border-radius: 999px;
+    background-color: var(--cor3);
+    color: #1e003f;
+    font-size: 0.95rem;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.aviso-pausa-botao:hover {
+    border-color: #fff;
+}
+
+.aviso-pausa-botao:focus-visible {
+    outline: 3px solid #fff;
+    outline-offset: 3px;
+}
