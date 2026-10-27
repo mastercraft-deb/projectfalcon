@@ -41,31 +41,12 @@ body {
     margin: 0 auto;
 }
 
-/* ---------- Título ---------- */
-.config-topo {
-    display: flex;
-    align-items: center;
-    gap: 0.7rem;
-    padding-bottom: 0.7rem;
-    border-bottom: 1px solid var(--linha);
-}
-
-.config-topo .material-symbols-outlined {
-    font-size: 2rem;
-}
-
-.config-topo h1 {
-    margin: 0;
-    font-size: 1.7rem;
-    font-weight: 400;
-}
-
 /* ---------- Lista (esquerda) + detalhes (direita) ---------- */
 .config-corpo {
     display: grid;
     grid-template-columns: minmax(250px, 360px) minmax(0, 1fr);
     gap: 1.5rem;
-    margin-top: 1.2rem;
+    margin-top: 0.4rem;
     align-items: start;
 }
 

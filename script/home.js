@@ -40,6 +40,19 @@
         if (botao) marcarMenu(botao.dataset.menu);
     });
 
+    // ---------- Fundo exclusivo da aba Configurações ----------
+    // Liga/desliga a classe .fundo-config-ativo no <body> conforme a página aberta no iframe.
+    // Observa o atributo src (muda no clique do menu) para o fundo trocar sem "piscar".
+    const quadroFundo = document.getElementById('teste001');
+    function atualizarFundoConfig() {
+        const src = quadroFundo.getAttribute('src') || '';
+        const emConfig = /(^|\/)settings\.html(\?|#|$)/.test(src);
+        document.body.classList.toggle('fundo-config-ativo', emConfig);
+    }
+    new MutationObserver(atualizarFundoConfig).observe(quadroFundo, { attributes: true, attributeFilter: ['src'] });
+    quadroFundo.addEventListener('load', atualizarFundoConfig);
+    atualizarFundoConfig();
+
     // ---------- menu lateral recolhível ----------
     // Recolhido = só ícones. O nome de cada item vira dica (title) ao passar o mouse.
     const CHAVE_MENU = 'galea_menu_recolhido';

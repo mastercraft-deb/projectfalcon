@@ -42,16 +42,6 @@ body {
     height: calc(100svh - 2rem);   /* o iframe tem a altura da área; só a lista rola */
 }
 
-.comunidade-topo h1 {
-    margin: 0;
-    font-size: 1.6rem;
-}
-
-.comunidade-topo p {
-    margin: 0.2rem 0 0;
-    color: var(--texto-suave);
-}
-
 /* ---------- Abas: um chat por curso ---------- */
 .chats {
     display: flex;

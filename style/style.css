@@ -59,6 +59,35 @@
     overflow: hidden;          /* a rolagem acontece DENTRO do iframe */
 }
 
+/* ---------- Fundo exclusivo da aba Configurações ----------
+   O home.js liga a classe .fundo-config-ativo no <body> só enquanto Configurações está aberta.
+   Para trocar a cor, mude --fundo-config. Imagem/GIF/vídeo: veja o comentário em home.html. */
+.pagina-home.fundo-config-ativo {
+    --fundo-config: #120022;
+    background-image: none;
+    background-color: var(--fundo-config);
+}
+
+.fundo-config {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.pagina-home.fundo-config-ativo .fundo-config {
+    display: block;
+}
+
+.fundo-config img,
+.fundo-config video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
 /* ---------- Menu lateral (fixo) ---------- */
 .lateral {
     position: fixed;
