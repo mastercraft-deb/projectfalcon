@@ -168,7 +168,11 @@
                 if (Array.isArray(dados)) guardadas = dados.filter(mensagemValida);
             }
         } catch (e) { /* dados corrompidos: recomeça com os exemplos */ }
+        return montar(guardadas);
+    }
 
+    // Normaliza uma lista de mensagens (do navegador ou da home) e garante os exemplos.
+    function montar(guardadas) {
         // Mensagens de antes dos chats (sem o campo "chat"): os exemplos m1/m2 eram sobre Física;
         // o resto (incluindo as suas) vai para o chat Geral.
         guardadas.forEach(m => {
@@ -186,8 +190,15 @@
         return guardadas.sort((a, b) => a.quando - b.quando);
     }
 
-    function guardar() {
+    function guardarLocal() {
         try { localStorage.setItem(CHAVE, JSON.stringify(mensagens)); } catch (e) { /* ignora */ }
+    }
+
+    function guardar() {
+        guardarLocal();
+        // A home guarda a versão "oficial": se o navegador não compartilhar o armazenamento entre
+        // as páginas, é ela que permite à tela Configurações apagar as mensagens de verdade.
+        if (window.parent !== window) window.parent.postMessage({ tipo: 'comunidade-atualizada', mensagens }, '*');
     }
 
     // mantém só as últimas MAX_POR_CHAT mensagens de um chat
@@ -569,7 +580,7 @@
 
     // ---------- início ----------
     chatAtual = resolverChat();
-    guardar();                          // grava os exemplos na primeira vez
+    guardarLocal();                     // grava os exemplos na primeira vez (só aqui: não avisa a home, que ainda vai responder)
     avatarCompositor.src = lerPerfil().foto;
     renderizarAbas();
     atualizarCabecalhoDoChat();
@@ -585,6 +596,24 @@
         window.addEventListener('message', evento => {
             if (evento.source !== window.parent) return;   // só aceita resposta da home
             const dados = evento.data;
+            if (dados && dados.tipo === 'comunidade') {
+                // A home é a fonte oficial. Lista vazia = o usuário apagou as mensagens.
+                if (Array.isArray(dados.mensagens)) {
+                    mensagens = montar(dados.mensagens.filter(mensagemValida));
+                    try { localStorage.setItem(CHAVE, JSON.stringify(mensagens)); } catch (e) { /* ignora */ }
+                    chatAtual = resolverChat();
+                    confirmandoId = null;
+                    respondendoId = null;
+                    renderizarAbas();
+                    atualizarCabecalhoDoChat();
+                    atualizarBarraResposta();
+                    renderizar();
+                    rolarParaOFim();
+                } else {
+                    guardar();   // a home ainda não conhece nada: entrega o que está salvo aqui
+                } 
+                return;
+            } // isso aqui é a correção que faz as mensagens do usuario serem apagadas quando ele apaga na home, e também faz o avatar e o nome atualizarem quando ele muda no perfil
             if (!dados || dados.tipo !== 'perfil') return;
 
             if (typeof dados.nome === 'string' && dados.nome.trim()) {
@@ -597,5 +626,6 @@
             renderizar();
         });
         window.parent.postMessage({ tipo: 'pedir-perfil' }, '*');
+        window.parent.postMessage({ tipo: 'pedir-comunidade' }, '*');
     }
 })();

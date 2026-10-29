@@ -153,10 +153,14 @@
             texto: 'Tudo o que você escreveu nos chats será removido. Essa ação não pode ser desfeita.',
             botao: 'Apagar',
             fazer() {
+                // Pede à home para apagar a versão oficial (é ela que a Comunidade consulta ao abrir)
+                if (temHome) window.parent.postMessage({ tipo: 'apagar-comunidade' }, '*');
                 try {
                     localStorage.removeItem('galea_comunidade_v1');
                     localStorage.removeItem('galea_comunidade_chat');
-                } catch (e) { return 'Não foi possível apagar neste navegador.'; }
+                } catch (e) {
+                    if (!temHome) return 'Não foi possível apagar neste navegador.';
+                }
                 return 'Mensagens da comunidade apagadas.';
             }
         }

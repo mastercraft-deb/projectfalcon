@@ -182,6 +182,21 @@
         if (bruto) meusCursos = cursosValidos(JSON.parse(bruto));
     } catch (e) { /* sem armazenamento ou dados corrompidos */ }
 
+    // Mensagens da Comunidade (versão oficial). null = ninguém informou ainda; [] = apagadas.
+    const CHAVE_COMUNIDADE = 'galea_comunidade_v1';
+    const CHAVE_CHAT_COMUNIDADE = 'galea_comunidade_chat';
+    function comunidadeValida(lista) {
+        if (!Array.isArray(lista) || lista.length > 3000) return null;
+        return lista.filter(m => m && typeof m.id === 'string' && m.id.length <= 60
+            && typeof m.autor === 'string' && typeof m.texto === 'string' && m.texto.length <= 1000
+            && typeof m.quando === 'number');
+    }
+    let comunidade = null;
+    try {
+        const bruto = localStorage.getItem(CHAVE_COMUNIDADE);
+        if (bruto) comunidade = comunidadeValida(JSON.parse(bruto));
+    } catch (e) { /* sem armazenamento ou dados corrompidos */ }
+
     window.addEventListener('message', evento => {
         if (evento.source !== quadro.contentWindow) return; // só aceita mensagem do iframe
         const dados = evento.data;
@@ -239,6 +254,29 @@
         if (dados.tipo === 'abrir-chat' && typeof dados.chat === 'string' && /^[a-z0-9_-]{1,40}$/.test(dados.chat)) {
             alterarLink('pages/community.html?chat=' + dados.chat);
             marcarMenu('comunidade');
+        }
+
+        // a Comunidade mudou as mensagens: a home guarda a versão mais recente
+        if (dados.tipo === 'comunidade-atualizada') {
+            const nova = comunidadeValida(dados.mensagens);
+            if (nova) {
+                comunidade = nova;
+                try { localStorage.setItem(CHAVE_COMUNIDADE, JSON.stringify(nova)); } catch (e) { /* ignora */ }
+            }
+        }
+
+        // a Comunidade pediu as mensagens atuais
+        if (dados.tipo === 'pedir-comunidade') {
+            quadro.contentWindow.postMessage({ tipo: 'comunidade', mensagens: comunidade }, '*');
+        }
+
+        // a tela Configurações pediu para apagar as mensagens escritas pelo usuário
+        if (dados.tipo === 'apagar-comunidade') {
+            comunidade = [];
+            try {
+                localStorage.setItem(CHAVE_COMUNIDADE, '[]');
+                localStorage.removeItem(CHAVE_CHAT_COMUNIDADE);
+            } catch (e) { /* ignora */ }
         }
 
         // uma página (ex.: comunidade) pediu o perfil atual
