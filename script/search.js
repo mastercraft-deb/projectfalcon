@@ -121,6 +121,7 @@
     }
 
     function mostrarAviso(texto) {
+        if (window.parent !== window) return;   // dentro da home, quem avisa é a home (sino + aviso)
         aviso.textContent = texto;
         aviso.hidden = false;
         clearTimeout(temporizadorAviso);

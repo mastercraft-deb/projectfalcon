@@ -6,6 +6,7 @@ function alterarLink(novoUrl) {
 
 document.addEventListener("DOMContentLoaded", () => {
   const slider = document.querySelector("#slider");
+  if (!slider) return;   // a home não tem esse carrossel (o de "Meus cursos" fica em mycourses.js)
   const container = slider.parentElement; // não depende mais do nome da classe
   const cursos = document.querySelectorAll(".curso");
   const totalSlides = cursos.length;

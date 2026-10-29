@@ -131,10 +131,12 @@ window.GaleaCursos = (() => {
     }
 
     // ---------- alterações ----------
-    function definir(nova) {
+    // "evento" (opcional) diz à home o que o usuário fez, para ela mostrar a notificação:
+    // { acao: 'adicionado' | 'removido', id, nome }. Sem evento = só sincronização (sem notificação).
+    function definir(nova, evento) {
         lista = nova;
         gravarLocal();
-        falarComHome({ tipo: 'meus-cursos-atualizados', lista });
+        falarComHome({ tipo: 'meus-cursos-atualizados', lista, evento });
         notificar();
     }
 
@@ -161,14 +163,14 @@ window.GaleaCursos = (() => {
         adicionar(id) {
             const curso = this.buscar(id);
             if (!curso || this.estaNosMeus(id)) return false;
-            definir([...lista, { id, progresso: curso.progressoInicial || 0 }]);
+            definir([...lista, { id, progresso: curso.progressoInicial || 0 }], { acao: 'adicionado', id, nome: curso.nome });
             return true;
         },
 
         // Qualquer curso pode ser removido, inclusive os concluídos
         remover(id) {
             if (!this.estaNosMeus(id)) return false;
-            definir(lista.filter(i => i.id !== id));
+            definir(lista.filter(i => i.id !== id), { acao: 'removido', id, nome: (this.buscar(id) || {}).nome || id });
             return true;
         },
 

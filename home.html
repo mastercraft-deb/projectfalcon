@@ -65,9 +65,23 @@
                 <a href="...">Nome do link</a>
             </nav>
             -->
-            <button type="button" class="sino" aria-label="Notificações">
-                <span class="material-symbols-outlined" aria-hidden="true">notifications</span>
-            </button>
+            <div class="sino-area">
+                <button type="button" class="sino" id="sino" aria-label="Notificações"
+                        aria-haspopup="true" aria-expanded="false" aria-controls="sino-painel">
+                    <span class="material-symbols-outlined" aria-hidden="true">notifications</span>
+                    <span class="sino-contador" id="sino-contador" aria-hidden="true" hidden></span>
+                </button>
+
+                <!-- Painel de notificações (montado pelo script/home.js) -->
+                <section class="sino-painel" id="sino-painel" aria-label="Notificações" hidden>
+                    <header class="sino-painel-topo">
+                        <h2>Notificações</h2>
+                        <button type="button" class="sino-limpar" id="sino-limpar">Limpar</button>
+                    </header>
+                    <ul class="sino-lista" id="sino-lista"></ul>
+                    <p class="sino-vazio" id="sino-vazio">Nenhuma notificação por enquanto.</p>
+                </section>
+            </div>
         </header>
 
         <main class="area">
@@ -90,6 +104,12 @@
             <button type="button" class="sair-botao perigo" id="sair-confirmar">Sim, sair</button>
         </div>
     </dialog>
+
+    <!-- Aviso rápido (ex.: curso adicionado/removido) -->
+    <div class="aviso-rapido" id="aviso-rapido" role="status" hidden>
+        <span class="material-symbols-outlined" id="aviso-rapido-icone" aria-hidden="true">check_circle</span>
+        <p id="aviso-rapido-texto"></p>
+    </div>
 
     <!-- Lembrete de pausa (Configurações > Foco e pausas) -->
     <div class="aviso-pausa" id="aviso-pausa" role="status" hidden>

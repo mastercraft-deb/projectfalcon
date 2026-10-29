@@ -182,6 +182,129 @@
         if (bruto) meusCursos = cursosValidos(JSON.parse(bruto));
     } catch (e) { /* sem armazenamento ou dados corrompidos */ }
 
+    // ---------- Notificações (sino do topo) ----------
+    // Guarda as últimas notificações (curso adicionado/removido...) e mostra um aviso rápido.
+    const CHAVE_NOTIF = 'galea_notificacoes';
+    const MAX_NOTIF = 30;
+    const sino = document.getElementById('sino');
+    const sinoContador = document.getElementById('sino-contador');
+    const sinoPainel = document.getElementById('sino-painel');
+    const sinoLista = document.getElementById('sino-lista');
+    const sinoVazio = document.getElementById('sino-vazio');
+    const avisoRapido = document.getElementById('aviso-rapido');
+    const avisoRapidoTexto = document.getElementById('aviso-rapido-texto');
+    const avisoRapidoIcone = document.getElementById('aviso-rapido-icone');
+    let temporizadorAviso = null;
+    let notificacoes = [];
+
+    try {
+        const salvas = JSON.parse(localStorage.getItem(CHAVE_NOTIF) || '[]');
+        if (Array.isArray(salvas)) {
+            notificacoes = salvas.filter(n => n && typeof n.texto === 'string' && n.texto.length <= 200
+                && typeof n.quando === 'number').slice(0, MAX_NOTIF)
+                .map(n => ({ texto: n.texto, icone: n.icone === 'remove_circle' ? 'remove_circle' : 'add_circle',
+                             quando: n.quando, lida: Boolean(n.lida) }));
+        }
+    } catch (e) { /* sem armazenamento ou dados corrompidos */ }
+
+    function guardarNotificacoes() {
+        try { localStorage.setItem(CHAVE_NOTIF, JSON.stringify(notificacoes)); } catch (e) { /* ignora */ }
+    }
+
+    function tempoDecorrido(ms) {
+        const min = Math.floor((Date.now() - ms) / 60000);
+        if (min < 1) return 'agora mesmo';
+        if (min < 60) return 'há ' + min + (min === 1 ? ' minuto' : ' minutos');
+        const h = Math.floor(min / 60);
+        if (h < 24) return 'há ' + h + (h === 1 ? ' hora' : ' horas');
+        const d = Math.floor(h / 24);
+        return 'há ' + d + (d === 1 ? ' dia' : ' dias');
+    }
+
+    function desenharNotificacoes() {
+        const naoLidas = notificacoes.filter(n => !n.lida).length;
+        sinoContador.hidden = naoLidas === 0;
+        sinoContador.textContent = naoLidas > 9 ? '9+' : String(naoLidas);
+        sino.setAttribute('aria-label', naoLidas
+            ? 'Notificações (' + naoLidas + (naoLidas === 1 ? ' não lida)' : ' não lidas)')
+            : 'Notificações');
+
+        sinoVazio.hidden = notificacoes.length > 0;
+        sinoLista.replaceChildren(...notificacoes.map(n => {
+            const item = document.createElement('li');
+            item.className = 'sino-item' + (n.lida ? '' : ' nova');
+            const icone = document.createElement('span');
+            icone.className = 'material-symbols-outlined';
+            icone.setAttribute('aria-hidden', 'true');
+            icone.textContent = n.icone;
+            const corpo = document.createElement('div');
+            const texto = document.createElement('p');
+            texto.textContent = n.texto;
+            const hora = document.createElement('time');
+            hora.textContent = tempoDecorrido(n.quando);
+            corpo.append(texto, hora);
+            item.append(icone, corpo);
+            return item;
+        }));
+    }
+
+    function mostrarAvisoRapido(texto, icone) {
+        avisoRapidoTexto.textContent = texto;
+        avisoRapidoIcone.textContent = icone;
+        avisoRapido.hidden = false;
+        clearTimeout(temporizadorAviso);
+        temporizadorAviso = setTimeout(() => { avisoRapido.hidden = true; }, 3500);
+    }
+
+    function novaNotificacao(texto, icone) {
+        const aberto = !sinoPainel.hidden;
+        notificacoes.unshift({ texto, icone, quando: Date.now(), lida: aberto });
+        notificacoes = notificacoes.slice(0, MAX_NOTIF);
+        guardarNotificacoes();
+        desenharNotificacoes();
+        mostrarAvisoRapido(texto, icone);
+    }
+
+    function abrirSino() {
+        sinoPainel.hidden = false;
+        sino.setAttribute('aria-expanded', 'true');
+        notificacoes.forEach(n => { n.lida = true; });   // abrir o painel = leu
+        guardarNotificacoes();
+        // mantém o destaque das novas só nesta abertura
+        desenharNotificacoes();
+    }
+
+    function fecharSino(devolverFoco) {
+        if (sinoPainel.hidden) return;
+        sinoPainel.hidden = true;
+        sino.setAttribute('aria-expanded', 'false');
+        if (devolverFoco) sino.focus();
+    }
+
+    sino.addEventListener('click', () => {
+        if (sinoPainel.hidden) {
+            desenharNotificacoes();           // atualiza os "há X minutos" e marca as novas
+            abrirSino();
+        } else {
+            fecharSino(false);
+        }
+    });
+    document.getElementById('sino-limpar').addEventListener('click', () => {
+        notificacoes = [];
+        guardarNotificacoes();
+        desenharNotificacoes();
+        sino.focus();
+    });
+    document.addEventListener('click', evento => {
+        if (!evento.target.closest('.sino-area')) fecharSino(false);
+    });
+    document.addEventListener('keydown', evento => {
+        if (evento.key === 'Escape') fecharSino(true);
+    });
+    // clicar dentro do iframe não chega neste documento: a janela perde o foco, então fecha
+    window.addEventListener('blur', () => fecharSino(false));
+    desenharNotificacoes();
+
     // Mensagens da Comunidade (versão oficial). null = ninguém informou ainda; [] = apagadas.
     const CHAVE_COMUNIDADE = 'galea_comunidade_v1';
     const CHAVE_CHAT_COMUNIDADE = 'galea_comunidade_chat';
@@ -223,6 +346,16 @@
             if (nova) {
                 meusCursos = nova;
                 try { localStorage.setItem(CHAVE_CURSOS, JSON.stringify(nova)); } catch (e) { /* ignora */ }
+            }
+            // o usuário adicionou/removeu um curso: avisa (sino + aviso rápido)
+            const ev = dados.evento;
+            if (nova && ev && /^[a-z0-9_-]{1,40}$/.test(ev.id) && typeof ev.nome === 'string'
+                && ev.nome.length > 0 && ev.nome.length <= 60) {
+                if (ev.acao === 'adicionado') {
+                    novaNotificacao('Você adicionou o curso ' + ev.nome + ' a Meus cursos.', 'add_circle');
+                } else if (ev.acao === 'removido') {
+                    novaNotificacao('Você removeu o curso ' + ev.nome + ' de Meus cursos.', 'remove_circle');
+                }
             }
         }
 

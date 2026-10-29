@@ -136,7 +136,8 @@
         if (chatBotao.dataset.acao === 'adicionar') {
             if (GaleaCursos.adicionar(cursoId)) {
                 // o GaleaCursos avisa a mudança (aoMudar) e a trilha inteira se redesenha
-                aviso.textContent = curso.nome + ' foi adicionado a Meus cursos. O chat do curso já está disponível.';
+                // dentro da home, quem avisa é a home (sino + aviso)
+                if (window.parent === window) aviso.textContent = curso.nome + ' foi adicionado a Meus cursos. O chat do curso já está disponível.';
                 chatBotao.focus();
             }
             return;
