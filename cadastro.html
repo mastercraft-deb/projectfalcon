@@ -5,40 +5,152 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro - Galea</title>
     <link rel="icon" href="images/logos/logo.png" type="image/png">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
     <link rel="stylesheet" href="style/style.css">
 </head>
 <body class="body"><br>
-    <div class="formulariocad"> <br>
-            <img src="images/logos/logo.png" alt="logo" height="110" width="115" id="logogalea"><h1 id="galealogin">Cadastro</h1>
-            <form action="login.html" method="post">
-                <label for="usuario">Nome: </label>
-                <input type="text" name="nome" placeholder="Digite seu nome" class="input">
-                <br>
-                <label for="lastname">Sobrenome: </label>
-                <input type="text" name="sobrenome" placeholder="Digite seu sobrenome" class="input">
-                <br>
-                <label for="e-mail">E-mail: </label>
-                <input type="text" name="email" placeholder="Digite seu email" class="input">
-                <br>
-                <label for="lastname">Senha: </label>
-                <input type="password" name="sobrenome" placeholder="Digite seu sobrenome" class="input">
-                <br>
-                <label for="lastname">Você é: </label>
-                <select name="tipo" id="tipo">
+    <main class="formulariocad"><br>
+        <img src="images/logos/logo.png" alt="Logotipo Galea" height="110" width="115" id="logogalea">
+        <h1 id="galealogin">Cadastro</h1>
+        <form action="login.html" method="post" id="form-cadastro" novalidate>
+            <div class="linha-campo">
+                <label for="cad-nome">Nome: </label>
+                <input type="text" id="cad-nome" name="nome" placeholder="Digite seu nome" class="input" required autocomplete="given-name">
+            </div>
+
+            <div class="linha-campo">
+                <label for="cad-sobrenome">Sobrenome: </label>
+                <input type="text" id="cad-sobrenome" name="sobrenome" placeholder="Digite seu sobrenome" class="input" required autocomplete="family-name">
+            </div>
+
+            <div class="linha-campo">
+                <label for="cad-email">E-mail: </label>
+                <input type="email" id="cad-email" name="email" placeholder="Digite seu email" class="input" required autocomplete="email">
+            </div>
+
+            <div class="linha-campo">
+                <label for="cad-senha">Senha: </label>
+                <div class="campo-senha-wrapper">
+                    <input type="password" id="cad-senha" name="senha" placeholder="Crie uma senha" class="input" required autocomplete="new-password" minlength="6" aria-describedby="senha-regra">
+                    <button type="button" class="botao-olho" id="btn-toggle-senha" aria-label="Mostrar senha" aria-controls="cad-senha" aria-pressed="false">
+                        <span class="material-symbols-outlined" aria-hidden="true">visibility</span>
+                    </button>
+                </div>
+                <span id="senha-regra" class="senha-dica">Mínimo de 6 caracteres</span>
+            </div>
+
+            <div class="linha-campo">
+                <label for="cad-confirmar-senha">Confirmar senha: </label>
+                <div class="campo-senha-wrapper">
+                    <input type="password" id="cad-confirmar-senha" name="confirmar_senha" placeholder="Repita sua senha" class="input" required autocomplete="new-password" minlength="6" aria-describedby="erro-confirmar">
+                    <button type="button" class="botao-olho" id="btn-toggle-confirmar" aria-label="Mostrar confirmação de senha" aria-controls="cad-confirmar-senha" aria-pressed="false">
+                        <span class="material-symbols-outlined" aria-hidden="true">visibility</span>
+                    </button>
+                </div>
+                <span id="erro-confirmar" class="senha-erro" role="alert" aria-live="polite"></span>
+            </div>
+
+            <div class="linha-campo">
+                <label for="cad-tipo">Você é: </label>
+                <select name="tipo" id="cad-tipo">
                     <option value="aluno">Aluno</option>
                     <option value="professor">Professor</option>
                 </select>
-                <div class="entrar">
-                    <div class="login-social">
-                        <button id="google" class="botao-login"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQU6O1zR7fL_qZd3e8NSurCdEhdI_HPBa_eSvrPkhjDEQ&s=10" alt="" width="17px" height="17px"> Google</button><br>
-                        <button id="Facebook" class="botao-login"><img src="https://gdm-catalog-fmapi-prod.imgix.net/ProductLogo/4f532b23-81f2-49b9-b087-ee2977addcf0.png?w=80&h=80&fit=max&dpr=3&auto=format&q=50" alt="" width="17px" height="17px">Cléber</button>
-                    </div>
-                    <img src="images/others/ou.png" height="60px" width="30px" id="ou">
-                    <input type="submit" value="Próximo"><br>
-                    <a href="login.html"><p id="cadastro">Possui uma conta? Clique aqui para logar-se</p></a>
-                </div><!--Fim div class entrar-->
-            </form>
-        </div>
-    </div>
+            </div>
+
+            <div class="entrar">
+                <div class="login-social" role="group" aria-label="Cadastrar com redes sociais">
+                    <button type="button" id="google" class="botao-login" aria-label="Cadastrar com Google">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQU6O1zR7fL_qZd3e8NSurCdEhdI_HPBa_eSvrPkhjDEQ&s=10" alt="" width="17" height="17" aria-hidden="true"> Cadastrar com Google
+                    </button><br>
+                    <button type="button" id="Facebook" class="botao-login" aria-label="Cadastrar com Facebook">
+                        <svg width="17" height="17" viewBox="0 0 24 24" fill="#1877F2" aria-hidden="true"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg> Cadastrar com Facebook
+                    </button>
+                </div>
+                <img src="images/others/ou.png" height="60" width="30" id="ou" alt="Ou">
+                <input type="submit" value="Próximo"><br>
+                <a href="login.html"><p id="cadastro">Possui uma conta? Clique aqui para logar-se</p></a>
+            </div><!--Fim div class entrar-->
+        </form>
+    </main>
+    <script>
+        function configurarToggleSenha(btnId, inputId, labelTexto) {
+            const btn = document.getElementById(btnId);
+            const input = document.getElementById(inputId);
+            const icone = btn.querySelector('.material-symbols-outlined');
+
+            btn.addEventListener('click', () => {
+                const visivel = input.type === 'text';
+                input.type = visivel ? 'password' : 'text';
+                icone.textContent = visivel ? 'visibility' : 'visibility_off';
+                btn.setAttribute('aria-label', visivel ? `Mostrar ${labelTexto}` : `Ocultar ${labelTexto}`);
+                btn.setAttribute('aria-pressed', String(!visivel));
+                input.focus();
+            });
+        }
+
+        configurarToggleSenha('btn-toggle-senha', 'cad-senha', 'senha');
+        configurarToggleSenha('btn-toggle-confirmar', 'cad-confirmar-senha', 'confirmação de senha');
+
+        const form = document.getElementById('form-cadastro');
+        const nomeInput = document.getElementById('cad-nome');
+        const sobrenomeInput = document.getElementById('cad-sobrenome');
+        const emailInput = document.getElementById('cad-email');
+        const senhaInput = document.getElementById('cad-senha');
+        const confirmarInput = document.getElementById('cad-confirmar-senha');
+        const tipoInput = document.getElementById('cad-tipo');
+        const erroConfirmar = document.getElementById('erro-confirmar');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            erroConfirmar.textContent = '';
+
+            if (senhaInput.value.length < 6) {
+                erroConfirmar.textContent = 'A senha deve conter no mínimo 6 caracteres.';
+                senhaInput.focus();
+                return;
+            }
+            if (senhaInput.value !== confirmarInput.value) {
+                erroConfirmar.textContent = 'As senhas não coincidem. Digite novamente.';
+                confirmarInput.focus();
+                return;
+            }
+
+            try {
+                const resp = await fetch('/api/auth/cadastro', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'include',
+                    body: JSON.stringify({
+                        nome: nomeInput.value.trim(),
+                        sobrenome: sobrenomeInput.value.trim(),
+                        email: emailInput.value.trim(),
+                        senha: senhaInput.value,
+                        tipo: tipoInput.value
+                    })
+                });
+
+                const dados = await resp.json().catch(() => ({}));
+
+                if (resp.ok) {
+                    // Limpa dados de sessões anteriores para garantir conta 100% nova
+                    try {
+                        localStorage.setItem('galea_nome_perfil', dados.usuario?.nome || '');
+                        localStorage.setItem('galea_usuario_xp', '0');
+                        localStorage.setItem('galea_meus_cursos', '[]');
+                        localStorage.setItem('galea_aulas_concluidas', '{}');
+                        localStorage.removeItem('galea_foto_perfil');
+                        localStorage.removeItem('galea_sobre_perfil');
+                    } catch (e) {}
+                    window.location.href = 'home.html';
+                } else {
+                    erroConfirmar.textContent = dados.erro || 'Não foi possível concluir o cadastro.';
+                }
+            } catch (redeErr) {
+                // Se a API estiver fora do ar, avisa claramente e permite fallback
+                erroConfirmar.textContent = 'Servidor fora do ar ou sem conexão. Tente novamente em instantes.';
+            }
+        });
+    </script>
 </body>
 </html>

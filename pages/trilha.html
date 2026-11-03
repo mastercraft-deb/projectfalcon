@@ -70,6 +70,38 @@
         </aside>
     </div>
 
+    <!-- Janela de execução de aula (Player de lição) -->
+    <dialog class="licao-dialogo" id="licao-dialogo" aria-labelledby="licao-titulo">
+        <header class="licao-topo">
+            <div class="licao-meta">
+                <span class="licao-curso-tag" id="licao-curso-tag">Curso</span>
+                <span class="licao-numero-tag" id="licao-numero-tag">Aula 1</span>
+            </div>
+            <button type="button" class="licao-fechar" id="licao-fechar" aria-label="Fechar lição">
+                <span class="material-symbols-outlined" aria-hidden="true">close</span>
+            </button>
+        </header>
+
+        <h2 class="licao-titulo" id="licao-titulo">Título da aula</h2>
+
+        <div class="licao-conteudo" id="licao-conteudo" tabindex="0" role="region" aria-label="Conteúdo da aula">
+            <!-- Conteúdo textual e pedagógico inserido de forma segura via DOM -->
+        </div>
+
+        <footer class="licao-rodape">
+            <div class="licao-recompensa">
+                <span class="material-symbols-outlined" aria-hidden="true">stars</span>
+                <span id="licao-xp-texto">+10 XP</span>
+            </div>
+            <div class="licao-acoes">
+                <button type="button" class="licao-botao-concluir" id="licao-concluir">
+                    <span class="material-symbols-outlined" aria-hidden="true">check_circle</span>
+                    <span id="licao-concluir-texto">Concluir aula</span>
+                </button>
+            </div>
+        </footer>
+    </dialog>
+
     <p class="sr-only" id="trilha-aviso" aria-live="polite"></p>
 </body>
 </html>

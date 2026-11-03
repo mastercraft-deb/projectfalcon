@@ -306,6 +306,67 @@ body {
     background-color: var(--escuro);
 }
 
+.config-dialogo-form {
+    width: min(92vw, 430px);
+}
+
+.config-form-grupo {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    margin-top: 0.85rem;
+    text-align: left;
+}
+
+.config-form-grupo label {
+    color: #fff;
+    font-size: 0.9rem;
+}
+
+.config-form-campo,
+.config-form-grupo .input {
+    width: 100%;
+    box-sizing: border-box;
+    height: 38px;
+    padding: 0 0.75rem;
+    border: 1px solid var(--cor2);
+    border-radius: 8px;
+    background-color: rgba(255, 255, 255, 0.95);
+    color: #000;
+    font-size: 0.95rem;
+}
+
+.config-form-grupo .campo-senha-wrapper {
+    width: 100%;
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.config-form-grupo .campo-senha-wrapper .input {
+    padding-right: 36px;
+}
+
+.config-form-grupo .botao-olho {
+    position: absolute;
+    right: 6px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #555;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px;
+}
+
+.config-form-erro {
+    margin: 0.7rem 0 0;
+    font-size: 0.85rem;
+    color: #ff8a80;
+    line-height: 1.4;
+}
+
 .config-dialogo::backdrop {
     background-color: rgba(12, 0, 28, 0.85);
 }

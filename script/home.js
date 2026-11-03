@@ -123,10 +123,10 @@
     dialogoSair.addEventListener('click', evento => {
         if (evento.target === dialogoSair) dialogoSair.close();   // clique no fundo escuro
     });
-    document.getElementById('sair-confirmar').addEventListener('click', () => {
-        // Ainda não existe sessão real (login com PHP). Por enquanto só volta para a tela de login.
-        // Quando houver login no servidor, é aqui que entra o pedido de logout (ex.: fetch('logout.php')
-        // para encerrar a sessão) antes de redirecionar.
+    document.getElementById('sair-confirmar').addEventListener('click', async () => {
+        try {
+            await fetch('/api/auth/logout', { method: 'POST', credentials: 'include' });
+        } catch (e) {}
         window.location.href = 'login.html';
     });
 
@@ -364,6 +364,11 @@
             GaleaPreferencias.importar(dados.prefs);
         }
 
+        // uma página pediu a emissão de uma notificação (sino + aviso rápido)
+        if (dados.tipo === 'nova-notificacao' && typeof dados.texto === 'string' && dados.texto.length > 0) {
+            novaNotificacao(dados.texto, dados.icone || 'stars');
+        }
+
         // uma página pediu as preferências atuais
         if (dados.tipo === 'pedir-preferencias') {
             quadro.contentWindow.postMessage({ tipo: 'preferencias', prefs: GaleaPreferencias.ler() }, '*');
@@ -418,6 +423,31 @@
                 { tipo: 'perfil', nome: perfil.nome, foto: perfil.foto }, '*');
         }
     });
+
+    // ---------- Sincronização de sessão via API (Fase 3) ----------
+    // Ao abrir a home, verifica se o usuário está autenticado e sincroniza nome/foto.
+    // Se não estiver autenticado (401) ou a API estiver offline, continua com o cache local.
+    (async () => {
+        try {
+            const resp = await fetch('/api/auth/me', { credentials: 'include' });
+            if (resp.ok) {
+                const dados = await resp.json();
+                const u = dados.usuario;
+                if (u) {
+                    if (nomeValido(u.nome)) {
+                        perfil.nome = u.nome.trim();
+                        guardarPerfil();
+                    }
+                    // Foto: a API ainda não serve foto binária; o localStorage continua como fonte
+                    // da imagem local (será integrado na Fase 4 com campo foto na tabela usuarios)
+                }
+            }
+            // 401 = não autenticado: segue sem redirecionar (login é opcional para ver cursos)
+        } catch (e) {
+            // API offline: segue com dados locais
+            console.warn('[Galea] Não foi possível verificar a sessão com o servidor.', e);
+        }
+    })();
 
     // trocou de página dentro do iframe: a foto do canto volta ao normal
     quadro.addEventListener('load', () => { fotoCanto.hidden = false; });

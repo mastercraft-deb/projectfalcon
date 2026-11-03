@@ -15,7 +15,7 @@
     const CHAVE_NOME = 'galea_nome_perfil';       // mesmas chaves usadas pela página de perfil
     const CHAVE_FOTO = 'galea_foto_perfil';
     const NOME_PADRAO = 'Jack Mic Ael Son';
-    const FOTO_PADRAO = '../images/boiola.jpg';
+    const FOTO_PADRAO = '../images/avatar-default.webp';
 
     const lista = document.querySelector('.config-lista');
     const abas = [...document.querySelectorAll('.config-item')];
@@ -81,7 +81,30 @@
     // ---------- conta ----------
     const contaFoto = document.getElementById('conta-foto');
     const contaNome = document.getElementById('conta-nome');
+    const contaEmailExibicao = document.getElementById('conta-email-exibicao');
+    const contaStatus = document.getElementById('conta-status');
     let perfilDaHome = { nome: null, foto: null };
+
+    // Carrega dados da conta logada via API
+    async function carregarDadosConta() {
+        if (!contaEmailExibicao) return;
+        try {
+            const resp = await fetch('/api/auth/me', { credentials: 'include' });
+            if (resp.ok) {
+                const dados = await resp.json();
+                if (dados.usuario?.email) {
+                    contaEmailExibicao.textContent = dados.usuario.email;
+                } else {
+                    contaEmailExibicao.textContent = 'conectado';
+                }
+            } else {
+                contaEmailExibicao.textContent = 'não conectado (modo local)';
+            }
+        } catch (e) {
+            contaEmailExibicao.textContent = 'servidor offline';
+        }
+    }
+    carregarDadosConta();
 
     function mostrarPerfil() {
         let nome = NOME_PADRAO;
@@ -122,6 +145,179 @@
         if (temHome) window.parent.postMessage({ tipo: 'abrir-sair' }, '*');
         else location.href = '../login.html';
     });
+
+    // ---------- ALTERAR E-MAIL ----------
+    const dialogoEmail = document.getElementById('dialogo-email');
+    const formEmail = document.getElementById('form-alterar-email');
+    const campoNovoEmail = document.getElementById('campo-novo-email');
+    const erroEmail = document.getElementById('erro-email');
+    const btnAbrirEmail = document.getElementById('acao-abrir-email');
+    const btnCancelarEmail = document.getElementById('email-cancelar');
+
+    if (btnAbrirEmail && dialogoEmail) {
+        btnAbrirEmail.addEventListener('click', () => {
+            if (erroEmail) erroEmail.hidden = true;
+            if (campoNovoEmail) campoNovoEmail.value = '';
+            dialogoEmail.showModal();
+            if (campoNovoEmail) campoNovoEmail.focus();
+        });
+
+        if (btnCancelarEmail) {
+            btnCancelarEmail.addEventListener('click', () => dialogoEmail.close());
+        }
+
+        dialogoEmail.addEventListener('click', (e) => {
+            if (e.target === dialogoEmail) dialogoEmail.close();
+        });
+
+        formEmail.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            erroEmail.hidden = true;
+            erroEmail.textContent = '';
+
+            const novoEmail = campoNovoEmail.value.trim().toLowerCase();
+            if (!novoEmail || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(novoEmail)) {
+                erroEmail.textContent = 'Por favor, informe um e-mail válido.';
+                erroEmail.hidden = false;
+                campoNovoEmail.focus();
+                return;
+            }
+
+            try {
+                const resp = await fetch('/api/auth/atualizar', {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'include',
+                    body: JSON.stringify({ email: novoEmail })
+                });
+
+                const dados = await resp.json().catch(() => ({}));
+
+                if (resp.ok) {
+                    dialogoEmail.close();
+                    contaEmailExibicao.textContent = novoEmail;
+                    if (contaStatus) {
+                        contaStatus.textContent = 'E-mail atualizado com sucesso!';
+                        setTimeout(() => { contaStatus.textContent = ''; }, 4000);
+                    }
+                    if (aviso) aviso.textContent = 'E-mail atualizado com sucesso.';
+                } else {
+                    erroEmail.textContent = dados.erro || 'Não foi possível alterar o e-mail.';
+                    erroEmail.hidden = false;
+                }
+            } catch (err) {
+                erroEmail.textContent = 'Servidor fora do ar ou sem conexão. Tente novamente mais tarde.';
+                erroEmail.hidden = false;
+            }
+        });
+    }
+
+    // ---------- ALTERAR SENHA ----------
+    const dialogoSenha = document.getElementById('dialogo-senha');
+    const formSenha = document.getElementById('form-alterar-senha');
+    const campoSenhaAtual = document.getElementById('campo-senha-atual');
+    const campoNovaSenha = document.getElementById('campo-nova-senha');
+    const campoConfirmarSenha = document.getElementById('campo-confirmar-senha');
+    const erroSenha = document.getElementById('erro-senha');
+    const btnAbrirSenha = document.getElementById('acao-abrir-senha');
+    const btnCancelarSenha = document.getElementById('senha-cancelar');
+
+    // Configura botões de mostrar/ocultar senha acessíveis
+    function configurarToggleVisibilidade(btnId, inputId, labelTexto) {
+        const btn = document.getElementById(btnId);
+        const input = document.getElementById(inputId);
+        if (!btn || !input) return;
+        const icone = btn.querySelector('.material-symbols-outlined');
+
+        btn.addEventListener('click', () => {
+            const visivel = input.type === 'text';
+            input.type = visivel ? 'password' : 'text';
+            if (icone) icone.textContent = visivel ? 'visibility' : 'visibility_off';
+            btn.setAttribute('aria-label', visivel ? `Mostrar ${labelTexto}` : `Ocultar ${labelTexto}`);
+            btn.setAttribute('aria-pressed', String(!visivel));
+            input.focus();
+        });
+    }
+
+    configurarToggleVisibilidade('toggle-senha-atual', 'campo-senha-atual', 'senha atual');
+    configurarToggleVisibilidade('toggle-nova-senha', 'campo-nova-senha', 'nova senha');
+    configurarToggleVisibilidade('toggle-confirmar-senha', 'campo-confirmar-senha', 'confirmação de nova senha');
+
+    if (btnAbrirSenha && dialogoSenha) {
+        btnAbrirSenha.addEventListener('click', () => {
+            if (erroSenha) erroSenha.hidden = true;
+            if (campoSenhaAtual) campoSenhaAtual.value = '';
+            if (campoNovaSenha) campoNovaSenha.value = '';
+            if (campoConfirmarSenha) campoConfirmarSenha.value = '';
+            dialogoSenha.showModal();
+            if (campoSenhaAtual) campoSenhaAtual.focus();
+        });
+
+        if (btnCancelarSenha) {
+            btnCancelarSenha.addEventListener('click', () => dialogoSenha.close());
+        }
+
+        dialogoSenha.addEventListener('click', (e) => {
+            if (e.target === dialogoSenha) dialogoSenha.close();
+        });
+
+        formSenha.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            erroSenha.hidden = true;
+            erroSenha.textContent = '';
+
+            const atualVal = campoSenhaAtual.value;
+            const novaVal = campoNovaSenha.value;
+            const confirmarVal = campoConfirmarSenha.value;
+
+            if (!atualVal) {
+                erroSenha.textContent = 'Informe sua senha atual.';
+                erroSenha.hidden = false;
+                campoSenhaAtual.focus();
+                return;
+            }
+
+            if (novaVal.length < 6) {
+                erroSenha.textContent = 'A nova senha deve ter no mínimo 6 caracteres.';
+                erroSenha.hidden = false;
+                campoNovaSenha.focus();
+                return;
+            }
+
+            if (novaVal !== confirmarVal) {
+                erroSenha.textContent = 'A confirmação de senha não confere.';
+                erroSenha.hidden = false;
+                campoConfirmarSenha.focus();
+                return;
+            }
+
+            try {
+                const resp = await fetch('/api/auth/atualizar', {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'include',
+                    body: JSON.stringify({ senha_atual: atualVal, nova_senha: novaVal })
+                });
+
+                const dados = await resp.json().catch(() => ({}));
+
+                if (resp.ok) {
+                    dialogoSenha.close();
+                    if (contaStatus) {
+                        contaStatus.textContent = 'Senha alterada com sucesso!';
+                        setTimeout(() => { contaStatus.textContent = ''; }, 4000);
+                    }
+                    if (aviso) aviso.textContent = 'Senha alterada com sucesso.';
+                } else {
+                    erroSenha.textContent = dados.erro || 'Não foi possível alterar a senha.';
+                    erroSenha.hidden = false;
+                }
+            } catch (err) {
+                erroSenha.textContent = 'Servidor fora do ar ou sem conexão. Tente novamente mais tarde.';
+                erroSenha.hidden = false;
+            }
+        });
+    }
 
     // ---------- dados deste navegador (com confirmação) ----------
     const dialogo = document.getElementById('config-dialogo');

@@ -479,7 +479,9 @@
     }
     
     .formulario {
-        height: 450px;
+        min-height: 450px;
+        height: auto;
+        padding-bottom: 25px;
         margin: auto;
         text-align: center;
         background-color: #D9D9D9;
@@ -490,7 +492,9 @@
     }
 
     .formulariocad {
-        height: 520px;
+        min-height: 540px;
+        height: auto;
+        padding-bottom: 25px;
         margin: auto;
         text-align: center;
         background-color: #D9D9D9;
@@ -524,16 +528,72 @@
         width: 200px;
         height: 25px;
     }
+
+    .linha-campo {
+        margin: 4px auto;
+    }
+
+    .campo-senha-wrapper {
+        display: inline-flex;
+        align-items: center;
+        position: relative;
+        vertical-align: middle;
+    }
+
+    .campo-senha-wrapper .input {
+        padding-right: 30px;
+    }
+
+    .botao-olho {
+        position: absolute;
+        right: 3px;
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
+        color: #555;
+        height: 20px;
+        width: 24px;
+    }
+
+    .botao-olho .material-symbols-outlined {
+        font-size: 18px;
+        color: #555;
+    }
+
+    .botao-olho:focus-visible {
+        outline: 2px solid var(--cor1);
+        border-radius: 3px;
+    }
+
+    .senha-dica {
+        display: block;
+        font-size: 0.68em;
+        color: #444;
+        margin: 1px auto 3px auto;
+    }
+
+    .senha-erro {
+        display: block;
+        font-size: 0.72em;
+        color: #b00020;
+        font-weight: bold;
+        margin: 2px auto;
+    }
     
     .entrar {
         margin: 0;
         padding-top: 10px;
-        width: 230px;
+        width: 330px;
         margin: auto;
     }
     
     .login-social {
         float: left;
+        width: 175px;
     }
     
     .botao-login {
@@ -541,13 +601,21 @@
         border-radius: 5px;
         background-color: white;
         color: black;
-        margin: 2px;
-        width: 100px;
-        height: 25px;
+        margin: 2px 0;
+        width: 175px;
+        height: 26px;
+        font-size: 0.75em;
+        display: inline-flex;
+        align-items: center;
+        justify-content: flex-start;
+        padding-left: 8px;
+        gap: 6px;
+        cursor: pointer;
     }
 
-     .botao-login > img {
-        padding-top: 2px;
+    .botao-login > img,
+    .botao-login > svg {
+        flex-shrink: 0;
     }
     
     #ou{

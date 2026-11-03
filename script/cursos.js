@@ -1,23 +1,9 @@
 /* =====================================================
-   É o catalogo de meus cursos que pode ser usado para varias paginas search, mycourses e account
+   Catálogo e Meus Cursos (GaleaCursos)
 
-   Uma fonte só: o catálogo abaixo e a lista de cursos do usuário.
-   - Descobrir (search.html): mostra o catálogo e adiciona/remove da lista.
-   - Meus cursos (mycourses.html): carrossel com a lista do usuário.
-   - Perfil (account.html): "Cursos em andamento" e "Cursos concluídos".
-
-   Como a lista é compartilhada entre páginas diferentes (cada uma é um
-   documento separado dentro do iframe da home), ela é guardada em dois lugares:
-   no armazenamento do navegador e na própria home (que entrega a lista quando
-   a página pede). Assim funciona mesmo que o navegador não compartilhe o
-   armazenamento entre as páginas.
-
-   Quando houver banco de dados: troque lerLocal()/gravarLocal() por chamadas ao PHP.
-
-   Uso:  GaleaCursos.catalogo            -> todos os cursos
-         GaleaCursos.meus()              -> [{ id, progresso }]
-         GaleaCursos.adicionar(id) / remover(id) / estaNosMeus(id)
-         GaleaCursos.aoMudar(funcao)     -> avisa quando a lista mudar
+   - Catálogo centralizado e sincronizado com a API REST (/api/cursos e /api/progresso).
+   - Utiliza fetch autenticado com credentials: 'include'.
+   - Fallback automático para localStorage/dados locais caso a API esteja inacessível.
    ===================================================== */
 
 window.GaleaCursos = (() => {
@@ -25,12 +11,7 @@ window.GaleaCursos = (() => {
 
     const CHAVE = 'galea_meus_cursos';
 
-    // Cursos de exemplo: depois vai vir do banco de dados.
-    //   imagem: caminho a partir da raiz do projeto (ou endereço https://)
-    //   pagina: caminho a partir da pasta pages/
-    //   palavras: termos extras que a pesquisa também reconhece
-    //   progressoInicial: progresso ao adicionar o curso (padrão 0; 100 = já vem concluído)
-    const CATALOGO = [
+    let CATALOGO = [
         { id: 'eletrica', nome: 'Elétrica', pagina: 'courses/eletrica.html',
           imagem: 'https://www.meer.com/attachments/f5a5d221264e9fb9ea60ff5a8e4813b10d0aee06/store/fill/860/645/e13059b688401aa2d7345800e6e5e932731e3f1550b7ca7e85943f6a5120/A-glow-of-nitrogen-fills-the-atmosphere-as-Nikola-Tesla-is-photographed-sitting-in-front-of-his.jpg',
           descricao: 'Dos conceitos básicos de carga, tensão e corrente até circuitos simples.',
@@ -52,19 +33,13 @@ window.GaleaCursos = (() => {
           descricao: 'Notas, escalas, ritmos e acordes explicados de forma simples.',
           palavras: ['musica', 'notas', 'escalas', 'acordes', 'ritmo'] },
         { id: 'matematica', nome: 'Matemática', pagina: 'courses/matematica.html',
-          imagem: 'images/others/img-cursos/matematica.svg',
+          imagem: 'images/others/img-cursos/matematica.jpg',
           descricao: 'Da aritmética à álgebra e à geometria, com exercícios curtos e desafios.',
-          palavras: ['algebra', 'geometria', 'calculo', 'numeros', 'contas'],
-          progressoInicial: 100 }   // exemplo: você já concluiu Matemática, então ele entra como concluído
+          palavras: ['algebra', 'geometria', 'calculo', 'numeros', 'contas'] }
     ];
 
-    // Estado inicial (igual ao exemplo que o perfil já mostrava). progresso 100 = concluído.
-    const SEMENTE = [
-        { id: 'fisica', progresso: 45 },
-        { id: 'python', progresso: 20 },
-        { id: 'web', progresso: 8 },
-        { id: 'matematica', progresso: 100 }
-    ];
+    // Para uma conta nova: lista vazia de cursos (o usuário procura e adiciona)
+    const SEMENTE = [];
 
     const ouvintes = new Set();
 
@@ -83,23 +58,21 @@ window.GaleaCursos = (() => {
         return resultado;
     }
 
-    // ---------- armazenamento do navegador ----------
     function lerLocal() {
         try {
             const bruto = localStorage.getItem(CHAVE);
             if (bruto) return limpar(JSON.parse(bruto));
-        } catch (e) { /* dados corrompidos ou sem armazenamento */ }
+        } catch (e) {}
         return null;
     }
 
     function gravarLocal() {
-        try { localStorage.setItem(CHAVE, JSON.stringify(lista)); } catch (e) { /* ignora */ }
+        try { localStorage.setItem(CHAVE, JSON.stringify(lista)); } catch (e) {}
     }
 
     const doNavegador = lerLocal();
     let lista = doNavegador || SEMENTE.map(item => ({ ...item }));
 
-    // ---------- conversa com a home (a página que contém o iframe) ----------
     const temHome = window.parent !== window;
 
     function falarComHome(mensagem) {
@@ -112,27 +85,23 @@ window.GaleaCursos = (() => {
 
     if (temHome) {
         window.addEventListener('message', evento => {
-            if (evento.source !== window.parent) return;   // só aceita resposta da home
+            if (evento.source !== window.parent) return;
             const dados = evento.data;
             if (!dados || dados.tipo !== 'meus-cursos') return;
 
             const recebida = limpar(dados.lista);
             if (recebida) {
                 const mudou = JSON.stringify(recebida) !== JSON.stringify(lista);
-                lista = recebida;                           // a home sabe a versão mais recente
+                lista = recebida;
                 gravarLocal();
                 if (mudou) notificar();
             } else if (doNavegador) {
-                // a home ainda não conhece nenhuma lista: entrega a que está salva aqui
                 falarComHome({ tipo: 'meus-cursos-atualizados', lista });
             }
         });
         falarComHome({ tipo: 'pedir-meus-cursos' });
     }
 
-    // ---------- alterações ----------
-    // "evento" (opcional) diz à home o que o usuário fez, para ela mostrar a notificação:
-    // { acao: 'adicionado' | 'removido', id, nome }. Sem evento = só sincronização (sem notificação).
     function definir(nova, evento) {
         lista = nova;
         gravarLocal();
@@ -140,8 +109,57 @@ window.GaleaCursos = (() => {
         notificar();
     }
 
+    // ---------- Sincronização via API REST (Fase 3) ----------
+    async function sincronizarComAPI() {
+        try {
+            // Sincroniza o catálogo se disponível
+            const respCursos = await fetch('/api/cursos', { credentials: 'include' });
+            if (respCursos.ok) {
+                const remotos = await respCursos.json();
+                if (Array.isArray(remotos) && remotos.length > 0) {
+                    CATALOGO = remotos.map(r => {
+                        const local = CATALOGO.find(c => c.id === (r.slug || r.id)) || {};
+                        return { ...local, ...r, id: r.slug || r.id };
+                    });
+                }
+            }
+
+            // Sincroniza o progresso se o usuário estiver autenticado
+            const respProgresso = await fetch('/api/progresso', { credentials: 'include' });
+            if (respProgresso.ok) {
+                const dadosProg = await respProgresso.json();
+                if (Array.isArray(dadosProg.cursos)) {
+                    const mapaProgresso = new Map(dadosProg.cursos.map(c => [c.id, c.progresso]));
+                    const listaMesclada = lista.map(c => ({
+                        ...c,
+                        progresso: mapaProgresso.has(c.id) ? Math.max(c.progresso, mapaProgresso.get(c.id)) : c.progresso
+                    }));
+
+                    for (const c of dadosProg.cursos) {
+                        if ((c.concluidas_qtd > 0 || c.progresso > 0) && !listaMesclada.some(item => item.id === c.id)) {
+                            listaMesclada.push({ id: c.id, progresso: c.progresso });
+                        }
+                    }
+
+                    if (JSON.stringify(listaMesclada) !== JSON.stringify(lista)) {
+                        definir(listaMesclada);
+                    }
+                }
+            }
+        } catch (e) {
+            console.warn('[Galea API] Servidor offline ou inacessível. Operando em modo cache local.');
+        }
+    }
+
+    // Dispara sincronização em segundo plano após o carregamento inicial
+    if (typeof window !== 'undefined' && typeof fetch === 'function') {
+        setTimeout(sincronizarComAPI, 100);
+    }
+
     return {
-        catalogo: CATALOGO,
+        get catalogo() {
+            return CATALOGO;
+        },
 
         buscar(id) {
             return CATALOGO.find(curso => curso.id === id) || null;
@@ -160,6 +178,18 @@ window.GaleaCursos = (() => {
             return item ? item.progresso : null;
         },
 
+        atualizarProgresso(id, novoProgresso) {
+            const limpo = Math.max(0, Math.min(100, Math.round(Number(novoProgresso) || 0)));
+            const item = lista.find(i => i.id === id);
+            if (!item) {
+                definir([...lista, { id, progresso: limpo }]);
+                return true;
+            }
+            if (item.progresso === limpo) return false;
+            definir(lista.map(i => i.id === id ? { ...i, progresso: limpo } : i));
+            return true;
+        },
+
         adicionar(id) {
             const curso = this.buscar(id);
             if (!curso || this.estaNosMeus(id)) return false;
@@ -167,14 +197,12 @@ window.GaleaCursos = (() => {
             return true;
         },
 
-        // Qualquer curso pode ser removido, inclusive os concluídos
         remover(id) {
             if (!this.estaNosMeus(id)) return false;
             definir(lista.filter(i => i.id !== id), { acao: 'removido', id, nome: (this.buscar(id) || {}).nome || id });
             return true;
         },
 
-        // volta para a lista de exemplo (usado em Configurações)
         restaurarExemplo() {
             definir(SEMENTE.map(item => ({ ...item })));
         },
@@ -183,7 +211,6 @@ window.GaleaCursos = (() => {
             ouvintes.add(funcao);
         },
 
-        // endereço da imagem a partir de uma página dentro de pages/
         imagemDe(curso) {
             return /^https?:/.test(curso.imagem) ? curso.imagem : '../' + curso.imagem;
         }

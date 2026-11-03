@@ -19,7 +19,7 @@
 
         <!-- A foto é um botão: ao clicar, ela abre ampliada no centro da tela (janela <dialog> abaixo) -->
         <button type="button" class="perfil-foto-botao" id="foto-abrir" aria-label="Ampliar foto de perfil" aria-haspopup="dialog">
-            <img class="perfil-foto" id="perfil-foto" src="../images/boiola.jpg" alt="Foto de perfil">
+            <img class="perfil-foto" id="perfil-foto" src="../images/avatar-default.webp" alt="Foto de perfil">
         </button>
 
         <div class="perfil-conteudo">
@@ -36,37 +36,37 @@
 
                 <div class="xp">
                     <span class="material-symbols-outlined" aria-hidden="true">stars</span>
-                    <span class="xp-valor" id="perfil-xp">1120</span>
+                    <span class="xp-valor" id="perfil-xp">0</span>
                     <span class="sr-only">pontos de experiência</span>
 
                     <!-- A largura do preenchimento vem da variável --progresso -->
                     <div class="xp-barra" id="perfil-xp-barra" role="progressbar"
                          aria-label="Progresso até o próximo nível"
-                         aria-valuemin="0" aria-valuemax="100" aria-valuenow="67"
-                         style="--progresso: 67%;">
+                         aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"
+                         style="--progresso: 0%;">
                         <span class="xp-barra-preenchimento"></span>
                     </div>
-                    <span class="xp-percentual" aria-hidden="true">67%</span>
+                    <span class="xp-percentual" id="perfil-xp-percentual" aria-hidden="true">0%</span>
                 </div>
 
                 <ul class="trofeus" aria-label="Troféus conquistados">
                     <li class="trofeu trofeu-platina">
-                        <span class="trofeu-qtd">10</span>
+                        <span class="trofeu-qtd" id="trofeu-platina">0</span>
                         <span class="material-symbols-outlined" aria-hidden="true">emoji_events</span>
                         <span class="sr-only">troféus de platina</span>
                     </li>
                     <li class="trofeu trofeu-ouro">
-                        <span class="trofeu-qtd">20</span>
+                        <span class="trofeu-qtd" id="trofeu-ouro">0</span>
                         <span class="material-symbols-outlined" aria-hidden="true">emoji_events</span>
                         <span class="sr-only">troféus de ouro</span>
                     </li>
                     <li class="trofeu trofeu-prata">
-                        <span class="trofeu-qtd">60</span>
+                        <span class="trofeu-qtd" id="trofeu-prata">0</span>
                         <span class="material-symbols-outlined" aria-hidden="true">emoji_events</span>
                         <span class="sr-only">troféus de prata</span>
                     </li>
                     <li class="trofeu trofeu-bronze">
-                        <span class="trofeu-qtd">100</span>
+                        <span class="trofeu-qtd" id="trofeu-bronze">0</span>
                         <span class="material-symbols-outlined" aria-hidden="true">emoji_events</span>
                         <span class="sr-only">troféus de bronze</span>
                     </li>
@@ -123,7 +123,7 @@
 
     <!-- Foto ampliada. O <dialog> já cuida de: fundo escurecido, foco preso na janela e fechar com Esc -->
     <dialog class="foto-ampliada" id="foto-dialogo" aria-label="Foto de perfil ampliada">
-        <img id="foto-ampliada-img" src="../images/boiola.jpg" alt="Foto de perfil ampliada">
+        <img id="foto-ampliada-img" src="../images/avatar-default.webp" alt="Foto de perfil ampliada">
         <button type="button" class="foto-fechar" id="foto-fechar" aria-label="Fechar">
             <span class="material-symbols-outlined" aria-hidden="true">close</span>
         </button>
@@ -140,7 +140,7 @@
             <h2 class="editar-titulo" id="editar-titulo">Editar perfil</h2>
 
             <div class="editar-foto">
-                <img class="editar-previa" id="editar-previa" src="../images/boiola.jpg" alt="Prévia da foto de perfil">
+                <img class="editar-previa" id="editar-previa" src="../images/avatar-default.webp" alt="Prévia da foto de perfil">
                 <div>
                     <button type="button" class="botao-editar" id="editar-escolher">Escolher foto</button>
                     <input type="file" id="editar-arquivo" accept="image/*" hidden>
@@ -152,9 +152,9 @@
             <input type="text" class="editar-campo" id="editar-nome" maxlength="40" autocomplete="name">
 
             <label class="editar-rotulo editar-rotulo-sobre" for="editar-sobre">Sobre mim</label>
-            <input type="text" class="editar-campo" id="editar-sobre" maxlength="50" autocomplete="off"
-                   placeholder="Uma frase sobre você" aria-describedby="editar-sobre-contador">
-            <p class="editar-contador" id="editar-sobre-contador">0/50</p>
+            <input type="text" class="editar-campo" id="editar-sobre" maxlength="200" autocomplete="off"
+                   placeholder="Conte um pouco sobre você..." aria-describedby="editar-sobre-contador">
+            <p class="editar-contador" id="editar-sobre-contador">0/200</p>
 
             <p class="editar-erro" id="editar-erro" role="alert" hidden></p>
 
@@ -170,7 +170,7 @@
             <p class="editar-texto">Seu perfil vai ficar assim:</p>
 
             <div class="editar-resumo">
-                <img class="editar-previa" id="confirmar-foto" src="../images/boiola.jpg" alt="">
+                <img class="editar-previa" id="confirmar-foto" src="../images/avatar-default.webp" alt="">
                 <strong id="confirmar-nome"></strong>
             </div>
             <p class="editar-texto editar-sobre-confirmar">Sobre mim: <span id="confirmar-sobre"></span></p>
@@ -187,7 +187,7 @@
             const CHAVE_NOME = 'galea_nome_perfil';
             const CHAVE_FOTO = 'galea_foto_perfil';
             const CHAVE_SOBRE = 'galea_sobre_perfil';
-            const MAX_SOBRE = 50;
+            const MAX_SOBRE = 200;
             const TEXTO_SOBRE_VAZIO = 'Você ainda não escreveu nada aqui. Clique em Editar para contar um pouco sobre você.';
             const TAMANHO_MAXIMO = 5 * 1024 * 1024; // 5 MB
 

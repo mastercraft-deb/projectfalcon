@@ -478,3 +478,187 @@ body {
         padding: 0.8rem 1rem;
     }
 }
+
+/* =====================================================
+   PLAYER DE LIÇÃO (<dialog class="licao-dialogo">)
+   ===================================================== */
+.licao-dialogo {
+    box-sizing: border-box;
+    width: min(92vw, 580px);
+    max-height: 88vh;
+    padding: 1.5rem 1.6rem;
+    border: 2px solid var(--tema-claro);
+    border-radius: 18px;
+    background-color: #1e003f;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.7);
+    color: #fff;
+    overflow-y: auto;
+}
+
+.licao-dialogo[open] {
+    display: flex;
+    flex-direction: column;
+    animation: licao-entrar 0.22s ease-out;
+}
+
+@keyframes licao-entrar {
+    from {
+        opacity: 0;
+        transform: translateY(18px) scale(0.97);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.licao-dialogo::backdrop {
+    background-color: rgba(12, 0, 28, 0.85);
+    backdrop-filter: blur(4px);
+}
+
+.licao-topo {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.8rem;
+}
+
+.licao-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.licao-curso-tag {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 0.2rem 0.6rem;
+    border-radius: 999px;
+    background-color: var(--tema-claro);
+    color: var(--escuro);
+}
+
+.licao-numero-tag {
+    font-size: 0.8rem;
+    color: var(--texto-suave);
+}
+
+.licao-fechar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 50%;
+    background: transparent;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.2s, border-color 0.2s;
+}
+
+.licao-fechar:hover {
+    background-color: rgba(255, 255, 255, 0.12);
+    border-color: #fff;
+}
+
+.licao-fechar:focus-visible {
+    outline: 3px solid #fff;
+    outline-offset: 2px;
+}
+
+.licao-titulo {
+    font-size: 1.4rem;
+    margin: 0 0 1rem;
+    color: #fff;
+    line-height: 1.3;
+}
+
+.licao-conteudo {
+    flex: 1 1 auto;
+    font-size: 0.96rem;
+    line-height: 1.6;
+    color: var(--texto-suave);
+    margin-bottom: 1.5rem;
+    padding-right: 0.4rem;
+}
+
+.licao-conteudo p {
+    margin: 0 0 0.9rem;
+    color: inherit;
+}
+
+.licao-bloco-destaque {
+    padding: 0.9rem 1.1rem;
+    border-left: 4px solid var(--tema-claro);
+    background-color: rgba(255, 255, 255, 0.06);
+    border-radius: 0 10px 10px 0;
+    margin: 1rem 0;
+}
+
+.licao-bloco-destaque p {
+    margin: 0;
+    color: #fff;
+}
+
+.licao-rodape {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.licao-recompensa {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-weight: 700;
+    color: var(--cor3);
+    font-size: 1rem;
+}
+
+.licao-recompensa .material-symbols-outlined {
+    font-size: 1.4rem;
+    color: var(--cor3);
+}
+
+.licao-botao-concluir {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.65rem 1.4rem;
+    border: none;
+    border-radius: 999px;
+    background-color: var(--tema-claro);
+    color: var(--escuro);
+    font-weight: 700;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: transform 0.15s ease, filter 0.15s ease;
+}
+
+.licao-botao-concluir:hover {
+    filter: brightness(1.1);
+    transform: translateY(-1px);
+}
+
+.licao-botao-concluir:focus-visible {
+    outline: 3px solid #fff;
+    outline-offset: 2px;
+}
+
+.licao-botao-concluir.ja-concluido {
+    background-color: #2ecc71;
+    color: #120022;
+}
+
+/* Modulos bloqueados: cursor e aparencia desabilitada */
+.modulo-bloqueado .modulo-botao {
+    cursor: not-allowed;
+    opacity: 0.85;
+}

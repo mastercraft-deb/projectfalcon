@@ -30,7 +30,7 @@
     const CHAVE_NOME = 'galea_nome_perfil';       // mesmas chaves usadas pela página de perfil
     const CHAVE_FOTO = 'galea_foto_perfil';
     const NOME_PADRAO = 'Jack Mic Ael Son';
-    const FOTO_PADRAO = '../images/boiola.jpg';
+    const FOTO_PADRAO = '../images/avatar-default.webp';
     const CHAT_GERAL = 'geral';
     const MAX_POR_CHAT = 200;                     // guarda só as últimas de cada chat
     const MAX_CITACAO = 90;                       // tamanho do trecho mostrado numa resposta

@@ -57,7 +57,7 @@
                     <h2>Conta</h2>
 
                     <div class="conta-perfil">
-                        <img class="conta-foto" id="conta-foto" src="../images/boiola.jpg" alt="">
+                        <img class="conta-foto" id="conta-foto" src="../images/avatar-default.webp" alt="">
                         <div>
                             <strong class="conta-nome" id="conta-nome">Jack Mic Ael Son</strong>
                             <p class="config-ajuda">A foto e o nome vêm do seu perfil.</p>
@@ -74,13 +74,29 @@
 
                     <div class="config-linha">
                         <div class="config-texto">
+                            <span class="config-rotulo">Alterar e-mail</span>
+                            <span class="config-ajuda" id="texto-ajuda-email">E-mail da conta: <strong id="conta-email-exibicao">não informado</strong></span>
+                        </div>
+                        <button type="button" class="config-botao" id="acao-abrir-email">Alterar e-mail</button>
+                    </div>
+
+                    <div class="config-linha">
+                        <div class="config-texto">
+                            <span class="config-rotulo">Alterar senha</span>
+                            <span class="config-ajuda">Troque sua senha de acesso ao Galea.</span>
+                        </div>
+                        <button type="button" class="config-botao" id="acao-abrir-senha">Alterar senha</button>
+                    </div>
+
+                    <div class="config-linha">
+                        <div class="config-texto">
                             <span class="config-rotulo">Sair da conta</span>
                             <span class="config-ajuda">Desconecta e volta para a tela de login.</span>
                         </div>
                         <button type="button" class="config-botao perigo" id="acao-sair">Sair</button>
                     </div>
 
-                    <p class="config-nota">E-mail e senha poderão ser alterados aqui quando o login estiver ligado ao banco de dados.</p>
+                    <p class="config-status" id="conta-status" role="status" aria-live="polite"></p>
                 </section>
 
                 <!-- APARÊNCIA E ACESSIBILIDADE -->
@@ -211,6 +227,71 @@
             <button type="button" class="config-botao" id="dialogo-cancelar">Cancelar</button>
             <button type="button" class="config-botao destaque" id="dialogo-confirmar">Confirmar</button>
         </div>
+    </dialog>
+
+    <!-- Diálogo para Alterar E-mail -->
+    <dialog class="config-dialogo config-dialogo-form" id="dialogo-email" aria-labelledby="dialogo-email-titulo">
+        <h2 id="dialogo-email-titulo">Alterar e-mail</h2>
+        <p class="config-ajuda">Informe o novo endereço de e-mail para a sua conta Galea.</p>
+
+        <form id="form-alterar-email" novalidate>
+            <div class="config-form-grupo">
+                <label for="campo-novo-email">Novo e-mail:</label>
+                <input type="email" id="campo-novo-email" class="config-form-campo" placeholder="novo@email.com" required autocomplete="email">
+            </div>
+
+            <p class="config-form-erro" id="erro-email" role="alert" hidden></p>
+
+            <div class="config-dialogo-acoes">
+                <button type="button" class="config-botao" id="email-cancelar">Cancelar</button>
+                <button type="submit" class="config-botao destaque" id="email-salvar">Salvar e-mail</button>
+            </div>
+        </form>
+    </dialog>
+
+    <!-- Diálogo para Alterar Senha -->
+    <dialog class="config-dialogo config-dialogo-form" id="dialogo-senha" aria-labelledby="dialogo-senha-titulo">
+        <h2 id="dialogo-senha-titulo">Alterar senha</h2>
+        <p class="config-ajuda">A nova senha deve ter no mínimo 6 caracteres.</p>
+
+        <form id="form-alterar-senha" novalidate>
+            <div class="config-form-grupo">
+                <label for="campo-senha-atual">Senha atual:</label>
+                <div class="campo-senha-wrapper">
+                    <input type="password" id="campo-senha-atual" class="input" placeholder="Digite sua senha atual" required autocomplete="current-password">
+                    <button type="button" class="botao-olho" id="toggle-senha-atual" aria-label="Mostrar senha atual" aria-controls="campo-senha-atual" aria-pressed="false">
+                        <span class="material-symbols-outlined" aria-hidden="true">visibility</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="config-form-grupo">
+                <label for="campo-nova-senha">Nova senha:</label>
+                <div class="campo-senha-wrapper">
+                    <input type="password" id="campo-nova-senha" class="input" placeholder="Mínimo de 6 caracteres" minlength="6" required autocomplete="new-password">
+                    <button type="button" class="botao-olho" id="toggle-nova-senha" aria-label="Mostrar nova senha" aria-controls="campo-nova-senha" aria-pressed="false">
+                        <span class="material-symbols-outlined" aria-hidden="true">visibility</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="config-form-grupo">
+                <label for="campo-confirmar-senha">Confirmar nova senha:</label>
+                <div class="campo-senha-wrapper">
+                    <input type="password" id="campo-confirmar-senha" class="input" placeholder="Repita a nova senha" minlength="6" required autocomplete="new-password">
+                    <button type="button" class="botao-olho" id="toggle-confirmar-senha" aria-label="Mostrar confirmação de senha" aria-controls="campo-confirmar-senha" aria-pressed="false">
+                        <span class="material-symbols-outlined" aria-hidden="true">visibility</span>
+                    </button>
+                </div>
+            </div>
+
+            <p class="config-form-erro" id="erro-senha" role="alert" hidden></p>
+
+            <div class="config-dialogo-acoes">
+                <button type="button" class="config-botao" id="senha-cancelar">Cancelar</button>
+                <button type="submit" class="config-botao destaque" id="senha-salvar">Salvar nova senha</button>
+            </div>
+        </form>
     </dialog>
 
     <p class="sr-only" id="config-aviso" aria-live="polite"></p>

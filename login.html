@@ -5,31 +5,101 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Galea</title>
     <link rel="icon" href="images/logos/logo.png" type="image/png">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
     <link rel="stylesheet" href="style/style.css">
 </head>
 <body class="body"><br>
-    <div class="formulario"> <br>
-            <img src="images/logos/logo.png" alt="logo" height="110" width="115" id="logogalea"><h1 id="galealogin">Login</h1>
-            <form action="home.html" method="post">
-                <label for="usuario">Usuário: </label>
-                <input type="text" name="nome" placeholder="Digite seu nome" class="input">
-                <br>
-                <label for="lastname">Senha: </label>
-                <input type="password" name="senha" placeholder="Digite sua senha" class="input">
-                
-                <div class="entrar">
-                    <div class="login-social">
-                        <button id="google" class="botao-login"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQU6O1zR7fL_qZd3e8NSurCdEhdI_HPBa_eSvrPkhjDEQ&s=10" alt="" width="17px" height="17px"> Google</button><br>
-                        <button id="Facebook" class="botao-login"><img src="https://gdm-catalog-fmapi-prod.imgix.net/ProductLogo/4f532b23-81f2-49b9-b087-ee2977addcf0.png?w=80&h=80&fit=max&dpr=3&auto=format&q=50" alt="" width="17px" height="17px">Cléber</button>
-                    </div>
-                    <img src="images/others/ou.png" height="60px" width="30px" id="ou">
-                    <input type="submit" value="Entrar"><br>
-                    <a href="cadastro.html"><p id="cadastro">Não possui uma conta? Se não,clique aqui para cadastrar-se</p></a>
-                </div><!--Fim div class entrar-->
-            </form>
-        </div>
-    </div>
-    </body>
-    </html>
+    <main class="formulario"><br>
+        <img src="images/logos/logo.png" alt="Logotipo Galea" height="110" width="115" id="logogalea">
+        <h1 id="galealogin">Login</h1>
+        <form action="home.html" method="post" id="form-login">
+            <div class="linha-campo">
+                <label for="login-usuario">Usuário: </label>
+                <input type="text" id="login-usuario" name="usuario" placeholder="Digite seu nome ou e-mail" class="input" required autocomplete="username">
+            </div>
+
+            <div class="linha-campo">
+                <label for="login-senha">Senha: </label>
+                <div class="campo-senha-wrapper">
+                    <input type="password" id="login-senha" name="senha" placeholder="Digite sua senha" class="input" required autocomplete="current-password">
+                    <button type="button" class="botao-olho" id="btn-toggle-login-senha" aria-label="Mostrar senha" aria-controls="login-senha" aria-pressed="false">
+                        <span class="material-symbols-outlined" aria-hidden="true">visibility</span>
+                    </button>
+                </div>
+                <span id="login-erro" class="senha-erro" role="alert" aria-live="polite"></span>
+            </div>
+
+            <div class="entrar">
+                <div class="login-social" role="group" aria-label="Entrar com redes sociais">
+                    <button type="button" id="google" class="botao-login" aria-label="Entrar com Google">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQU6O1zR7fL_qZd3e8NSurCdEhdI_HPBa_eSvrPkhjDEQ&s=10" alt="" width="17" height="17" aria-hidden="true"> Entrar com Google
+                    </button><br>
+                    <button type="button" id="Facebook" class="botao-login" aria-label="Entrar com Facebook">
+                        <svg width="17" height="17" viewBox="0 0 24 24" fill="#1877F2" aria-hidden="true"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg> Entrar com Facebook
+                    </button>
+                </div>
+                <img src="images/others/ou.png" height="60" width="30" id="ou" alt="Ou">
+                <input type="submit" value="Entrar"><br>
+                <a href="cadastro.html"><p id="cadastro">Não possui uma conta? Se não, clique aqui para cadastrar-se</p></a>
+            </div><!--Fim div class entrar-->
+        </form>
+    </main>
+    <script>
+        const btnToggle = document.getElementById('btn-toggle-login-senha');
+        const inputSenha = document.getElementById('login-senha');
+        const inputUsuario = document.getElementById('login-usuario');
+        const erroLogin = document.getElementById('login-erro');
+        const formLogin = document.getElementById('form-login');
+        const icone = btnToggle.querySelector('.material-symbols-outlined');
+
+        btnToggle.addEventListener('click', () => {
+            const visivel = inputSenha.type === 'text';
+            inputSenha.type = visivel ? 'password' : 'text';
+            icone.textContent = visivel ? 'visibility' : 'visibility_off';
+            btnToggle.setAttribute('aria-label', visivel ? 'Mostrar senha' : 'Ocultar senha');
+            btnToggle.setAttribute('aria-pressed', String(!visivel));
+            inputSenha.focus();
+        });
+
+        formLogin.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            erroLogin.textContent = '';
+
+            const usuarioVal = inputUsuario.value.trim();
+            const senhaVal = inputSenha.value;
+
+            if (!usuarioVal || !senhaVal) {
+                erroLogin.textContent = 'Preencha usuário e senha.';
+                return;
+            }
+
+            try {
+                const resp = await fetch('/api/auth/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'include',
+                    body: JSON.stringify({ usuario: usuarioVal, senha: senhaVal })
+                });
+
+                const dados = await resp.json().catch(() => ({}));
+
+                if (resp.ok) {
+                    if (dados.usuario?.nome) {
+                        try {
+                            localStorage.setItem('galea_nome_perfil', dados.usuario.nome);
+                            if (dados.usuario.xp_total !== undefined) {
+                                localStorage.setItem('galea_usuario_xp', String(dados.usuario.xp_total));
+                            }
+                        } catch (e) {}
+                    }
+                    window.location.href = 'home.html';
+                } else {
+                    erroLogin.textContent = dados.erro || 'Credenciais inválidas.';
+                }
+            } catch (redeErr) {
+                erroLogin.textContent = 'Servidor fora do ar ou sem conexão. Tente novamente em instantes.';
+            }
+        });
+    </script>
 </body>
 </html>
