@@ -31,11 +31,13 @@
 
 .body {
     background-color: #1E003F;
-    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.3)), image-set("../images/others/background.png");
+    background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.2)), url("../images/others/wallpaperestrelas1.png");
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-size: cover; 
-    background-position: center bottom; 
+    background-position: center center;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
 }
 
 
