@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 240" width="100%" height="100%">
+  <rect width="100%" height="100%" rx="16" fill="#17062e" />
+  <text x="350" y="30" fill="#FFFFFF" font-family="system-ui, sans-serif" font-size="16" font-weight="700" text-anchor="middle">Trabalhando com Datas: O Módulo datetime</text>
+
+  <g transform="translate(60, 50)">
+    <!-- Data Atual -->
+    <rect x="0" y="0" width="270" height="95" rx="8" fill="rgba(255,255,255,0.05)" stroke="#06D6A0" stroke-width="1.5"/>
+    <text x="135" y="24" fill="#06D6A0" font-size="12" font-weight="bold" text-anchor="middle">Capturar momento atual</text>
+    <text x="20" y="50" fill="#FFD166" font-family="monospace" font-size="12">from datetime import datetime</text>
+    <text x="20" y="70" fill="#FFF" font-family="monospace" font-size="12">agora = datetime.now()</text>
+
+    <!-- Formatar com strftime -->
+    <rect x="290" y="0" width="290" height="95" rx="8" fill="rgba(255,255,255,0.05)" stroke="#FFD166" stroke-width="1.5"/>
+    <text x="435" y="24" fill="#FFD166" font-size="12" font-weight="bold" text-anchor="middle">Formatar para padrão Brasileiro</text>
+    <text x="305" y="50" fill="#FFF" font-family="monospace" font-size="11">texto = agora.strftime("%d/%m/%Y")</text>
+    <text x="305" y="72" fill="#5CE1E6" font-family="monospace" font-size="13" font-weight="bold"># Saída: "10/11/2026"</text>
+  </g>
+
+  <!-- Legenda dos códigos -->
+  <g transform="translate(60, 160)">
+    <rect width="580" height="42" rx="6" fill="rgba(255,255,255,0.06)"/>
+    <text x="290" y="26" fill="#FFF" font-family="monospace" font-size="12" text-anchor="middle">
+      <tspan fill="#5CE1E6">%d</tspan> = Dia (01-31) | <tspan fill="#FFD166">%m</tspan> = Mês (01-12) | <tspan fill="#06D6A0">%Y</tspan> = Ano com 4 dígitos (2026) | <tspan fill="#EF476F">%H:%M</tspan> = Hora
+    </text>
+  </g>
+</svg>

@@ -6,34 +6,34 @@ export const CATALOGO_CURSOS = [
     {
         id: 'fisica',
         nome: 'Física',
-        titulo_trilha: 'Física quântica – 2026',
-        descricao: 'Uma introdução à física quântica, dos primeiros experimentos aos conceitos que mudaram a ciência.',
+        titulo_trilha: 'Física – 2026',
+        descricao: 'Uma introdução aos princípios fundamentais da física: mecânica, movimento, forças e energia.',
         imagem: 'images/others/img-cursos/isaac-newton.jpg',
         pagina: 'courses/fisica.html',
         tema: { claro: '#F7B801', bloqueado: '#B8650F' },
         aulas: [
-            'Leis de Newton', 'Movimento e referencial', 'Força e aceleração', 'Ação e reação',
-            'Energia e trabalho', 'Energia cinética', 'Energia potencial', 'Conservação da energia',
-            'Ondas e luz', 'Frequência e comprimento de onda', 'Reflexão e refração', 'Interferência e difração',
-            'Radiação do corpo negro', 'A catástrofe do ultravioleta', 'Quantização de Planck', 'Temperatura e cor',
-            'Efeito fotoelétrico', 'Fótons e energia', 'Função trabalho', 'Aplicações do efeito fotoelétrico',
-            'Dualidade onda-partícula', 'Hipótese de De Broglie', 'O experimento da dupla fenda', 'Princípio da incerteza'
+            'O que é Física e método científico', 'Grandezas físicas e unidades de medida', 'Movimento uniforme (MU)', 'Movimento uniformemente variado (MUV)',
+            'Gráficos do movimento', 'Queda livre e gravidade', 'Primeira Lei de Newton (Inércia)', 'Segunda Lei de Newton (F = m·a)',
+            'Terceira Lei de Newton (Ação e Reação)', 'Força peso e força normal', 'Força de atrito', 'Trabalho mecânico',
+            'Potência mecânica', 'Energia cinética', 'Energia potencial gravitacional e elástica', 'Conservação da energia mecânica',
+            'Fluidos: densidade e pressão', 'Princípio de Arquimedes (Empuxo)', 'Calor, temperatura e escalas termométricas', 'Propagação de calor',
+            'Ondas: características e velocidade', 'Som e eco', 'Óptica: reflexão e espelhos', 'Óptica: refração e lentes'
         ]
     },
     {
-        id: 'eletrica',
-        nome: 'Elétrica',
-        titulo_trilha: 'Elétrica – 2026',
-        descricao: 'Dos conceitos básicos de carga, tensão e corrente até circuitos simples.',
-        imagem: 'https://www.meer.com/attachments/f5a5d221264e9fb9ea60ff5a8e4813b10d0aee06/store/fill/860/645/e13059b688401aa2d7345800e6e5e932731e3f1550b7ca7e85943f6a5120/A-glow-of-nitrogen-fills-the-atmosphere-as-Nikola-Tesla-is-photographed-sitting-in-front-of-his.jpg',
-        pagina: 'courses/eletrica.html',
-        tema: { claro: '#4DA3FF', bloqueado: '#2A5FA8' },
+        id: 'quimica',
+        nome: 'Química',
+        titulo_trilha: 'Química – 2026',
+        descricao: 'Descubra os fundamentos da matéria, átomos, reações químicas e misturas.',
+        imagem: 'images/others/img-cursos/quimica.jpg',
+        pagina: 'courses/quimica.html',
+        tema: { claro: '#00B4D8', bloqueado: '#0077B6' },
         aulas: [
-            'Carga elétrica', 'Condutores e isolantes', 'Lei de Coulomb', 'Campo elétrico',
-            'Potencial elétrico', 'Tensão elétrica', 'Corrente elétrica', 'Resistência e resistores',
-            'Lei de Ohm', 'Potência e energia elétrica', 'Circuitos em série', 'Circuitos em paralelo',
-            'Leis de Kirchhoff', 'Capacitores', 'Indutores', 'Magnetismo e campo magnético',
-            'Corrente alternada', 'Transformadores', 'Segurança elétrica', 'Projeto: seu primeiro circuito'
+            'O que é Química e a matéria', 'Estados físicos da matéria e mudanças de fase', 'Substâncias puras e misturas', 'Métodos de separação de misturas',
+            'Modelos atômicos (Dalton, Thomson, Rutherford)', 'Estrutura atômica: prótons, nêutrons e elétrons', 'Número atômico e número de massa', 'A Tabela Periódica: organização e famílias',
+            'Metais, ametais e gases nobres', 'Distribuição eletrônica e elétrons de valência', 'Ligação iônica', 'Ligação covalente',
+            'Fórmulas químicas e nomenclatura básica', 'Ácidos e bases no cotidiano', 'Sais e óxidos', 'Escala de pH e indicadores',
+            'Reações químicas e evidências', 'Balanceamento simples de equações químicas', 'Soluções e concentração básica', 'Química sustentável e meio ambiente'
         ]
     },
     {
@@ -72,19 +72,19 @@ export const CATALOGO_CURSOS = [
         ]
     },
     {
-        id: 'musica',
-        nome: 'Teoria musical',
-        titulo_trilha: 'Teoria musical – 2026',
-        descricao: 'Notas, escalas, ritmos e acordes explicados de forma simples.',
-        imagem: 'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2F1%2F1e%2FWolfgang-amadeus-mozart_1.jpg&f=1&nofb=1&ipt=4e1a19be9c6f473998fbc19dc8c53d5d4f5d78e1e437073d6445b6e81bb83649',
-        pagina: 'courses/musica.html',
-        tema: { claro: '#3DD6D0', bloqueado: '#1C8D8A' },
+        id: 'ingles',
+        nome: 'Inglês',
+        titulo_trilha: 'Inglês – 2026',
+        descricao: 'Aprenda inglês do zero: vocabulário do dia a dia, pronúncia, saudações e frases essenciais.',
+        imagem: 'images/others/img-cursos/ingles.jpg',
+        pagina: 'courses/ingles.html',
+        tema: { claro: '#2EC4B6', bloqueado: '#1B7A72' },
         aulas: [
-            'O som e suas propriedades', 'Notas musicais', 'A pauta e a clave de sol', 'Figuras de valor e pausas',
-            'Compasso e pulsação', 'Andamento', 'Tons e semitons', 'Escala maior',
-            'Escala menor', 'Intervalos', 'Armaduras de clave', 'Tríades e acordes',
-            'Acordes com sétima', 'Campo harmônico', 'Cadências', 'Ritmo e síncope',
-            'Dinâmica e expressão', 'Compondo uma melodia'
+            'Greetings & Introductions (Saudações)', 'Alphabet & Spelling (O alfabeto)', 'Numbers & Age (Números e idade)', 'Verb To Be: Afirmativa',
+            'Verb To Be: Negativa e Interrogativa', 'Subject Pronouns (Pronomes pessoais)', 'Possessive Adjectives (My, your, his, her)', 'Colors & Common Objects (Cores e objetos)',
+            'Days of the Week & Months (Dias e meses)', 'Telling Time (Dizendo as horas)', 'Simple Present: Verbos de rotina', 'Simple Present: Perguntas (Do / Does)',
+            'Question Words (What, Where, Who, When)', 'Family Members (Família)', 'Food & Drinks (Comidas e bebidas)', 'Places in Town (Lugares na cidade)',
+            'Describing People (Aparência e sentimentos)', 'Daily Conversation: Diálogo prático'
         ]
     },
     {

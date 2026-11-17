@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 240" width="100%" height="100%">
+  <rect width="100%" height="100%" rx="16" fill="#17062e" />
+  
+  <text x="350" y="32" fill="#FFFFFF" font-family="system-ui, sans-serif" font-size="16" font-weight="700" text-anchor="middle">A Escada das Operações: Quem Tem Prioridade?</text>
+
+  <!-- Degrau 1: Parênteses (Topo) -->
+  <g transform="translate(60, 52)">
+    <rect width="580" height="32" rx="6" fill="#EF476F"/>
+    <text x="25" y="21" fill="#FFF" font-size="13" font-weight="900">1º LUGAR</text>
+    <text x="130" y="21" fill="#FFF" font-size="13" font-weight="700">( ) Parênteses, [ ] Colchetes e { } Chaves</text>
+    <text x="500" y="21" fill="rgba(255,255,255,0.9)" font-size="11" font-weight="bold">Resolva o de dentro 1º</text>
+  </g>
+
+  <!-- Degrau 2: Potências e Raízes -->
+  <g transform="translate(60, 88)">
+    <rect width="580" height="32" rx="6" fill="#FFD166"/>
+    <text x="25" y="21" fill="#17062e" font-size="13" font-weight="900">2º LUGAR</text>
+    <text x="130" y="21" fill="#17062e" font-size="13" font-weight="700">x² Potências e √x Raízes quadradas</text>
+    <text x="500" y="21" fill="#17062e" font-size="11" font-weight="bold">Antes de multiplicar</text>
+  </g>
+
+  <!-- Degrau 3: Multiplicação e Divisão -->
+  <g transform="translate(60, 124)">
+    <rect width="580" height="32" rx="6" fill="#06D6A0"/>
+    <text x="25" y="21" fill="#17062e" font-size="13" font-weight="900">3º LUGAR</text>
+    <text x="130" y="21" fill="#17062e" font-size="13" font-weight="700">× Multiplicação e ÷ Divisão</text>
+    <text x="500" y="21" fill="#17062e" font-size="11" font-weight="bold">Da esquerda p/ direita</text>
+  </g>
+
+  <!-- Degrau 4: Adição e Subtração -->
+  <g transform="translate(60, 160)">
+    <rect width="580" height="32" rx="6" fill="#118AB2"/>
+    <text x="25" y="21" fill="#FFF" font-size="13" font-weight="900">4º LUGAR</text>
+    <text x="130" y="21" fill="#FFF" font-size="13" font-weight="700">+ Adição e − Subtração</text>
+    <text x="500" y="21" fill="rgba(255,255,255,0.9)" font-size="11" font-weight="bold">Por último!</text>
+  </g>
+
+  <!-- Exemplo prático -->
+  <text x="350" y="218" fill="#FFF" font-family="system-ui, sans-serif" font-size="13" text-anchor="middle">
+    Exemplo: <tspan fill="#FFD166" font-weight="bold">2 + 3 × 4</tspan> ➔ Multiplique primeiro (3 × 4 = 12), depois some: 2 + 12 = <tspan fill="#06D6A0" font-weight="bold">14</tspan> (não 20!)
+  </text>
+</svg>

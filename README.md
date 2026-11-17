@@ -40,11 +40,11 @@ O catálogo reúne **6 cursos** e **146 aulas**:
 
 | Curso | Aulas |
 |---|---|
-| Física (introdução à física quântica) | 24 |
-| Elétrica | 20 |
+| Física | 24 |
+| Química | 20 |
 | Python | 30 |
 | Programação web | 28 |
-| Teoria musical | 18 |
+| Inglês | 18 |
 | Matemática | 26 |
 
 ---

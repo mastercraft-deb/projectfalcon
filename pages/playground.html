@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galea Code - Ambiente de Teste de Código</title>
+    <link rel="icon" href="../images/logos/logo.png" type="image/png">
+    <script src="../script/preferencias.js"></script>
+
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+    <link rel="stylesheet" href="../style/style.css">
+    <link rel="stylesheet" href="../style/playground.css">
+</head>
+<body class="body pagina-playground">
+
+    <div class="vscode-janela">
+        <!-- Barra de título estilo VS Code -->
+        <header class="vscode-titulo-barra">
+            <div class="vscode-titulo-projeto">
+                <span class="material-symbols-outlined" style="font-size: 18px; color: #38bdf8;">terminal</span>
+                <strong id="titulo-lab">Galea Code</strong> — <span id="label-arquivo">index.html</span>
+            </div>
+
+            <div class="vscode-acoes-topo">
+                <!-- Seletor de Modo (Python vs Web) com símbolos oficiais nítidos -->
+                <div class="seletor-modo-container">
+                    <button type="button" class="btn-modo ativo" id="modo-python" data-modo="python" title="Alternar para Python">
+                        <svg class="icone-oficial" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                            <path d="M11.9 2C6.8 2 7.1 4.2 7.1 4.2L7.1 6.5H12V7.2H5C5 7.2 2 6.8 2 12C2 17.2 4.6 16.9 4.6 16.9H6.5V14.3C6.5 14.3 6.4 11.1 9.6 11.1H14.6V8.6C14.6 8.6 14.9 2 11.9 2ZM9.1 3.6C9.8 3.6 10.3 4.1 10.3 4.8C10.3 5.4 9.8 6 9.1 6C8.5 6 7.9 5.4 7.9 4.8C7.9 4.1 8.5 3.6 9.1 3.6Z" fill="#387EB8"/>
+                            <path d="M12.1 22C17.2 22 16.9 19.8 16.9 19.8L16.9 17.5H12V16.8H19C19 16.8 22 17.2 22 12C22 6.8 19.4 7.1 19.4 7.1H17.5V9.7C17.5 9.7 17.6 12.9 14.4 12.9H9.4V15.4C9.4 15.4 9.1 22 12.1 22ZM14.9 20.4C14.2 20.4 13.7 19.9 13.7 19.2C13.7 18.6 14.2 18 14.9 18C15.5 18 16.1 18.6 16.1 19.2C16.1 19.9 15.5 20.4 14.9 20.4Z" fill="#FFE052"/>
+                        </svg>
+                        <span>Python</span>
+                    </button>
+                    <button type="button" class="btn-modo" id="modo-web" data-modo="web" title="Alternar para Web (HTML/JS)">
+                        <svg class="icone-oficial" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                            <path d="M4.1 2L5.6 19.3L12 21.1L18.4 19.3L19.9 2H4.1Z" fill="#E44D26"/>
+                            <path d="M12 3.5V19.6L17.1 18.2L18.3 3.5H12Z" fill="#F16529"/>
+                            <path d="M7 6H17L16.6 9.5H10.5L10.8 12.5H16.3L15.8 16.3L12 17.4L8.2 16.3L8 14H10.2L10.3 14.9L12 15.4L13.7 14.9L13.9 13.5H7.7L7 6Z" fill="#FFFFFF"/>
+                        </svg>
+                        <span>Web (HTML/JS)</span>
+                    </button>
+                </div>
+
+                <button type="button" class="btn-topo btn-executar" id="btn-executar" title="Executar código (Ctrl + Enter)">
+                    <span class="material-symbols-outlined">play_arrow</span>
+                    <span>Executar</span>
+                </button>
+                <button type="button" class="btn-topo" id="btn-limpar" title="Limpar editor">
+                    <span class="material-symbols-outlined">backspace</span>
+                    <span>Limpar</span>
+                </button>
+            </div>
+        </header>
+
+        <div class="vscode-corpo">
+            <!-- Barra de atividades lateral (Ícones) -->
+            <nav class="vscode-activity-bar" aria-label="Ferramentas">
+                <button type="button" class="activity-btn ativo" id="btn-tab-files" title="Pastas e Arquivos">
+                    <span class="material-symbols-outlined">folder</span>
+                </button>
+                <button type="button" class="activity-btn" id="btn-tab-snippets" title="Exemplos das Aulas">
+                    <span class="material-symbols-outlined">code_blocks</span>
+                </button>
+                <button type="button" class="activity-btn" id="btn-tab-voltar" title="Voltar para Trilha">
+                    <span class="material-symbols-outlined">arrow_back</span>
+                </button>
+            </nav>
+
+            <!-- Painel Lateral -->
+            <aside class="vscode-sidebar" id="vscode-sidebar">
+                <!-- Seção 1: Pastas e Arquivos (Aparece ao clicar no ícone de Pasta) -->
+                <div class="sidebar-secao" id="secao-explorador">
+                    <div class="sidebar-header">
+                        <button type="button" class="sidebar-titulo-clicavel" id="toggle-explorador" aria-expanded="true" title="Recolher / Expandir Explorador">
+                            <span class="material-symbols-outlined chevron" id="chevron-explorador">expand_more</span>
+                            <span>EXPLORADOR</span>
+                        </button>
+                        <div class="sidebar-acoes">
+                            <button type="button" class="sidebar-btn-acao" id="btn-novo-arquivo" title="Criar Novo Arquivo (HTML, CSS ou JS)">
+                                <span class="material-symbols-outlined">note_add</span>
+                            </button>
+                            <button type="button" class="sidebar-btn-acao" id="btn-nova-pasta" title="Criar Nova Pasta">
+                                <span class="material-symbols-outlined">create_new_folder</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Formulário inline de criação rápida -->
+                    <div id="form-criar-item" class="form-criar-item" style="display: none;"></div>
+
+                    <!-- Conteúdo redutível da árvore de arquivos e pastas -->
+                    <div id="corpo-explorador" class="sidebar-conteudo-recolhivel">
+                        <div id="arvore-pastas-arquivos" class="arvore-pastas-arquivos"></div>
+                    </div>
+                </div>
+
+                <!-- Seção 2: Exemplos das Aulas (Aparece SOMENTE ao clicar no 2º símbolo) -->
+                <div class="sidebar-secao" id="secao-exemplos" style="display: none;">
+                    <div class="sidebar-header">
+                        <button type="button" class="sidebar-titulo-clicavel" id="toggle-exemplos" aria-expanded="true" title="Recolher / Expandir Exemplos">
+                            <span class="material-symbols-outlined chevron" id="chevron-exemplos">expand_more</span>
+                            <span>EXEMPLOS DAS AULAS</span>
+                        </button>
+                    </div>
+                    <div id="corpo-exemplos" class="sidebar-conteudo-recolhivel">
+                        <div class="lista-snippets" id="container-snippets">
+                            <!-- Gerado dinamicamente conforme o modo (Python ou Web) -->
+                        </div>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Área Central: Editor e Terminal/Preview -->
+            <main class="vscode-editor-area">
+                <!-- Abas dinâmicas abertas -->
+                <div class="vscode-tabs-bar" id="vscode-tabs-bar">
+                    <!-- Geradas dinamicamente -->
+                </div>
+
+                <!-- Painel do Código -->
+                <div class="vscode-editor-container">
+                    <div class="editor-linhas" id="editor-linhas" aria-hidden="true">
+                        <span>1</span>
+                    </div>
+                    <textarea class="editor-textarea" id="editor-textarea" spellcheck="false" placeholder="# Digite seu código aqui..."></textarea>
+                </div>
+
+                <!-- Painel Inferior: Terminal Python OU Preview Web ao Vivo -->
+                <section class="vscode-terminal-painel" id="painel-terminal" aria-label="Terminal de saída">
+                    <div class="terminal-topo">
+                        <div class="terminal-tabs">
+                            <span class="terminal-tab ativo" id="terminal-titulo-tab">TERMINAL (Python 3 Sandboxed)</span>
+                            <span class="terminal-tab" id="terminal-status">Pronto</span>
+                        </div>
+                        <div class="terminal-acoes">
+                            <button type="button" class="btn-term-acao" id="btn-limpar-term" title="Limpar saída">
+                                <span class="material-symbols-outlined">block</span>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Saída Console para Python -->
+                    <pre class="terminal-output" id="terminal-output"><span class="term-boas-vindas">Galea Code [Ambiente Interativo de Testes]
+Pressione [Executar ▶] ou tecle Ctrl + Enter para rodar seu código.
+</span></pre>
+
+                    <!-- Frame de Preview Ao Vivo para Programação Web -->
+                    <iframe class="web-preview-frame" id="web-preview-frame" title="Pré-visualização do site" style="display: none;"></iframe>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <!-- Script do interpretador e engine do playground -->
+    <script src="../script/playground.js"></script>
+</body>
+</html>

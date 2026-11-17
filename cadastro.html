@@ -5,152 +5,538 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro - Galea</title>
     <link rel="icon" href="images/logos/logo.png" type="image/png">
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Estilo base do projeto (fontes Romanica e Dalek e paleta de cores) -->
     <link rel="stylesheet" href="style/style.css">
-</head>
-<body class="body"><br>
-    <main class="formulariocad"><br>
-        <img src="images/logos/logo.png" alt="Logotipo Galea" height="110" width="115" id="logogalea">
-        <h1 id="galealogin">Cadastro</h1>
-        <form action="login.html" method="post" id="form-cadastro" novalidate>
-            <div class="linha-campo">
-                <label for="cad-nome">Nome: </label>
-                <input type="text" id="cad-nome" name="nome" placeholder="Digite seu nome" class="input" required autocomplete="given-name">
-            </div>
 
-            <div class="linha-campo">
-                <label for="cad-sobrenome">Sobrenome: </label>
-                <input type="text" id="cad-sobrenome" name="sobrenome" placeholder="Digite seu sobrenome" class="input" required autocomplete="family-name">
-            </div>
-
-            <div class="linha-campo">
-                <label for="cad-email">E-mail: </label>
-                <input type="email" id="cad-email" name="email" placeholder="Digite seu email" class="input" required autocomplete="email">
-            </div>
-
-            <div class="linha-campo">
-                <label for="cad-senha">Senha: </label>
-                <div class="campo-senha-wrapper">
-                    <input type="password" id="cad-senha" name="senha" placeholder="Crie uma senha" class="input" required autocomplete="new-password" minlength="6" aria-describedby="senha-regra">
-                    <button type="button" class="botao-olho" id="btn-toggle-senha" aria-label="Mostrar senha" aria-controls="cad-senha" aria-pressed="false">
-                        <span class="material-symbols-outlined" aria-hidden="true">visibility</span>
-                    </button>
-                </div>
-                <span id="senha-regra" class="senha-dica">Mínimo de 6 caracteres</span>
-            </div>
-
-            <div class="linha-campo">
-                <label for="cad-confirmar-senha">Confirmar senha: </label>
-                <div class="campo-senha-wrapper">
-                    <input type="password" id="cad-confirmar-senha" name="confirmar_senha" placeholder="Repita sua senha" class="input" required autocomplete="new-password" minlength="6" aria-describedby="erro-confirmar">
-                    <button type="button" class="botao-olho" id="btn-toggle-confirmar" aria-label="Mostrar confirmação de senha" aria-controls="cad-confirmar-senha" aria-pressed="false">
-                        <span class="material-symbols-outlined" aria-hidden="true">visibility</span>
-                    </button>
-                </div>
-                <span id="erro-confirmar" class="senha-erro" role="alert" aria-live="polite"></span>
-            </div>
-
-            <div class="linha-campo">
-                <label for="cad-tipo">Você é: </label>
-                <select name="tipo" id="cad-tipo">
-                    <option value="aluno">Aluno</option>
-                    <option value="professor">Professor</option>
-                </select>
-            </div>
-
-            <div class="entrar">
-                <div class="login-social" role="group" aria-label="Cadastrar com redes sociais">
-                    <button type="button" id="google" class="botao-login" aria-label="Cadastrar com Google">
-                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQU6O1zR7fL_qZd3e8NSurCdEhdI_HPBa_eSvrPkhjDEQ&s=10" alt="" width="17" height="17" aria-hidden="true"> Cadastrar com Google
-                    </button><br>
-                    <button type="button" id="Facebook" class="botao-login" aria-label="Cadastrar com Facebook">
-                        <svg width="17" height="17" viewBox="0 0 24 24" fill="#1877F2" aria-hidden="true"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg> Cadastrar com Facebook
-                    </button>
-                </div>
-                <img src="images/others/ou.png" height="60" width="30" id="ou" alt="Ou">
-                <input type="submit" value="Próximo"><br>
-                <a href="login.html"><p id="cadastro">Possui uma conta? Clique aqui para logar-se</p></a>
-            </div><!--Fim div class entrar-->
-        </form>
-    </main>
-    <script>
-        function configurarToggleSenha(btnId, inputId, labelTexto) {
-            const btn = document.getElementById(btnId);
-            const input = document.getElementById(inputId);
-            const icone = btn.querySelector('.material-symbols-outlined');
-
-            btn.addEventListener('click', () => {
-                const visivel = input.type === 'text';
-                input.type = visivel ? 'password' : 'text';
-                icone.textContent = visivel ? 'visibility' : 'visibility_off';
-                btn.setAttribute('aria-label', visivel ? `Mostrar ${labelTexto}` : `Ocultar ${labelTexto}`);
-                btn.setAttribute('aria-pressed', String(!visivel));
-                input.focus();
-            });
+    <style>
+        /* CSS fornecido pelo template */
+        .bg-image-vertical {
+            position: relative;
+            overflow: hidden;
+            background-repeat: no-repeat;
+            background-position: right center;
+            background-size: auto 100%;
         }
 
-        configurarToggleSenha('btn-toggle-senha', 'cad-senha', 'senha');
-        configurarToggleSenha('btn-toggle-confirmar', 'cad-confirmar-senha', 'confirmação de senha');
-
-        const form = document.getElementById('form-cadastro');
-        const nomeInput = document.getElementById('cad-nome');
-        const sobrenomeInput = document.getElementById('cad-sobrenome');
-        const emailInput = document.getElementById('cad-email');
-        const senhaInput = document.getElementById('cad-senha');
-        const confirmarInput = document.getElementById('cad-confirmar-senha');
-        const tipoInput = document.getElementById('cad-tipo');
-        const erroConfirmar = document.getElementById('erro-confirmar');
-
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            erroConfirmar.textContent = '';
-
-            if (senhaInput.value.length < 6) {
-                erroConfirmar.textContent = 'A senha deve conter no mínimo 6 caracteres.';
-                senhaInput.focus();
-                return;
+        @media (min-width: 1025px) {
+            .h-custom-2 {
+                height: 100%;
             }
-            if (senhaInput.value !== confirmarInput.value) {
-                erroConfirmar.textContent = 'As senhas não coincidem. Digite novamente.';
-                confirmarInput.focus();
-                return;
-            }
+        }
 
-            try {
-                const resp = await fetch('/api/auth/cadastro', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    credentials: 'include',
-                    body: JSON.stringify({
-                        nome: nomeInput.value.trim(),
-                        sobrenome: sobrenomeInput.value.trim(),
-                        email: emailInput.value.trim(),
-                        senha: senhaInput.value,
-                        tipo: tipoInput.value
-                    })
-                });
+        /* Configurações da página de cadastro */
+        body.cadastro-page {
+            background-color: #ffffff;
+            font-family: var(--romanica), sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
 
-                const dados = await resp.json().catch(() => ({}));
+        /* Sessão de cadastro branca: dividida igual ao login */
+        .sessao-cadastro-branca {
+            background-color: #ffffff;
+            min-height: 100vh;
+            color: #1e003f;
+            overflow-y: auto;
+        }
 
-                if (resp.ok) {
-                    // Limpa dados de sessões anteriores para garantir conta 100% nova
-                    try {
-                        localStorage.setItem('galea_nome_perfil', dados.usuario?.nome || '');
-                        localStorage.setItem('galea_usuario_xp', '0');
-                        localStorage.setItem('galea_meus_cursos', '[]');
-                        localStorage.setItem('galea_aulas_concluidas', '{}');
-                        localStorage.removeItem('galea_foto_perfil');
-                        localStorage.removeItem('galea_sobre_perfil');
-                    } catch (e) {}
-                    window.location.href = 'home.html';
-                } else {
-                    erroConfirmar.textContent = dados.erro || 'Não foi possível concluir o cadastro.';
-                }
-            } catch (redeErr) {
-                // Se a API estiver fora do ar, avisa claramente e permite fallback
-                erroConfirmar.textContent = 'Servidor fora do ar ou sem conexão. Tente novamente em instantes.';
-            }
+        .sessao-cadastro-branca * {
+            font-family: var(--romanica), sans-serif;
+            color: #1e003f;
+        }
+
+        .cadastro-logo-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+        .cadastro-logo-link img {
+            width: 52px;
+            height: 52px;
+            object-fit: contain;
+        }
+
+        .cadastro-logo-link .cadastro-logo-nome {
+            font-family: var(--darek), sans-serif;
+            font-size: 2.2rem;
+            color: var(--cor1);
+            letter-spacing: 1px;
+            margin: 0;
+            line-height: 1;
+        }
+
+        .cadastro-titulo {
+            font-family: var(--darek), sans-serif;
+            font-size: 2.1rem;
+            color: #1e003f;
+            letter-spacing: 1px;
+        }
+
+        .sessao-cadastro-branca .form-label {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #2b2b36;
+            margin-bottom: 0.25rem;
+        }
+
+        .sessao-cadastro-branca .form-control {
+            border: 1.5px solid #d0d4dc;
+            border-radius: 8px;
+            padding: 0.6rem 0.9rem;
+            font-size: 0.95rem;
+            color: #1e003f !important;
+            background-color: #fbfbfd;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .sessao-cadastro-branca .form-control:focus {
+            border-color: var(--cor2);
+            box-shadow: 0 0 0 3px rgba(118, 120, 237, 0.25);
+            background-color: #ffffff;
+            outline: none;
+        }
+
+        /* Campo de senha com botão de olho SVG */
+        .campo-senha-wrap {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .campo-senha-wrap .form-control {
+            padding-right: 42px;
+        }
+
+        .btn-toggle-senha {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            padding: 0;
+            margin: 0;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: #666666;
+            width: 24px;
+            height: 24px;
+            transition: color 0.2s ease;
+            z-index: 5;
+        }
+
+        .btn-toggle-senha:hover {
+            color: var(--cor1);
+        }
+
+        .btn-toggle-senha svg {
+            stroke: currentColor;
+            display: block;
+        }
+
+        /* Seletor Aluno / Professor (apenas o nome em tom visível) */
+        .seletor-tipo-container {
+            background-color: #f4f2fb;
+            border: 2px solid #dcd7f3;
+            border-radius: 10px;
+            padding: 4px;
+            display: flex;
+            gap: 6px;
+        }
+
+        .btn-opcao-tipo {
+            flex: 1;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8px 12px;
+            border-radius: 8px;
+            border: 2px solid transparent;
+            background-color: #ffffff;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 0.92rem;
+            color: var(--cor1) !important;
+            transition: all 0.2s ease;
+            user-select: none;
+        }
+
+        .btn-opcao-tipo:hover {
+            background-color: #eae5f7;
+            color: var(--cor1) !important;
+        }
+
+        .btn-opcao-tipo.ativo {
+            background-color: var(--cor1) !important;
+            border-color: var(--cor1) !important;
+            color: #ffffff !important;
+            box-shadow: 0 3px 10px rgba(61, 52, 139, 0.35);
+        }
+
+        /* Botão principal de cadastro */
+        .btn-cadastro-destaque {
+            background-color: var(--cor1);
+            border-color: var(--cor1);
+            color: #ffffff !important;
+            font-size: 1.05rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            border-radius: 8px;
+            padding: 0.7rem;
+            transition: all 0.25s ease;
+        }
+
+        .btn-cadastro-destaque:hover {
+            background-color: var(--cor2);
+            border-color: var(--cor2);
+            color: #ffffff !important;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 14px rgba(61, 52, 139, 0.35);
+        }
+
+        /* Botões de redes sociais */
+        .btn-social {
+            border: 1.5px solid #d0d4dc;
+            background-color: #ffffff;
+            color: #333333 !important;
+            font-size: 0.88rem;
+            font-weight: 600;
+            border-radius: 8px;
+            padding: 0.55rem 0.75rem;
+            transition: all 0.2s ease;
+        }
+
+        .btn-social:hover {
+            background-color: #f8f9fa;
+            border-color: #aab0bc;
+            color: #111111 !important;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+        }
+
+        .btn-social * {
+            color: #333333 !important;
+        }
+
+        .sessao-cadastro-branca a {
+            text-decoration: none;
+        }
+
+        .sessao-cadastro-branca a.link-info {
+            color: var(--cor2) !important;
+            font-weight: bold;
+        }
+
+        .sessao-cadastro-branca a.link-info:hover {
+            color: var(--cor4) !important;
+            text-decoration: underline;
+        }
+
+        .sessao-cadastro-branca .text-muted {
+            color: #6c757d !important;
+        }
+
+        .cadastro-erro {
+            color: #d32f2f !important;
+            font-size: 0.85rem;
+            font-weight: 600;
+            min-height: 1.25rem;
+            margin-top: 0.25rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Imagem do céu estrelado à direita (igual ao login) */
+        .sessao-imagem-estrelas {
+            position: relative;
+            background-color: #1e003f;
+            overflow: hidden;
+        }
+
+        .sessao-imagem-estrelas img {
+            object-fit: cover;
+            object-position: left;
+            image-rendering: -webkit-optimize-contrast;
+            image-rendering: crisp-edges;
+        }
+    </style>
+</head>
+<body class="cadastro-page">
+
+<section class="vh-100">
+  <div class="container-fluid">
+    <div class="row">
+      <!-- Sessão de Cadastro (Fundo Branco, Logo Galea e Fontes do Projeto) -->
+      <div class="col-sm-6 text-black sessao-cadastro-branca d-flex flex-column justify-content-between p-4 p-md-5">
+
+        <div class="px-3 px-xl-4 pt-2">
+          <a href="index.html" class="cadastro-logo-link">
+            <img src="images/logos/logo.png" alt="Logotipo Galea">
+            <span class="cadastro-logo-nome">Galea</span>
+          </a>
+        </div>
+
+        <div class="d-flex align-items-center h-custom-2 px-3 px-xl-4 my-auto py-3">
+
+          <form style="width: 100%; max-width: 25rem;" id="form-cadastro" novalidate>
+
+            <h3 class="fw-normal mb-3 pb-2 cadastro-titulo" style="letter-spacing: 1px;">Cadastro</h3>
+
+            <!-- Nome e Sobrenome lado a lado -->
+            <div class="row g-2 mb-2">
+              <div class="col-6">
+                <label class="form-label" for="cad-nome">Nome</label>
+                <input type="text" id="cad-nome" name="nome" class="form-control form-control-lg" placeholder="Ex: Ana" required autocomplete="given-name" />
+              </div>
+              <div class="col-6">
+                <label class="form-label" for="cad-sobrenome">Sobrenome</label>
+                <input type="text" id="cad-sobrenome" name="sobrenome" class="form-control form-control-lg" placeholder="Ex: Silva" required autocomplete="family-name" />
+              </div>
+            </div>
+
+            <!-- E-mail -->
+            <div class="mb-2">
+              <label class="form-label" for="cad-email">E-mail</label>
+              <input type="email" id="cad-email" name="email" class="form-control form-control-lg" placeholder="seuemail@exemplo.com" required autocomplete="email" />
+            </div>
+
+            <!-- Senha e Confirmação lado a lado com símbolo do olho SVG -->
+            <div class="row g-2 mb-1">
+              <div class="col-6">
+                <label class="form-label" for="cad-senha">Senha</label>
+                <div class="campo-senha-wrap">
+                  <input type="password" id="cad-senha" name="senha" class="form-control form-control-lg" placeholder="Mínimo 6 dígitos" required autocomplete="new-password" minlength="6" aria-describedby="senha-regra" />
+                  <button type="button" class="btn-toggle-senha" id="btn-toggle-senha" aria-label="Mostrar senha" aria-controls="cad-senha" aria-pressed="false">
+                    <svg class="icone-olho" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                      <circle cx="12" cy="12" r="3"></circle>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+              <div class="col-6">
+                <label class="form-label" for="cad-confirmar-senha">Confirmar senha</label>
+                <div class="campo-senha-wrap">
+                  <input type="password" id="cad-confirmar-senha" name="confirmar_senha" class="form-control form-control-lg" placeholder="Repita a senha" required autocomplete="new-password" minlength="6" aria-describedby="erro-confirmar" />
+                  <button type="button" class="btn-toggle-senha" id="btn-toggle-confirmar" aria-label="Mostrar confirmação de senha" aria-controls="cad-confirmar-senha" aria-pressed="false">
+                    <svg class="icone-olho" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                      <circle cx="12" cy="12" r="3"></circle>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <small class="text-muted d-block mb-3" id="senha-regra" style="font-size: 0.78rem;">Mínimo de 6 caracteres</small>
+
+            <!-- Seletor de Tipo (Aluno / Professor) somente com os nomes em tom visível -->
+            <div class="mb-3">
+              <label class="form-label mb-2" for="cad-tipo">Você é:</label>
+              <div class="seletor-tipo-container" role="radiogroup" aria-label="Tipo de conta">
+                <button type="button" class="btn-opcao-tipo ativo" id="btn-tipo-aluno" data-tipo="aluno" role="radio" aria-checked="true">
+                  Aluno
+                </button>
+                <button type="button" class="btn-opcao-tipo" id="btn-tipo-professor" data-tipo="professor" role="radio" aria-checked="false">
+                  Professor
+                </button>
+              </div>
+              <!-- Elemento select nativo sincronizado -->
+              <select name="tipo" id="cad-tipo" class="visually-hidden" aria-hidden="true" tabindex="-1">
+                <option value="aluno" selected>Aluno</option>
+                <option value="professor">Professor</option>
+              </select>
+            </div>
+
+            <div id="erro-confirmar" class="cadastro-erro" role="alert" aria-live="polite"></div>
+
+            <!-- Botão principal de envio -->
+            <div class="pt-1 mb-3">
+              <button class="btn btn-cadastro-destaque btn-lg w-100" type="submit">Cadastrar</button>
+            </div>
+
+            <!-- Divisor 'ou' -->
+            <div class="d-flex align-items-center my-3">
+              <hr class="flex-grow-1 my-0" style="border-color: #d0d4dc;">
+              <span class="px-2 text-muted small" style="font-size: 0.82rem; font-weight: 600;">ou cadastre-se com</span>
+              <hr class="flex-grow-1 my-0" style="border-color: #d0d4dc;">
+            </div>
+
+            <!-- Redes Sociais -->
+            <div class="row g-2 mb-3" role="group" aria-label="Cadastrar com redes sociais">
+              <div class="col-6">
+                <button type="button" id="google" class="btn btn-social w-100 d-inline-flex align-items-center justify-content-center gap-2" aria-label="Cadastrar com Google">
+                  <svg width="17" height="17" viewBox="0 0 24 24" aria-hidden="true">
+                    <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                    <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                    <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
+                    <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
+                  </svg>
+                  <span>Google</span>
+                </button>
+              </div>
+              <div class="col-6">
+                <button type="button" id="Facebook" class="btn btn-social w-100 d-inline-flex align-items-center justify-content-center gap-2" aria-label="Cadastrar com Facebook">
+                  <svg width="17" height="17" viewBox="0 0 24 24" fill="#1877F2" aria-hidden="true">
+                    <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                  </svg>
+                  <span>Facebook</span>
+                </button>
+              </div>
+            </div>
+
+            <p class="text-center mb-0" style="font-size: 0.95rem;">Já possui uma conta? <a href="login.html" class="link-info">Entre aqui</a></p>
+
+          </form>
+
+        </div>
+
+        <div class="px-3 px-xl-4 pb-2">
+          <small class="text-muted" style="font-size: 0.78rem;">© 2026 Galea. Todos os direitos reservados.</small>
+        </div>
+
+      </div>
+
+      <!-- Imagem do Céu Estrelado à direita (Igual ao Login) -->
+      <div class="col-sm-6 px-0 d-none d-sm-block sessao-imagem-estrelas">
+        <img src="images/others/wallpaperestrelas1.png"
+          alt="Céu estrelado Galea" class="w-100 vh-100" style="object-fit: cover; object-position: left;">
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+    // SVGs do símbolo de olho (aberto e fechado)
+    const SVG_OLHO_ABERTO = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>`;
+    const SVG_OLHO_FECHADO = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>`;
+
+    function configurarToggleSenha(btnId, inputId, labelTexto) {
+        const btn = document.getElementById(btnId);
+        const input = document.getElementById(inputId);
+        if (!btn || !input) return;
+
+        btn.addEventListener('click', () => {
+            const visivel = input.type === 'text';
+            input.type = visivel ? 'password' : 'text';
+            btn.innerHTML = visivel ? SVG_OLHO_ABERTO : SVG_OLHO_FECHADO;
+            btn.setAttribute('aria-label', visivel ? `Mostrar ${labelTexto}` : `Ocultar ${labelTexto}`);
+            btn.setAttribute('aria-pressed', String(!visivel));
+            input.focus();
         });
-    </script>
+    }
+
+    configurarToggleSenha('btn-toggle-senha', 'cad-senha', 'senha');
+    configurarToggleSenha('btn-toggle-confirmar', 'cad-confirmar-senha', 'confirmação de senha');
+
+    // Seletor Aluno / Professor (apenas o nome, em tom visível)
+    const btnAluno = document.getElementById('btn-tipo-aluno');
+    const btnProfessor = document.getElementById('btn-tipo-professor');
+    const selectTipo = document.getElementById('cad-tipo');
+
+    function selecionarTipo(tipo) {
+        if (tipo === 'professor') {
+            btnProfessor.classList.add('ativo');
+            btnProfessor.setAttribute('aria-checked', 'true');
+            btnAluno.classList.remove('ativo');
+            btnAluno.setAttribute('aria-checked', 'false');
+            selectTipo.value = 'professor';
+        } else {
+            btnAluno.classList.add('ativo');
+            btnAluno.setAttribute('aria-checked', 'true');
+            btnProfessor.classList.remove('ativo');
+            btnProfessor.setAttribute('aria-checked', 'false');
+            selectTipo.value = 'aluno';
+        }
+    }
+
+    if (btnAluno && btnProfessor) {
+        btnAluno.addEventListener('click', () => selecionarTipo('aluno'));
+        btnProfessor.addEventListener('click', () => selecionarTipo('professor'));
+    }
+
+    const form = document.getElementById('form-cadastro');
+    const nomeInput = document.getElementById('cad-nome');
+    const sobrenomeInput = document.getElementById('cad-sobrenome');
+    const emailInput = document.getElementById('cad-email');
+    const senhaInput = document.getElementById('cad-senha');
+    const confirmarInput = document.getElementById('cad-confirmar-senha');
+    const erroConfirmar = document.getElementById('erro-confirmar');
+
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        erroConfirmar.textContent = '';
+
+        if (!nomeInput.value.trim()) {
+            erroConfirmar.textContent = 'Por favor, digite seu nome.';
+            nomeInput.focus();
+            return;
+        }
+
+        if (!emailInput.value.trim()) {
+            erroConfirmar.textContent = 'Por favor, informe seu e-mail.';
+            emailInput.focus();
+            return;
+        }
+
+        if (senhaInput.value.length < 6) {
+            erroConfirmar.textContent = 'A senha deve conter no mínimo 6 caracteres.';
+            senhaInput.focus();
+            return;
+        }
+
+        if (senhaInput.value !== confirmarInput.value) {
+            erroConfirmar.textContent = 'As senhas não coincidem. Digite novamente.';
+            confirmarInput.focus();
+            return;
+        }
+
+        try {
+            const resp = await fetch('/api/auth/cadastro', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                credentials: 'include',
+                body: JSON.stringify({
+                    nome: nomeInput.value.trim(),
+                    sobrenome: sobrenomeInput.value.trim(),
+                    email: emailInput.value.trim(),
+                    senha: senhaInput.value,
+                    tipo: selectTipo.value
+                })
+            });
+
+            const dados = await resp.json().catch(() => ({}));
+
+            if (resp.ok) {
+                try {
+                    localStorage.setItem('galea_nome_perfil', dados.usuario?.nome || `${nomeInput.value.trim()} ${sobrenomeInput.value.trim()}`.trim());
+                    localStorage.setItem('galea_usuario_xp', '0');
+                    localStorage.setItem('galea_meus_cursos', '[]');
+                    localStorage.setItem('galea_aulas_concluidas', '{}');
+                    localStorage.removeItem('galea_foto_perfil');
+                    localStorage.removeItem('galea_sobre_perfil');
+                } catch (e) {}
+                window.location.href = 'home.html';
+            } else {
+                erroConfirmar.textContent = dados.erro || 'Não foi possível concluir o cadastro.';
+            }
+        } catch (redeErr) {
+            try {
+                localStorage.setItem('galea_nome_perfil', `${nomeInput.value.trim()} ${sobrenomeInput.value.trim()}`.trim());
+                localStorage.setItem('galea_usuario_xp', '0');
+                localStorage.setItem('galea_meus_cursos', '[]');
+                localStorage.setItem('galea_aulas_concluidas', '{}');
+            } catch (e) {}
+            erroConfirmar.textContent = 'Servidor fora do ar ou sem conexão. Tente novamente em instantes.';
+        }
+    });
+</script>
+
 </body>
 </html>

@@ -20,8 +20,9 @@
     // Páginas que a home abre direto pelo endereço (home.html#perfil, home.html#trilha).
     // "menu" é o item do menu lateral que fica marcado quando a página abre.
     const rotas = {
-        perfil: { url: 'pages/account.html', menu: 'perfil' },
-        trilha: { url: 'pages/trilha.html',  menu: 'cursos' }
+        perfil:  { url: 'pages/account.html',    menu: 'perfil' },
+        trilha:  { url: 'pages/trilha.html',     menu: 'cursos' },
+        codelab: { url: 'pages/playground.html', menu: 'codelab' }
     };
     const menu = document.querySelector('.menu');
 

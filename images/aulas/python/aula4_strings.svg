@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 240" width="100%" height="100%">
+  <rect width="100%" height="100%" rx="16" fill="#17062e" />
+  <text x="350" y="30" fill="#FFFFFF" font-family="system-ui, sans-serif" font-size="16" font-weight="700" text-anchor="middle">Textos (Strings) e Fatiamento em Python</text>
+
+  <!-- Palavra PYTHON em caixinhas indexadas -->
+  <g transform="translate(140, 50)">
+    <!-- Índices Positivos (Topo) -->
+    <text x="35" y="15" fill="#5CE1E6" font-family="monospace" font-size="14" font-weight="bold" text-anchor="middle">0</text>
+    <text x="105" y="15" fill="#5CE1E6" font-family="monospace" font-size="14" font-weight="bold" text-anchor="middle">1</text>
+    <text x="175" y="15" fill="#5CE1E6" font-family="monospace" font-size="14" font-weight="bold" text-anchor="middle">2</text>
+    <text x="245" y="15" fill="#5CE1E6" font-family="monospace" font-size="14" font-weight="bold" text-anchor="middle">3</text>
+    <text x="315" y="15" fill="#5CE1E6" font-family="monospace" font-size="14" font-weight="bold" text-anchor="middle">4</text>
+    <text x="385" y="15" fill="#5CE1E6" font-family="monospace" font-size="14" font-weight="bold" text-anchor="middle">5</text>
+
+    <!-- Caixas com as letras -->
+    <rect x="5" y="25" width="60" height="55" rx="6" fill="#06D6A0" stroke="#FFF" stroke-width="1.5"/>
+    <text x="35" y="62" fill="#17062e" font-family="monospace" font-size="28" font-weight="900" text-anchor="middle">P</text>
+
+    <rect x="75" y="25" width="60" height="55" rx="6" fill="#06D6A0" stroke="#FFF" stroke-width="1.5"/>
+    <text x="105" y="62" fill="#17062e" font-family="monospace" font-size="28" font-weight="900" text-anchor="middle">Y</text>
+
+    <rect x="145" y="25" width="60" height="55" rx="6" fill="#06D6A0" stroke="#FFF" stroke-width="1.5"/>
+    <text x="175" y="62" fill="#17062e" font-family="monospace" font-size="28" font-weight="900" text-anchor="middle">T</text>
+
+    <rect x="215" y="25" width="60" height="55" rx="6" fill="#06D6A0" stroke="#FFF" stroke-width="1.5"/>
+    <text x="245" y="62" fill="#17062e" font-family="monospace" font-size="28" font-weight="900" text-anchor="middle">H</text>
+
+    <rect x="285" y="25" width="60" height="55" rx="6" fill="#06D6A0" stroke="#FFF" stroke-width="1.5"/>
+    <text x="315" y="62" fill="#17062e" font-family="monospace" font-size="28" font-weight="900" text-anchor="middle">O</text>
+
+    <rect x="355" y="25" width="60" height="55" rx="6" fill="#06D6A0" stroke="#FFF" stroke-width="1.5"/>
+    <text x="385" y="62" fill="#17062e" font-family="monospace" font-size="28" font-weight="900" text-anchor="middle">N</text>
+
+    <!-- Índices Negativos (Base) -->
+    <text x="35" y="100" fill="#FF8589" font-family="monospace" font-size="13" font-weight="bold" text-anchor="middle">-6</text>
+    <text x="105" y="100" fill="#FF8589" font-family="monospace" font-size="13" font-weight="bold" text-anchor="middle">-5</text>
+    <text x="175" y="100" fill="#FF8589" font-family="monospace" font-size="13" font-weight="bold" text-anchor="middle">-4</text>
+    <text x="245" y="100" fill="#FF8589" font-family="monospace" font-size="13" font-weight="bold" text-anchor="middle">-3</text>
+    <text x="315" y="100" fill="#FF8589" font-family="monospace" font-size="13" font-weight="bold" text-anchor="middle">-2</text>
+    <text x="385" y="100" fill="#FF8589" font-family="monospace" font-size="13" font-weight="bold" text-anchor="middle">-1</text>
+  </g>
+
+  <!-- Exemplos de Fatiamento -->
+  <g transform="translate(60, 160)">
+    <rect width="580" height="42" rx="8" fill="rgba(255,255,255,0.06)"/>
+    <text x="290" y="26" fill="#FFF" font-family="monospace" font-size="13" text-anchor="middle">
+      texto = "PYTHON"  |  texto[0] = <tspan fill="#5CE1E6" font-weight="bold">'P'</tspan>  |  texto[-1] = <tspan fill="#FF8589" font-weight="bold">'N'</tspan>  |  texto[0:2] = <tspan fill="#FFD166" font-weight="bold">'PY'</tspan>
+    </text>
+  </g>
+
+  <text x="350" y="224" fill="rgba(255,255,255,0.75)" font-size="11" text-anchor="middle">
+    🧠 Em Python, a contagem sempre começa no ZERO (0). O índice [-1] pega sempre o último caractere!
+  </text>
+</svg>

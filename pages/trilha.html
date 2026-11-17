@@ -13,9 +13,10 @@
     <link rel="stylesheet" href="../style/style.css">
     <link rel="stylesheet" href="../style/trilha.css">
 
-    <!-- Ordem: catálogo/Meus cursos, dados das trilhas, e por último o script desta página -->
+    <!-- Ordem: catálogo/Meus cursos, dados das trilhas, conteúdo pedagógico e script da trilha -->
     <script src="../script/cursos.js" defer></script>
     <script src="../script/trilhas.js" defer></script>
+    <script src="../script/conteudo-aulas.js" defer></script>
     <script src="../script/trilha.js" defer></script>
 </head>
 <body class="body">
@@ -33,7 +34,7 @@
                 </a>
 
                 <div class="trilha-titulo">
-                    <h1 id="trilha-curso">Física quântica – 2026</h1>
+                    <h1 id="trilha-curso">Física – 2026</h1>
                     <p><span id="trilha-concluidos">0</span> de <span id="trilha-total">0</span> aulas concluídas</p>
                 </div>
 
@@ -57,7 +58,7 @@
             <ol class="trilha" id="trilha" aria-label="Aulas do curso"></ol>
         </main>
 
-        <!-- Lado direito: entrada direta para o chat deste curso na Comunidade -->
+        <!-- Lado direito: entrada direta para o chat deste curso e atalho para o Code Lab -->
         <aside class="trilha-chat" aria-labelledby="trilha-chat-titulo">
             <span class="trilha-chat-icone" aria-hidden="true">
                 <span class="material-symbols-outlined">forum</span>
@@ -66,6 +67,17 @@
                 <h2 id="trilha-chat-titulo">Chat do curso</h2>
                 <p id="trilha-chat-texto"></p>
                 <button type="button" class="trilha-chat-botao" id="trilha-chat-botao"></button>
+            </div>
+
+            <!-- Atalho interativo para testar códigos no Galea Code -->
+            <div class="trilha-codelab-card" id="trilha-codelab-card" style="margin-top: 1.2rem; padding: 1rem; background: rgba(56, 189, 248, 0.08); border: 1px solid rgba(56, 189, 248, 0.3); border-radius: 12px; text-align: center;">
+                <span class="material-symbols-outlined" style="font-size: 28px; color: #38bdf8;">terminal</span>
+                <h3 style="font-size: 0.95rem; margin: 0.4rem 0 0.2rem 0; color: #fff;">Galea Code</h3>
+                <p style="font-size: 0.78rem; color: rgba(255,255,255,0.7); margin-bottom: 0.8rem;">Pratique seus códigos em tempo real em um mini editor interativo!</p>
+                <a href="playground.html" target="_self" class="btn-codelab-abrir" style="display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; background: #38bdf8; color: #0b0217; text-decoration: none; border-radius: 999px; font-size: 0.82rem; font-weight: 700;">
+                    <span class="material-symbols-outlined" style="font-size: 16px;">code</span>
+                    Abrir Galea Code
+                </a>
             </div>
         </aside>
     </div>
