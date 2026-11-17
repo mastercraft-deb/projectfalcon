@@ -145,10 +145,10 @@
               texto: 'Eu uso o VS Code, mas o IDLE já resolve bem no começo.' },
             { id: 'w1', chat: 'web', autor: 'ana', quando: agora - 90 * min, respostaA: null,
               texto: 'Dica: aperte F12 no navegador para ver o HTML e o CSS de qualquer site.' },
-            { id: 'e1', chat: 'eletrica', autor: 'rafael', quando: agora - 75 * min, respostaA: null,
-              texto: 'Lembrete: tensão é em volts e corrente é em ampères. Quem confunde os dois?' },
-            { id: 'u1', chat: 'musica', autor: 'bia', quando: agora - 60 * min, respostaA: null,
-              texto: 'Alguém aqui treina leitura de partitura todo dia?' },
+            { id: 'e1', chat: 'quimica', autor: 'rafael', quando: agora - 75 * min, respostaA: null,
+              texto: 'Dica de Química: a diferença entre mistura homogênea e heterogênea cai em tudo que é prova!' },
+            { id: 'u1', chat: 'ingles', autor: 'bia', quando: agora - 60 * min, respostaA: null,
+              texto: 'Hey guys! Alguém praticando conversação e vocabulário básico de inglês hoje?' },
             { id: 't1', chat: 'matematica', autor: 'ana', quando: agora - 45 * min, respostaA: null,
               texto: 'Quem já concluiu o curso pode ajudar a turma com as dúvidas de álgebra?' }
         ];

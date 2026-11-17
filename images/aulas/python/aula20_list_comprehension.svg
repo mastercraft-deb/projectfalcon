@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 240" width="100%" height="100%">
+  <rect width="100%" height="100%" rx="16" fill="#17062e" />
+  <text x="350" y="30" fill="#FFFFFF" font-family="system-ui, sans-serif" font-size="16" font-weight="700" text-anchor="middle">Compreensão de Listas (List Comprehension)</text>
+
+  <!-- Anatomia da fórmula -->
+  <g transform="translate(60, 50)">
+    <rect width="580" height="110" rx="10" fill="rgba(255,255,255,0.05)" stroke="#A98BFF" stroke-width="1.5"/>
+
+    <!-- A fórmula em cores -->
+    <text x="290" y="45" font-family="monospace" font-size="20" font-weight="900" text-anchor="middle">
+      [ <tspan fill="#06D6A0">x * 2</tspan> <tspan fill="#FFD166">for x in numeros</tspan> <tspan fill="#EF476F">if x &gt; 3</tspan> ]
+    </text>
+
+    <!-- Legendas explicativas abaixo de cada parte -->
+    <text x="130" y="80" fill="#06D6A0" font-size="12" font-weight="bold" text-anchor="middle">1. O que fazer</text>
+    <text x="130" y="96" fill="rgba(255,255,255,0.7)" font-size="10" text-anchor="middle">(Expressão / Transformação)</text>
+
+    <text x="290" y="80" fill="#FFD166" font-size="12" font-weight="bold" text-anchor="middle">2. O Laço (Iteração)</text>
+    <text x="290" y="96" fill="rgba(255,255,255,0.7)" font-size="10" text-anchor="middle">(Para cada item da lista)</text>
+
+    <text x="450" y="80" fill="#EF476F" font-size="12" font-weight="bold" text-anchor="middle">3. Filtro Opcional</text>
+    <text x="450" y="96" fill="rgba(255,255,255,0.7)" font-size="10" text-anchor="middle">(Só se a condição for True)</text>
+  </g>
+
+  <!-- Comparação com loop tradicional -->
+  <text x="350" y="195" fill="#FFF" font-size="12" text-anchor="middle">
+    Substitui 4 linhas de <tspan fill="#FFD166">for</tspan> e <tspan fill="#5CE1E6">.append()</tspan> por uma única linha elegante, rápida e limpa!
+  </text>
+</svg>
