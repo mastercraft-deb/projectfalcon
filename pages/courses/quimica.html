@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Elétrica - Galea</title>
+    <title>Química - Galea</title>
     <link rel="icon" href="../../images/logos/logo.png" type="image/png">
 
     <!-- Preferências (Configurações) valem para o site todo -->
@@ -13,6 +13,9 @@
     <link rel="stylesheet" href="../../style/style.css">
     <link rel="stylesheet" href="../../style/curso.css">
     <script src="../../script/curso-avatar.js" defer></script>
+        <!-- Gerenciador de cursos e atualizador dinâmico da capa -->
+    <script src="../../script/cursos.js"></script>
+    <script src="../../script/capa-curso.js" defer></script>
 </head>
 <body class="body">
 
@@ -20,7 +23,7 @@
     <div class="curso-tela">
 
         <section class="capa" aria-labelledby="curso-titulo">
-            <img class="capa-img" src="https://www.meer.com/attachments/f5a5d221264e9fb9ea60ff5a8e4813b10d0aee06/store/fill/860/645/e13059b688401aa2d7345800e6e5e932731e3f1550b7ca7e85943f6a5120/A-glow-of-nitrogen-fills-the-atmosphere-as-Nikola-Tesla-is-photographed-sitting-in-front-of-his.jpg" alt="">
+            <img class="capa-img" src="../../images/others/img-cursos/quimica.jpg" alt="Capa do curso de Química">
 
             <div class="capa-topo">
                 <a class="voltar" href="../../home.html">
@@ -39,15 +42,15 @@
             </div>
 
             <div class="capa-info">
-                <h1 id="curso-titulo">Elétrica – 2026</h1>
+                <h1 id="curso-titulo">Química – 2026</h1>
 
                 <!-- Os dois levam ao mapa de módulos, que abre dentro da home (menu lateral visível) -->
                 <div class="capa-botoes">
-                    <a class="botao-comecar" href="../trilha.html?curso=eletrica">
+                    <a class="botao-comecar" href="../trilha.html?curso=quimica">
                         <span class="material-symbols-outlined" aria-hidden="true">play_arrow</span>
                         Começar
                     </a>
-                    <a class="botao-progresso" href="../../home.html#trilha-eletrica">
+                    <a class="botao-progresso" href="../../home.html#trilha-quimica">
                         <span class="material-symbols-outlined" aria-hidden="true">map</span>
                         Progresso
                     </a>
@@ -74,7 +77,7 @@
 
         <!-- Texto e números de exemplo: depois virão do banco de dados -->
         <p id="curso-descricao">
-            Dos conceitos básicos de carga, tensão e corrente até circuitos simples. Cada lição é curta e termina com um desafio rápido para você ganhar pontos de experiência.
+            Descubra os fundamentos da matéria, átomos, reações químicas e misturas em lições práticas e diretas. Cada lição é curta e termina com um desafio rápido para você ganhar pontos de experiência.
         </p>
 
         <dl class="fatos">

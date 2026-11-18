@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 240" width="100%" height="100%">
+  <rect width="100%" height="100%" rx="16" fill="#17062e" />
+  <text x="350" y="30" fill="#FFFFFF" font-family="system-ui, sans-serif" font-size="16" font-weight="700" text-anchor="middle">Funções: Parâmetros (Entrada) e Return (Saída)</text>
+
+  <!-- Diagrama da Máquina/Processamento -->
+  <g transform="translate(60, 50)">
+    <!-- Entrada: Parâmetros -->
+    <rect x="0" y="30" width="150" height="65" rx="8" fill="rgba(46, 196, 182, 0.15)" stroke="#2EC4B6" stroke-width="1.5"/>
+    <text x="75" y="52" fill="#5CE1E6" font-size="12" font-weight="bold" text-anchor="middle">ENTRADA (Parâmetros)</text>
+    <text x="75" y="75" fill="#FFF" font-family="monospace" font-size="14" font-weight="bold" text-anchor="middle">calcular_area(5, 4)</text>
+
+    <!-- Seta Entrada ➔ Máquina -->
+    <path d="M 155 62 L 195 62" stroke="#2EC4B6" stroke-width="3"/>
+    <polygon points="198,62 188,57 188,67" fill="#2EC4B6"/>
+
+    <!-- A Função (Processamento) -->
+    <rect x="205" y="10" width="170" height="105" rx="10" fill="#A98BFF" stroke="#FFF" stroke-width="2"/>
+    <text x="290" y="35" fill="#17062e" font-family="monospace" font-size="13" font-weight="900" text-anchor="middle">def calcular_area(b, h):</text>
+    <text x="290" y="65" fill="#17062e" font-family="monospace" font-size="13" font-weight="bold" text-anchor="middle">area = b * h</text>
+    <text x="290" y="95" fill="#17062e" font-family="monospace" font-size="14" font-weight="900" text-anchor="middle">return area</text>
+
+    <!-- Seta Máquina ➔ Saída -->
+    <path d="M 380 62 L 420 62" stroke="#06D6A0" stroke-width="3"/>
+    <polygon points="425,62 415,57 415,67" fill="#06D6A0"/>
+
+    <!-- Saída: Return -->
+    <rect x="430" y="30" width="150" height="65" rx="8" fill="rgba(6, 214, 160, 0.15)" stroke="#06D6A0" stroke-width="1.5"/>
+    <text x="505" y="52" fill="#06D6A0" font-size="12" font-weight="bold" text-anchor="middle">SAÍDA (return)</text>
+    <text x="505" y="77" fill="#FFD166" font-family="monospace" font-size="18" font-weight="900" text-anchor="middle">20</text>
+  </g>
+
+  <!-- Dica de fixação -->
+  <text x="350" y="205" fill="#FFF" font-size="12" text-anchor="middle">
+    💡 <tspan fill="#FFD166" font-weight="bold">print()</tspan> apenas mostra na tela para humanos. <tspan fill="#06D6A0" font-weight="bold">return</tspan> devolve o valor para o programa continuar usando!
+  </text>
+</svg>

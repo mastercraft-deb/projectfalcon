@@ -68,7 +68,34 @@
         return li;
     }
 
-    // ---------- Atualização de XP, Nível e Troféus ----------
+    // ---------- Cálculo e Atualização de Nível, XP e Troféus ----------
+    /**
+     * Calcula o nível e a porcentagem da barra:
+     * - Inicia em Level 0.
+     * - Sobe para Level 1 ao atingir 500 pontos.
+     * - A cada novo nível, dobra a pontuação necessária (500, 1000, 2000, 4000...).
+     */
+    function calcularNivelEProgresso(xpTotal) {
+        let xpRestante = Math.max(0, parseInt(xpTotal, 10) || 0);
+        let nivel = 0;
+        let pontosNecessarios = 500; // Pontos para o Nível 1
+
+        while (xpRestante >= pontosNecessarios) {
+            xpRestante -= pontosNecessarios;
+            nivel++;
+            pontosNecessarios *= 2; // Dobra para o próximo nível
+        }
+
+        const percentual = Math.min(100, Math.floor((xpRestante / pontosNecessarios) * 100));
+
+        return {
+            nivel,
+            xpNoNivel: xpRestante,
+            xpNecessario: pontosNecessarios,
+            percentual
+        };
+    }
+
     function atualizarGamificacao() {
         let xp = 0;
         try {
@@ -96,15 +123,27 @@
         const meus = typeof GaleaCursos !== 'undefined' ? GaleaCursos.meus() : [];
         const totalCursosConcluidos = meus.filter(c => Number(c.progresso) >= 100).length;
 
-        // Barra de progresso até o próximo nível (cada nível requer 100 XP)
-        const percentualNivel = xp > 0 ? (xp % 100 === 0 ? 100 : (xp % 100)) : 0;
+        // Cálculo dinâmico do nível com base na pontuação
+        const { nivel, xpNoNivel, xpNecessario, percentual } = calcularNivelEProgresso(xp);
 
-        if (perfilXp) perfilXp.textContent = xp;
-        if (perfilXpBarra) {
-            perfilXpBarra.style.setProperty('--progresso', percentualNivel + '%');
-            perfilXpBarra.setAttribute('aria-valuenow', percentualNivel);
+        // Atualiza o número do Level à esquerda
+        if (perfilXp) {
+            perfilXp.textContent = nivel;
+            perfilXp.title = `Nível ${nivel} (${xpNoNivel} / ${xpNecessario} pontos) — XP Total: ${xp} pts`;
         }
-        if (perfilXpPct) perfilXpPct.textContent = percentualNivel + '%';
+
+        // Atualiza o preenchimento da barra até o próximo nível
+        if (perfilXpBarra) {
+            perfilXpBarra.style.setProperty('--progresso', percentual + '%');
+            perfilXpBarra.setAttribute('aria-valuenow', percentual);
+            perfilXpBarra.setAttribute('aria-label', `Nível ${nivel} — Progresso: ${percentual}% (${xpNoNivel}/${xpNecessario} pontos)`);
+            perfilXpBarra.title = `${xpNoNivel} / ${xpNecessario} pontos (${percentual}%)`;
+        }
+
+        // Atualiza a porcentagem exibida à direita da barra
+        if (perfilXpPct) {
+            perfilXpPct.textContent = percentual + '%';
+        }
 
         // Sistema de Troféus:
         // Bronze: 1 por lição concluída
@@ -113,8 +152,8 @@
         const prata = Math.floor(totalAulasConcluidas / 4);
         // Ouro: 1 por curso concluído (100%)
         const ouro = totalCursosConcluidos;
-        // Platina: Maestria suprema (1 a cada curso concluído com folga de XP)
-        const platina = (totalCursosConcluidos >= 1 && xp >= 200) ? totalCursosConcluidos : 0;
+        // Platina: Maestria suprema (1 a cada curso concluído com nível >= 1)
+        const platina = (totalCursosConcluidos >= 1 && nivel >= 1) ? totalCursosConcluidos : 0;
 
         if (trofeuBronze) trofeuBronze.textContent = bronze;
         if (trofeuPrata) trofeuPrata.textContent = prata;

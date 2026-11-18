@@ -65,6 +65,26 @@
     voltar.href = curso.pagina;
     chatTitulo.textContent = 'Chat de ' + curso.nome;
 
+    // O Code Lab de testes de código só fica visível nos cursos de Python e Programação Web
+    const cardCodeLab = document.getElementById('trilha-codelab-card');
+    if (cardCodeLab) {
+        const cursosComCodigo = ['python', 'web'];
+        if (cursosComCodigo.includes(cursoId)) {
+            cardCodeLab.hidden = false;
+            cardCodeLab.style.display = 'block';
+
+            // Ajusta o link para abrir com o modo certo (Python ou Web)
+            const btnPlayground = cardCodeLab.querySelector('.btn-codelab-abrir');
+            if (btnPlayground) {
+                btnPlayground.href = `playground.html?modo=${cursoId}`;
+                btnPlayground.innerHTML = `<span class="material-symbols-outlined" style="font-size: 16px;">code</span> Abrir Code Lab (${cursoId === 'web' ? 'HTML/CSS/JS' : 'Python'})`;
+            }
+        } else {
+            cardCodeLab.hidden = true;
+            cardCodeLab.style.display = 'none';
+        }
+    }
+
     let ultimoElementoFocado = null;
     let aulaAbertaIndice = null;
 
@@ -254,8 +274,30 @@
     // =====================================================
     // RENDERIZAÇÃO SEGURA DE MARKDOWN (SEM INNERHTML CRU)
     // =====================================================
-    function renderizarMarkdownSeguro(texto, container) {
+    function renderizarMarkdownSeguro(texto, container, dadosVisuais) {
         container.replaceChildren();
+
+        // Se houver imagem ou gráfico didático (ex: SVG leve)
+        if (dadosVisuais && dadosVisuais.imagem) {
+            const figura = document.createElement('figure');
+            figura.className = 'licao-figura';
+
+            const img = document.createElement('img');
+            img.src = dadosVisuais.imagem;
+            img.alt = dadosVisuais.alt || 'Gráfico ilustrativo da aula';
+            img.className = 'licao-grafico-svg';
+            img.loading = 'lazy';
+
+            figura.appendChild(img);
+            if (dadosVisuais.alt) {
+                const legenda = document.createElement('figcaption');
+                legenda.className = 'licao-legenda';
+                legenda.textContent = dadosVisuais.alt;
+                figura.appendChild(legenda);
+            }
+            container.appendChild(figura);
+        }
+
         if (!texto) return;
 
         const linhas = texto.split(/\r?\n/);
@@ -265,6 +307,17 @@
         linhas.forEach(linha => {
             const trimmed = linha.trim();
             if (!trimmed) {
+                paragrafoAtual = null;
+                blocoDestaque = null;
+                return;
+            }
+
+            // Subtítulos (### Título)
+            if (trimmed.startsWith('### ')) {
+                const h3 = document.createElement('h3');
+                h3.className = 'licao-subtitulo';
+                formatarTrechoSeguro(trimmed.replace(/^###\s+/, ''), h3);
+                container.appendChild(h3);
                 paragrafoAtual = null;
                 blocoDestaque = null;
                 return;
@@ -341,12 +394,29 @@
     }
 
     function obterConteudoAula(nomeCurso, aulaIndice, aulaTitulo) {
-        return [
-            `**Objetivo da lição:** Compreender os fundamentos essenciais de *${aulaTitulo}* e fixar o conhecimento de forma leve e prática.`,
-            `Nesta etapa do curso de **${nomeCurso}**, analisamos como esse conceito se aplica na prática. Cada lição foi planejada em blocos curtos para que você absorva o conteúdo no seu tempo, sem sobrecarga cognitiva.`,
-            `> **Dica Galea:** Leia com calma, experimente relacionar a ideia ao seu dia a dia e celebre cada pequeno passo concluído.`,
-            `Ao clicar no botão de conclusão abaixo, você conquista **+${XP_POR_AULA} XP** e desbloqueia a próxima aula na sua trilha.`
-        ].join('\n\n');
+        const numeroAula = aulaIndice + 1;
+        if (window.GaleaConteudos) {
+            const pedagogico = window.GaleaConteudos.obter(cursoId, numeroAula);
+            if (pedagogico) {
+                return {
+                    texto: pedagogico.conteudo,
+                    visual: {
+                        imagem: pedagogico.imagem,
+                        alt: pedagogico.alt
+                    }
+                };
+            }
+        }
+
+        return {
+            texto: [
+                `**Objetivo da lição:** Compreender os fundamentos essenciais de *${aulaTitulo}* e fixar o conhecimento de forma leve e prática.`,
+                `Nesta etapa do curso de **${nomeCurso}**, analisamos como esse conceito se aplica na prática. Cada lição foi planejada em blocos curtos para que você absorva o conteúdo no seu tempo, sem sobrecarga cognitiva.`,
+                `> **Dica Galea:** Leia com calma, experimente relacionar a ideia ao seu dia a dia e celebre cada pequeno passo concluído.`,
+                `Ao clicar no botão de conclusão abaixo, você conquista **+${XP_POR_AULA} XP** e desbloqueia a próxima aula na sua trilha.`
+            ].join('\n\n'),
+            visual: null
+        };
     }
 
     // ---------- montar o mapa ----------
@@ -405,8 +475,8 @@
         licaoNumeroTag.textContent = `Aula ${indice + 1} de ${trilha.aulas.length}`;
         licaoTitulo.textContent = `${indice + 1}. ${nomeAula}`;
 
-        const texto = obterConteudoAula(curso.nome, indice, nomeAula);
-        renderizarMarkdownSeguro(texto, licaoConteudo);
+        const aulaDados = obterConteudoAula(curso.nome, indice, nomeAula);
+        renderizarMarkdownSeguro(aulaDados.texto, licaoConteudo, aulaDados.visual);
 
         const jaConcluida = estado === 'concluido';
         if (jaConcluida) {

@@ -119,14 +119,24 @@
             background: none;
             border: none;
             padding: 0;
+            margin: 0;
             cursor: pointer;
-            display: flex;
+            display: inline-flex;
             align-items: center;
+            justify-content: center;
+            color: #666666;
+            width: 24px;
+            height: 24px;
+            transition: color 0.2s ease;
         }
 
-        .btn-toggle-senha span {
-            color: #666666 !important;
-            font-size: 20px;
+        .btn-toggle-senha:hover {
+            color: var(--cor1);
+        }
+
+        .btn-toggle-senha svg {
+            stroke: currentColor;
+            display: block;
         }
 
         .btn-login-destaque {
@@ -227,7 +237,10 @@
               <div class="campo-senha-wrap">
                 <input type="password" id="login-senha" name="senha" class="form-control form-control-lg" placeholder="Digite sua senha" required autocomplete="current-password" />
                 <button type="button" class="btn-toggle-senha" id="btn-toggle-login-senha" aria-label="Mostrar senha" aria-controls="login-senha" aria-pressed="false">
-                  <span class="material-symbols-outlined" aria-hidden="true">visibility</span>
+                  <svg class="icone-olho" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                    <circle cx="12" cy="12" r="3"></circle>
+                  </svg>
                 </button>
               </div>
             </div>
@@ -261,17 +274,19 @@
 </section>
 
 <script>
+    const SVG_OLHO_ABERTO = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>`;
+    const SVG_OLHO_FECHADO = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>`;
+
     const btnToggle = document.getElementById('btn-toggle-login-senha');
     const inputSenha = document.getElementById('login-senha');
     const inputUsuario = document.getElementById('login-usuario');
     const erroLogin = document.getElementById('login-erro');
     const formLogin = document.getElementById('form-login');
-    const icone = btnToggle.querySelector('.material-symbols-outlined');
 
     btnToggle.addEventListener('click', () => {
         const visivel = inputSenha.type === 'text';
         inputSenha.type = visivel ? 'password' : 'text';
-        icone.textContent = visivel ? 'visibility' : 'visibility_off';
+        btnToggle.innerHTML = visivel ? SVG_OLHO_ABERTO : SVG_OLHO_FECHADO;
         btnToggle.setAttribute('aria-label', visivel ? 'Mostrar senha' : 'Ocultar senha');
         btnToggle.setAttribute('aria-pressed', String(!visivel));
         inputSenha.focus();

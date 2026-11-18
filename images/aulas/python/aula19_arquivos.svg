@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 240" width="100%" height="100%">
+  <rect width="100%" height="100%" rx="16" fill="#17062e" />
+  <text x="350" y="30" fill="#FFFFFF" font-family="system-ui, sans-serif" font-size="16" font-weight="700" text-anchor="middle">Manipulação de Arquivos: O Bloco Seguro with open()</text>
+
+  <!-- Comparação: Jeito Antigo vs Jeito Moderno Pythonico -->
+  <g transform="translate(60, 50)">
+    <!-- Jeito com with open -->
+    <rect x="0" y="0" width="580" height="120" rx="10" fill="rgba(6, 214, 160, 0.12)" stroke="#06D6A0" stroke-width="1.8"/>
+    <text x="25" y="28" fill="#06D6A0" font-size="13" font-weight="bold">O Padrão Ouro do Python (with open):</text>
+    
+    <text x="35" y="58" fill="#FFD166" font-family="monospace" font-size="14" font-weight="bold">with open("dados.txt", "w") as arquivo:</text>
+    <text x="65" y="80" fill="#FFF" font-family="monospace" font-size="14">arquivo.write("Olá Galea!")</text>
+    
+    <text x="35" y="106" fill="#5CE1E6" font-size="11" font-weight="bold">✓ O arquivo é fechado AUTOMATICAMENTE ao sair do bloco, mesmo se der erro!</text>
+  </g>
+
+  <!-- Modos de Abertura -->
+  <g transform="translate(60, 182)">
+    <rect width="180" height="32" rx="6" fill="rgba(255,255,255,0.08)"/>
+    <text x="90" y="21" fill="#FFF" font-family="monospace" font-size="12" text-anchor="middle">"r" = Read (Leitura)</text>
+
+    <rect x="200" y="0" width="180" height="32" rx="6" fill="rgba(255,255,255,0.08)"/>
+    <text x="290" y="21" fill="#FFF" font-family="monospace" font-size="12" text-anchor="middle">"w" = Write (Sobrescreve)</text>
+
+    <rect x="400" y="0" width="180" height="32" rx="6" fill="rgba(255,255,255,0.08)"/>
+    <text x="490" y="21" fill="#FFF" font-family="monospace" font-size="12" text-anchor="middle">"a" = Append (Acrescenta)</text>
+  </g>
+</svg>

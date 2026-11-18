@@ -185,7 +185,9 @@ body {
 .botao-progresso .material-symbols-outlined {
     font-size: 1.9rem;
 }
-
+/*
+      Botões Dinamicos: Cores conforme o progresso do curso.
+*/
 /* Texto escuro sobre o laranja: o branco dava só 2,6:1 de contraste */
 .botao-comecar {
     border: 0;
@@ -193,6 +195,43 @@ body {
     color: #1e003f;
 }
 
+.botao-comecar.botao-continuar {
+    background-color: #e59a00;
+    color: #ffffff;
+    border: none;
+    box-shadow: 0 4px 12px rgba(229, 154, 0, 0.4);
+}
+
+.botao-comecar.botao-continuar .material-symbols-outlined {
+    color: #ffffff;
+}
+
+.botao-comecar.botao-continuar:hover {
+    background-color: #d18c00;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(229,154, 0, 0.55);
+}
+
+/*
+     Segundo Estado: Curso concluído Botão Recomeçar
+*/
+
+.botao-comecar.botao-recomecar {
+    background-color: #582c8b;
+    color: #ffffff;
+    border: none;
+    box-shadow: 0 4px 12px rgba(88, 44, 139, 0.4);
+}
+
+.botao-comecar.botao-recomecar .material-symbols-outlined {
+    color: #ffffff;
+}
+
+.botao-comecar.botao-recomecar:hover {
+    background-color:#492474;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(88, 44, 139, 0.55);    
+}
 .botao-comecar .material-symbols-outlined {
     color: #1e003f;
 }

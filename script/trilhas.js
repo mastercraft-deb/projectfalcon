@@ -8,7 +8,7 @@
 
    O número de aulas de cada lista é o mesmo número de "lições" que a página do
    curso mostra (pages/courses/*.html). Se mudar um, mude o outro:
-   Física 24 · Elétrica 20 · Python 30 · Programação web 28 · Teoria musical 18 · Matemática 26.
+   Física 24 · Química 20 · Python 30 · Programação web 28 · Inglês 18 · Matemática 26.
 
    Aulas de exemplo: depois virão do banco de dados.
    ===================================================== */
@@ -18,27 +18,27 @@ window.GaleaTrilhas = (() => {
 
     const TRILHAS = {
         fisica: {
-            titulo: 'Física quântica – 2026',
+            titulo: 'Física – 2026',
             tema: { claro: '#F7B801', bloqueado: '#B8650F' },          // amarelo / laranja escuro
             aulas: [
-                'Leis de Newton', 'Movimento e referencial', 'Força e aceleração', 'Ação e reação',
-                'Energia e trabalho', 'Energia cinética', 'Energia potencial', 'Conservação da energia',
-                'Ondas e luz', 'Frequência e comprimento de onda', 'Reflexão e refração', 'Interferência e difração',
-                'Radiação do corpo negro', 'A catástrofe do ultravioleta', 'Quantização de Planck', 'Temperatura e cor',
-                'Efeito fotoelétrico', 'Fótons e energia', 'Função trabalho', 'Aplicações do efeito fotoelétrico',
-                'Dualidade onda-partícula', 'Hipótese de De Broglie', 'O experimento da dupla fenda', 'Princípio da incerteza'
+                'O que é Física e método científico', 'Grandezas físicas e unidades de medida', 'Movimento uniforme (MU)', 'Movimento uniformemente variado (MUV)',
+                'Gráficos do movimento', 'Queda livre e gravidade', 'Primeira Lei de Newton (Inércia)', 'Segunda Lei de Newton (F = m·a)',
+                'Terceira Lei de Newton (Ação e Reação)', 'Força peso e força normal', 'Força de atrito', 'Trabalho mecânico',
+                'Potência mecânica', 'Energia cinética', 'Energia potencial gravitacional e elástica', 'Conservação da energia mecânica',
+                'Fluidos: densidade e pressão', 'Princípio de Arquimedes (Empuxo)', 'Calor, temperatura e escalas termométricas', 'Propagação de calor',
+                'Ondas: características e velocidade', 'Som e eco', 'Óptica: reflexão e espelhos', 'Óptica: refração e lentes'
             ]
         },
 
-        eletrica: {
-            titulo: 'Elétrica – 2026',
-            tema: { claro: '#4DA3FF', bloqueado: '#2A5FA8' },          // azul
+        quimica: {
+            titulo: 'Química – 2026',
+            tema: { claro: '#00B4D8', bloqueado: '#0077B6' },          // ciano / azul petróleo
             aulas: [
-                'Carga elétrica', 'Condutores e isolantes', 'Lei de Coulomb', 'Campo elétrico',
-                'Potencial elétrico', 'Tensão elétrica', 'Corrente elétrica', 'Resistência e resistores',
-                'Lei de Ohm', 'Potência e energia elétrica', 'Circuitos em série', 'Circuitos em paralelo',
-                'Leis de Kirchhoff', 'Capacitores', 'Indutores', 'Magnetismo e campo magnético',
-                'Corrente alternada', 'Transformadores', 'Segurança elétrica', 'Projeto: seu primeiro circuito'
+                'O que é Química e a matéria', 'Estados físicos da matéria e mudanças de fase', 'Substâncias puras e misturas', 'Métodos de separação de misturas',
+                'Modelos atômicos (Dalton, Thomson, Rutherford)', 'Estrutura atômica: prótons, nêutrons e elétrons', 'Número atômico e número de massa', 'A Tabela Periódica: organização e famílias',
+                'Metais, ametais e gases nobres', 'Distribuição eletrônica e elétrons de valência', 'Ligação iônica', 'Ligação covalente',
+                'Fórmulas químicas e nomenclatura básica', 'Ácidos e bases no cotidiano', 'Sais e óxidos', 'Escala de pH e indicadores',
+                'Reações químicas e evidências', 'Balanceamento simples de equações químicas', 'Soluções e concentração básica', 'Química sustentável e meio ambiente'
             ]
         },
 
@@ -69,15 +69,15 @@ window.GaleaTrilhas = (() => {
             ]
         },
 
-        musica: {
-            titulo: 'Teoria musical – 2026',
-            tema: { claro: '#3DD6D0', bloqueado: '#1C8D8A' },          // turquesa
+        ingles: {
+            titulo: 'Inglês – 2026',
+            tema: { claro: '#2EC4B6', bloqueado: '#1B7A72' },          // verde água / turquesa
             aulas: [
-                'O som e suas propriedades', 'Notas musicais', 'A pauta e a clave de sol', 'Figuras de valor e pausas',
-                'Compasso e pulsação', 'Andamento', 'Tons e semitons', 'Escala maior',
-                'Escala menor', 'Intervalos', 'Armaduras de clave', 'Tríades e acordes',
-                'Acordes com sétima', 'Campo harmônico', 'Cadências', 'Ritmo e síncope',
-                'Dinâmica e expressão', 'Compondo uma melodia'
+                'Greetings & Introductions (Saudações)', 'Alphabet & Spelling (O alfabeto)', 'Numbers & Age (Números e idade)', 'Verb To Be: Afirmativa',
+                'Verb To Be: Negativa e Interrogativa', 'Subject Pronouns (Pronomes pessoais)', 'Possessive Adjectives (My, your, his, her)', 'Colors & Common Objects (Cores e objetos)',
+                'Days of the Week & Months (Dias e meses)', 'Telling Time (Dizendo as horas)', 'Simple Present: Verbos de rotina', 'Simple Present: Perguntas (Do / Does)',
+                'Question Words (What, Where, Who, When)', 'Family Members (Família)', 'Food & Drinks (Comidas e bebidas)', 'Places in Town (Lugares na cidade)',
+                'Describing People (Aparência e sentimentos)', 'Daily Conversation: Diálogo prático'
             ]
         },
 
