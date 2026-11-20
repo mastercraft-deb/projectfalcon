@@ -403,7 +403,8 @@
                     visual: {
                         imagem: pedagogico.imagem,
                         alt: pedagogico.alt
-                    }
+                    },
+                    gamificacao: pedagogico.gamificacao || null
                 };
             }
         }
@@ -478,6 +479,15 @@
         const aulaDados = obterConteudoAula(curso.nome, indice, nomeAula);
         renderizarMarkdownSeguro(aulaDados.texto, licaoConteudo, aulaDados.visual);
 
+        if (aulaDados.gamificacao && window.GaleaGamificacao) {
+            dialogoLicao.classList.add('com-gamificacao');
+            window.GaleaGamificacao.montar(licaoConteudo, aulaDados.gamificacao, () => {
+                licaoConcluirBtn.classList.add('desafio-liberado');
+            });
+        } else {
+            dialogoLicao.classList.remove('com-gamificacao');
+        }
+
         const jaConcluida = estado === 'concluido';
         if (jaConcluida) {
             licaoXpTexto.textContent = 'Aula concluída';
@@ -496,6 +506,7 @@
     function fecharLicao() {
         if (dialogoLicao.open) {
             dialogoLicao.close();
+            dialogoLicao.classList.remove('com-gamificacao');
         }
     }
 
