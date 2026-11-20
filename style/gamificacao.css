@@ -1,31 +1,218 @@
 /* =====================================================
    Módulo de Gamificação Interativa Galea
    Inspirado no visual Duolingo/Khan Academy Dark Mode
-   Expansão Ampla, Grid de Chips, Barra de Progresso, Feedback e Animações
+   Expansão Total em Tela Cheia (Fullscreen Takeover)
    ===================================================== */
 
-/* Expansão da janela de lição quando possui gamificação */
-.licao-dialogo.com-gamificacao {
-    width: min(96vw, 1080px) !important;
-    max-height: 94vh !important;
-    padding: 2rem clamp(1.5rem, 3.5vw, 3.5rem) !important;
-    transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1), max-height 0.3s ease;
+/* Ajustes específicos quando a aula possui gamificação */
+.licao-dialogo.com-gamificacao .licao-titulo {
+    display: none;
+}
+
+.licao-dialogo.com-gamificacao .licao-conteudo {
+    flex: 1 1 auto;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    box-sizing: border-box !important;
+    display: flex;
+    flex-direction: column;
+}
+
+.licao-dialogo.com-gamificacao .licao-rodape {
+    display: none;
+}
+
+/* O desafio gamificado preenche a tela inteira sem bordas de cartão */
+.licao-dialogo.com-gamificacao .desafio-gamificado {
+    flex: 1 1 auto;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-height: calc(100vh - 75px) !important;
+    margin: 0 !important;
+    padding: 3rem 1.5rem 8rem 1.5rem !important;
+    background: transparent !important;
+    border: none !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    box-sizing: border-box !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;
+}
+
+/* Abas de alternância no topo (Revisão da Aula Anterior vs Desafio Gamificado) */
+.gamificacao-abas-topo {
+    display: inline-flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(139, 92, 246, 0.3);
+    border-radius: 999px;
+    padding: 3px;
+    gap: 4px;
+}
+
+.aba-gamificacao-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 16px;
+    border-radius: 999px;
+    background: transparent;
+    border: none;
+    color: #cbd5e1;
+    font-size: 0.86rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.aba-gamificacao-btn:hover {
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.aba-gamificacao-btn.ativa {
+    background: #7c3aed;
+    color: #ffffff;
+    box-shadow: 0 2px 10px rgba(124, 58, 237, 0.5);
+}
+
+/* Painel de Revisão da aula anterior */
+.painel-revisao-anterior {
+    width: min(92vw, 860px);
+    margin: 2rem auto 4rem auto;
+    padding: 0 1rem;
+    box-sizing: border-box;
+}
+
+/* Botão para saltar da revisão para a tela cheia de desafio */
+.btn-iniciar-desafio-fullscreen {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    max-width: 440px;
+    margin: 2.5rem auto 0 auto;
+    padding: 1rem 2rem;
+    background: linear-gradient(90deg, #ea580c, #f97316);
+    border: none;
+    border-radius: 14px;
+    color: #ffffff;
+    font-size: 1.1rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    box-shadow: 0 6px 25px rgba(234, 88, 12, 0.55);
+    transition: all 0.2s ease;
+}
+
+.btn-iniciar-desafio-fullscreen:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(234, 88, 12, 0.75);
+    background: linear-gradient(90deg, #f97316, #fb923c);
+}
+
+/* ---------- Componente de Videoaula Placeholder ---------- */
+.bloco-video-aula {
+    width: 100%;
+    max-width: 860px;
+    margin: 0 auto 1.8rem auto;
+    border-radius: 16px;
+    overflow: hidden;
+    background: #090314;
+    border: 1.5px solid rgba(139, 92, 246, 0.35);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+}
+
+.video-placeholder {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    max-height: 380px;
+    background: radial-gradient(circle at center, #1f0b3e 0%, #0a0217 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    user-select: none;
+}
+
+.video-placeholder:hover {
+    background: radial-gradient(circle at center, #2b0e57 0%, #0c031c 100%);
+    border-color: rgba(168, 85, 247, 0.6);
+}
+
+.video-play-btn {
+    width: 68px;
+    height: 68px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #7c3aed, #a855f7);
+    display: grid;
+    place-items: center;
+    box-shadow: 0 0 25px rgba(168, 85, 247, 0.7);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    margin-bottom: 0.9rem;
+}
+
+.video-placeholder:hover .video-play-btn {
+    transform: scale(1.08);
+    box-shadow: 0 0 35px rgba(168, 85, 247, 1);
+}
+
+.video-play-btn .material-symbols-outlined {
+    font-size: 36px;
+    color: #ffffff;
+    margin-left: 4px;
+}
+
+.video-info-tag {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #e2e8f0;
+    letter-spacing: 0.02em;
+    margin-bottom: 0.25rem;
+    text-align: center;
+    padding: 0 1rem;
+}
+
+.video-aviso-futuro {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.78rem;
+    color: #a5b4fc;
+    background: rgba(139, 92, 246, 0.15);
+    padding: 4px 12px;
+    border-radius: 999px;
+    border: 1px solid rgba(139, 92, 246, 0.3);
 }
 
 .desafio-gamificado {
-    margin-top: 2rem;
-    padding: 2.2rem clamp(1rem, 3vw, 2.5rem);
-    background: #0d061f;
-    border: 1.5px solid rgba(139, 92, 246, 0.45);
-    border-radius: 20px;
-    box-shadow: 0 16px 45px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    flex: 1 1 auto;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-height: calc(100vh - 80px) !important;
+    margin: 0 !important;
+    padding: 2rem 1.5rem 8rem 1.5rem !important;
+    background: transparent !important;
+    border: none !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
     position: relative;
-    overflow: hidden;
+    overflow: visible;
     font-family: inherit;
-    min-height: 460px;
     display: flex;
     flex-direction: column;
     justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
 }
 
 /* ---------- Barra de Progresso no Topo (Spacious) ---------- */
@@ -359,6 +546,25 @@
     margin-right: auto;
     width: 100%;
     box-sizing: border-box;
+}
+
+/* Banner acoplado ao rodapé da tela cheia */
+.licao-dialogo.com-gamificacao .desafio-banner-feedback {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100vw;
+    max-width: 100vw;
+    margin: 0;
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
+    border-bottom: none;
+    padding: 1.5rem clamp(1.5rem, 6vw, 4rem);
+    z-index: 100000;
+    box-sizing: border-box;
+    box-shadow: 0 -12px 35px rgba(0, 0, 0, 0.75);
 }
 
 @keyframes feedback-slide-up {
