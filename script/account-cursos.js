@@ -105,23 +105,57 @@
 
         // Conta lições concluídas em todos os cursos gravados
         let totalAulasConcluidas = 0;
+        let totalBronze = 0;
+        let totalPrata = 0;
+        let xpCalculadoMinimo = 0;
+
         try {
             const gravado = JSON.parse(localStorage.getItem('galea_aulas_concluidas') || '{}');
             for (const idCurso in gravado) {
                 if (Array.isArray(gravado[idCurso])) {
-                    totalAulasConcluidas += gravado[idCurso].length;
+                    gravado[idCurso].forEach(aulaIndex => {
+                        totalAulasConcluidas++;
+                        const numAula = Number(aulaIndex) + 1;
+                        const resto = numAula % 3;
+                        if (resto === 0) {
+                            // Aula gamificada -> Troféu de Prata e 30 XP (não ganha bronze)
+                            totalPrata++;
+                            xpCalculadoMinimo += 30;
+                        } else if (resto === 2) {
+                            // Aula de vídeo -> Troféu de Bronze e 20 XP
+                            totalBronze++;
+                            xpCalculadoMinimo += 20;
+                        } else {
+                            // Aula de texto -> Troféu de Bronze e 10 XP
+                            totalBronze++;
+                            xpCalculadoMinimo += 10;
+                        }
+                    });
                 }
             }
         } catch (e) {}
 
-        // Se o usuário concluiu lições, garante que o XP seja ao menos correspondente
-        if (totalAulasConcluidas * 10 > xp) {
-            xp = totalAulasConcluidas * 10;
+        // Se o usuário concluiu lições, garante que o XP seja ao menos correspondente às lições feitas
+        if (xpCalculadoMinimo > xp) {
+            xp = xpCalculadoMinimo;
+            try { localStorage.setItem('galea_usuario_xp', String(xp)); } catch (e) {}
         }
 
-        // Cursos 100% concluídos
+        // Cursos com 50% ou mais (metade) e 100% (concluídos)
         const meus = typeof GaleaCursos !== 'undefined' ? GaleaCursos.meus() : [];
-        const totalCursosConcluidos = meus.filter(c => Number(c.progresso) >= 100).length;
+        let totalOuro = 0;
+        let totalPlatina = 0;
+
+        meus.forEach(c => {
+            const pct = Number(c.progresso) || 0;
+            if (pct >= 50) {
+                totalOuro += 1; // 1 troféu de ouro ao atingir a metade (50%)
+            }
+            if (pct >= 100) {
+                totalOuro += 1; // +1 troféu de ouro ao atingir o fim (100%)
+                totalPlatina += 1; // 1 troféu de platina ao finalizar o curso (100%)
+            }
+        });
 
         // Cálculo dinâmico do nível com base na pontuação
         const { nivel, xpNoNivel, xpNecessario, percentual } = calcularNivelEProgresso(xp);
@@ -145,20 +179,40 @@
             perfilXpPct.textContent = percentual + '%';
         }
 
-        // Sistema de Troféus:
-        // Bronze: 1 por lição concluída
-        const bronze = totalAulasConcluidas;
-        // Prata: 1 a cada 4 lições concluídas (conclusão de módulo)
-        const prata = Math.floor(totalAulasConcluidas / 4);
-        // Ouro: 1 por curso concluído (100%)
-        const ouro = totalCursosConcluidos;
-        // Platina: Maestria suprema (1 a cada curso concluído com nível >= 1)
-        const platina = (totalCursosConcluidos >= 1 && nivel >= 1) ? totalCursosConcluidos : 0;
+        // Sistema de Troféus Galea:
+        // Bronze: Aulas gerais (texto e vídeo dão troféus de bronze)
+        const bronze = totalBronze;
+        // Prata: Aulas gamificadas dão troféus de prata (não bronze!)
+        const prata = totalPrata;
+        // Ouro: Ao chegar na metade dos cursos e no fim
+        const ouro = totalOuro;
+        // Platina: Ao finalizar o curso (100%)
+        const platina = totalPlatina;
 
-        if (trofeuBronze) trofeuBronze.textContent = bronze;
-        if (trofeuPrata) trofeuPrata.textContent = prata;
-        if (trofeuOuro) trofeuOuro.textContent = ouro;
-        if (trofeuPlatina) trofeuPlatina.textContent = platina;
+        if (trofeuBronze) {
+            trofeuBronze.textContent = bronze;
+            if (trofeuBronze.parentElement) {
+                trofeuBronze.parentElement.setAttribute('title', `${bronze} Troféus de Bronze (aulas de texto e vídeo)`);
+            }
+        }
+        if (trofeuPrata) {
+            trofeuPrata.textContent = prata;
+            if (trofeuPrata.parentElement) {
+                trofeuPrata.parentElement.setAttribute('title', `${prata} Troféus de Prata (aulas gamificadas)`);
+            }
+        }
+        if (trofeuOuro) {
+            trofeuOuro.textContent = ouro;
+            if (trofeuOuro.parentElement) {
+                trofeuOuro.parentElement.setAttribute('title', `${ouro} Troféus de Ouro (metade e fim de cada curso)`);
+            }
+        }
+        if (trofeuPlatina) {
+            trofeuPlatina.textContent = platina;
+            if (trofeuPlatina.parentElement) {
+                trofeuPlatina.parentElement.setAttribute('title', `${platina} Troféu(s) de Platina (conclusão de 100% do curso)`);
+            }
+        }
     }
 
     // Sincroniza com a API em segundo plano caso autenticado

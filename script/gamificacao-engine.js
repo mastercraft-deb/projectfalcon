@@ -49,7 +49,9 @@ window.GaleaGamificacao = (() => {
             container.replaceChildren();
 
             const etapa = config.etapas[etapaAtualIndice];
-            const porcentagemProgresso = Math.round(((etapaAtualIndice) / totalEtapas) * 100) + 15;
+            const porcentagemProgresso = totalEtapas > 1 
+                ? Math.round((etapaAtualIndice / totalEtapas) * 100)
+                : 25;
 
             // 1. Barra de progresso no topo (como na imagem de referência)
             const header = document.createElement('div');
@@ -59,13 +61,17 @@ window.GaleaGamificacao = (() => {
             trilhaBarra.className = 'desafio-progresso-trilha';
             const fillBarra = document.createElement('div');
             fillBarra.className = 'desafio-progresso-fill';
-            fillBarra.style.width = `${Math.min(100, porcentagemProgresso)}%`;
+            fillBarra.style.width = `${Math.max(6, Math.min(100, porcentagemProgresso))}%`;
+            fillBarra.animarSucesso = () => {
+                const pct = Math.min(100, Math.round(((etapaAtualIndice + 1) / totalEtapas) * 100));
+                fillBarra.style.width = `${pct}%`;
+            };
             trilhaBarra.appendChild(fillBarra);
 
             const indicador = document.createElement('span');
             indicador.className = 'desafio-etapa-indicador';
             indicador.textContent = totalEtapas > 1 
-                ? `Desafio ${etapaAtualIndice + 1} de ${totalEtapas}` 
+                ? `Fase ${etapaAtualIndice + 1} de ${totalEtapas}` 
                 : 'Desafio Prático de Fixação';
 
             header.append(trilhaBarra, indicador);
@@ -74,12 +80,54 @@ window.GaleaGamificacao = (() => {
             // 2. Enunciado do desafio
             const enunciado = document.createElement('div');
             enunciado.className = 'desafio-enunciado';
-            enunciado.textContent = etapa.enunciado || 'Resolva o desafio prático de fixação:';
+
+            const textoEnunciado = document.createElement('div');
+            textoEnunciado.className = 'desafio-enunciado-texto';
+            textoEnunciado.textContent = etapa.enunciado || 'Resolva o desafio prático de fixação:';
+            enunciado.appendChild(textoEnunciado);
+
             if (etapa.dica) {
-                const sub = document.createElement('span');
-                sub.className = 'desafio-dica-contexto';
-                sub.textContent = etapa.dica;
-                enunciado.appendChild(sub);
+                const dicaContainer = document.createElement('div');
+                dicaContainer.className = 'desafio-dica-container';
+
+                const btnDica = document.createElement('button');
+                btnDica.type = 'button';
+                btnDica.className = 'desafio-dica-toggle';
+                btnDica.setAttribute('aria-expanded', 'false');
+                btnDica.setAttribute('title', 'Clique para ver a dica');
+                btnDica.innerHTML = `
+                    <span class="material-symbols-outlined dica-icone" aria-hidden="true">lightbulb</span>
+                    <span class="dica-btn-texto">Ver dica</span>
+                `;
+
+                const dicaConteudo = document.createElement('div');
+                dicaConteudo.className = 'desafio-dica-conteudo';
+                dicaConteudo.hidden = true;
+                dicaConteudo.innerHTML = `
+                    <span class="material-symbols-outlined dica-conteudo-icone" aria-hidden="true">lightbulb</span>
+                    <span class="dica-conteudo-texto">${escaparHTML(etapa.dica)}</span>
+                `;
+
+                btnDica.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const aberta = !dicaConteudo.hidden;
+                    if (aberta) {
+                        dicaConteudo.hidden = true;
+                        btnDica.classList.remove('ativa');
+                        btnDica.setAttribute('aria-expanded', 'false');
+                        btnDica.querySelector('.dica-btn-texto').textContent = 'Ver dica';
+                        btnDica.setAttribute('title', 'Clique para ver a dica');
+                    } else {
+                        dicaConteudo.hidden = false;
+                        btnDica.classList.add('ativa');
+                        btnDica.setAttribute('aria-expanded', 'true');
+                        btnDica.querySelector('.dica-btn-texto').textContent = 'Ocultar dica';
+                        btnDica.setAttribute('title', 'Clique para ocultar a dica');
+                    }
+                });
+
+                dicaContainer.append(btnDica, dicaConteudo);
+                enunciado.appendChild(dicaContainer);
             }
             container.appendChild(enunciado);
 
@@ -201,7 +249,10 @@ window.GaleaGamificacao = (() => {
             });
 
             if (acertouTudo && corretasMarcadas === totalCorretas) {
-                if (fillBarra) fillBarra.style.width = '100%';
+                if (fillBarra) {
+                    if (typeof fillBarra.animarSucesso === 'function') fillBarra.animarSucesso();
+                    else fillBarra.style.width = '100%';
+                }
                 exibirBannerFeedback(container, true, etapa.explicacao || 'Resposta correta! Parabéns!', callbackAvancar);
             } else {
                 let msgFeedback = marcouIncorretas 
@@ -290,7 +341,10 @@ window.GaleaGamificacao = (() => {
 
             if (acertou) {
                 if (linhas[linhaSelecionada]) linhas[linhaSelecionada].classList.add('correto');
-                if (fillBarra) fillBarra.style.width = '100%';
+                if (fillBarra) {
+                    if (typeof fillBarra.animarSucesso === 'function') fillBarra.animarSucesso();
+                    else fillBarra.style.width = '100%';
+                }
                 exibirBannerFeedback(container, true, etapa.explicacao || 'Bug localizado com precisão!', callbackAvancar);
             } else {
                 if (linhas[linhaSelecionada]) linhas[linhaSelecionada].classList.add('incorreto');
@@ -423,7 +477,10 @@ window.GaleaGamificacao = (() => {
                     slot.style.background = '#16a34a';
                     slot.style.borderColor = '#22c55e';
                 }
-                if (fillBarra) fillBarra.style.width = '100%';
+                if (fillBarra) {
+                    if (typeof fillBarra.animarSucesso === 'function') fillBarra.animarSucesso();
+                    else fillBarra.style.width = '100%';
+                }
                 exibirBannerFeedback(container, true, etapa.explicacao || 'Bloco encaixado perfeitamente!', callbackAvancar);
             } else {
                 if (slot) {
@@ -514,7 +571,10 @@ window.GaleaGamificacao = (() => {
             });
 
             if (acertou) {
-                if (fillBarra) fillBarra.style.width = '100%';
+                if (fillBarra) {
+                    if (typeof fillBarra.animarSucesso === 'function') fillBarra.animarSucesso();
+                    else fillBarra.style.width = '100%';
+                }
                 exibirBannerFeedback(container, true, etapa.explicacao || 'Sequência lógica perfeita!', callbackAvancar);
             } else {
                 exibirBannerFeedback(container, false, 'A sequência de etapas ainda não está na ordem lógica correta. Revise o passo a passo da aula e tente reorganizar!', () => {
@@ -583,7 +643,7 @@ window.GaleaGamificacao = (() => {
             <div style="margin-bottom: 2rem;">
                 <span style="display: inline-flex; align-items: center; gap: 8px; padding: 10px 24px; background: rgba(34, 197, 94, 0.18); border: 1.5px solid #22c55e; border-radius: 999px; color: #86efac; font-weight: 800; font-size: 1.05rem;">
                     <span class="material-symbols-outlined" style="font-size: 24px;">stars</span>
-                    +10 XP Garantidos!
+                    +30 XP Garantidos!
                 </span>
             </div>
             <div>

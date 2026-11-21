@@ -60,7 +60,7 @@ window.GaleaBancosConteudo.python = {
             etapas: [
                 {
                     tipo: 'grid-chips',
-                    enunciado: 'Selecione todos os nomes de variável perfeitamente VÁLIDOS e que seguem as boas práticas do Python (PEP 8):',
+                    enunciado: 'Fase 1/5 - Nomenclatura PEP 8: Selecione todos os identificadores de variável perfeitamente VÁLIDOS em Python:',
                     dica: 'Atenção a caracteres proibidos (!, @, -), espaços em branco, início com dígitos numéricos e palavras reservadas como class!',
                     opcoes: [
                         { texto: 'nome_aluno', correta: true },
@@ -73,7 +73,62 @@ window.GaleaBancosConteudo.python = {
                         { texto: 'saldo total', correta: false },
                         { texto: 'class', correta: false }
                     ],
-                    explicacao: 'Em Python, nomes de variáveis não podem iniciar com algarismos, conter espaços, caracteres especiais nem coincidir com palavras reservadas da linguagem como class.'
+                    explicacao: 'Em Python, variáveis usam snake_case e não podem iniciar com algarismos, conter espaços, símbolos especiais ou palavras reservadas como class.'
+                },
+                {
+                    tipo: 'lacunas',
+                    enunciado: 'Fase 2/5 - Parâmetros do print: Complete o código para exibir os itens separados por traço:',
+                    dica: 'O parâmetro sep define o caractere separador entre os múltiplos argumentos do print().',
+                    template: 'print("Python", "é", "demais", {lacuna}=" - ")',
+                    opcoes: ['sep', 'end', 'split', 'join'],
+                    respostaCorreta: 'sep',
+                    explicacao: 'O parâmetro nativo sep=" - " substitui o espaço padrão por traços entre os argumentos impressos.'
+                },
+                {
+                    tipo: 'caca-bug',
+                    enunciado: 'Fase 3/5 - Caça-Bug: Identifique a linha que causará um erro imediato do tipo NameError:',
+                    dica: 'Python é estritamente case-sensitive: comandos nativos são escritos em minúsculas!',
+                    linhasCodigo: [
+                        '1. nome = "Guido"',
+                        '2. ano_criacao = 1991',
+                        '3. Print(f"Criador: {nome}")',
+                        '4. print("Linguagem Python")'
+                    ],
+                    linhaBug: 2,
+                    explicacao: 'Na linha 3, "Print" começa com maiúscula. Python não reconhece "Print", causando NameError: name \'Print\' is not defined.'
+                },
+                {
+                    tipo: 'ordene',
+                    enunciado: 'Fase 4/5 - Pipeline do Interpretador: Ordene as etapas de execução de um programa Python:',
+                    dica: 'O código fonte é lido, vira bytecode (.pyc) e roda na Máquina Virtual Python (PVM).',
+                    itens: [
+                        'Desenvolvedor escreve o código fonte (.py)',
+                        'Interpretador CPython analisa a sintaxe do arquivo',
+                        'Compilação interna para Bytecode intermediário (.pyc)',
+                        'Python Virtual Machine (PVM) executa as instruções no SO'
+                    ],
+                    ordemCorreta: [
+                        'Desenvolvedor escreve o código fonte (.py)',
+                        'Interpretador CPython analisa a sintaxe do arquivo',
+                        'Compilação interna para Bytecode intermediário (.pyc)',
+                        'Python Virtual Machine (PVM) executa as instruções no SO'
+                    ],
+                    explicacao: 'O fluxo de execução Python passa pela escrita do código (.py), parsing sintático, geração de bytecode (.pyc) e execução na PVM.'
+                },
+                {
+                    tipo: 'grid-chips',
+                    enunciado: 'Fase 5/5 - Desafio Mestre: Selecione todas as atribuições de tipos primitivos CORRETAS:',
+                    dica: 'Lembre-se: bool tem inicial maiúscula (True/False), float usa ponto (.) e str usa aspas.',
+                    opcoes: [
+                        { texto: 'ativo = True (bool)', correta: true },
+                        { texto: 'preco = 49.90 (float)', correta: true },
+                        { texto: 'idade = 25 (int)', correta: true },
+                        { texto: 'versao = "3.12" (str)', correta: true },
+                        { texto: 'ligado = true (sem maiúscula)', correta: false },
+                        { texto: 'valor = 10,5 (com vírgula)', correta: false },
+                        { texto: 'total = "100" (é int)', correta: false }
+                    ],
+                    explicacao: 'Booleanos em Python exigem inicial maiúscula (True/False), floats utilizam ponto decimal e números entre aspas são strings.'
                 }
             ]
         }
@@ -122,18 +177,69 @@ window.GaleaBancosConteudo.python = {
         gamificacao: {
             etapas: [
                 {
+                    tipo: 'lacunas',
+                    enunciado: 'Fase 1/5 - Interpolação Moderna: Complete a sintaxe da f-string com formatação de 2 casas decimais:',
+                    dica: 'Em f-strings, a formatação de float com duas casas decimais utiliza :.2f.',
+                    template: 'saldo = 1250.5\nmensagem = f"Seu saldo atual é R$ {saldo:{lacuna}}"',
+                    opcoes: ['.2f', '2d', '.2s', 'round2'],
+                    respostaCorreta: '.2f',
+                    explicacao: 'A expressão {saldo:.2f} formata o número de ponto flutuante com exatamente 2 casas decimais.'
+                },
+                {
                     tipo: 'caca-bug',
-                    enunciado: 'Localize a linha que contém o erro de sintaxe que impede a execução deste bloco condicional:',
-                    dica: 'Em Python, toda cláusula if, elif e else deve terminar impreterivelmente com dois pontos (:)',
+                    enunciado: 'Fase 2/5 - Caça-Bug de Tipagem: O código abaixo junta os números como texto em vez de somá-los matematicamente. Onde está a falha?',
+                    dica: 'input() sempre retorna uma string (str). Se não houver conversão (int/float), o operador + apenas concatena o texto!',
                     linhasCodigo: [
-                        '1. idade = int(input("Informe sua idade: "))',
-                        '2. if idade >= 18:',
-                        '3.     print("Acesso autorizado ao laboratório")',
-                        '4. else',
-                        '5.     print("Acesso restrito para menores")'
+                        '1. n1 = input("Primeiro número: ")',
+                        '2. n2 = input("Segundo número: ")',
+                        '3. total = n1 + n2',
+                        '4. print(f"Soma real: {total}")'
                     ],
-                    linhaBug: 3,
-                    explicacao: 'Na linha 4, a cláusula "else" esqueceu os dois pontos finais (:). A sintaxe canônica e obrigatória em Python é "else:".'
+                    linhaBug: 2,
+                    explicacao: 'Na linha 3, n1 e n2 ainda são strings! Somar "10" + "20" resulta em "1020". O correto seria int(n1) + int(n2).'
+                },
+                {
+                    tipo: 'grid-chips',
+                    enunciado: 'Fase 3/5 - Métodos Nativos de String: Selecione todos os métodos que REALMENTE existem em Python:',
+                    dica: 'Atenção aos métodos de outras linguagens como trim() ou uppercase() que não pertencem ao Python!',
+                    opcoes: [
+                        { texto: 'strip()', correta: true },
+                        { texto: 'lower()', correta: true },
+                        { texto: 'upper()', correta: true },
+                        { texto: 'replace()', correta: true },
+                        { texto: 'split()', correta: true },
+                        { texto: 'trim() (é do JavaScript)', correta: false },
+                        { texto: 'uppercase() (é do JS)', correta: false },
+                        { texto: 'deleteSpaces()', correta: false }
+                    ],
+                    explicacao: 'Python utiliza strip() para remover espaços, lower()/upper() para caixa e replace() para substituições.'
+                },
+                {
+                    tipo: 'ordene',
+                    enunciado: 'Fase 4/5 - Pipeline de Entrada: Ordene o fluxo correto de captura, conversão e cálculo numérico:',
+                    dica: 'Primeiro capturamos o dado do usuário, convertemos o tipo, processamos a conta e exibimos.',
+                    itens: [
+                        'entrada_str = input("Informe o preço do produto: ")',
+                        'preco = float(entrada_str)',
+                        'preco_com_desconto = preco * 0.90',
+                        'print(f"Preço promocional: R$ {preco_com_desconto:.2f}")'
+                    ],
+                    ordemCorreta: [
+                        'entrada_str = input("Informe o preço do produto: ")',
+                        'preco = float(entrada_str)',
+                        'preco_com_desconto = preco * 0.90',
+                        'print(f"Preço promocional: R$ {preco_com_desconto:.2f}")'
+                    ],
+                    explicacao: 'O fluxo seguro é: ler como string com input(), converter para float, aplicar a fórmula aritmética e exibir via f-string.'
+                },
+                {
+                    tipo: 'lacunas',
+                    enunciado: 'Fase 5/5 - Desafio Mestre: Complete o método que limpa espaços acidentais antes e depois do texto digitado:',
+                    dica: 'O método strip() remove espaços em branco redundantes nas extremidades da string.',
+                    template: 'email_digitado = "  aluno@galea.com.br  "\nemail_higienizado = email_digitado.{lacuna}()',
+                    opcoes: ['strip', 'clean', 'trim', 'clear'],
+                    respostaCorreta: 'strip',
+                    explicacao: 'O método nativo .strip() é essencial para higienizar entradas de formulários e cadastros.'
                 }
             ]
         }
@@ -179,8 +285,47 @@ window.GaleaBancosConteudo.python = {
         gamificacao: {
             etapas: [
                 {
+                    tipo: 'grid-chips',
+                    enunciado: 'Fase 1/5 - Lógica Booleana: Selecione todas as avaliações lógicas tecnicamente VERDADEIRAS em Python:',
+                    dica: 'Lembre-se: and exige ambos verdadeiros, or aceita ao menos um, e not inverte o valor.',
+                    opcoes: [
+                        { texto: 'True and False resulta em False', correta: true },
+                        { texto: 'True or False resulta em True', correta: true },
+                        { texto: 'not False resulta em True', correta: true },
+                        { texto: 'bool(0) avalia como False', correta: true },
+                        { texto: 'bool("texto") avalia como True', correta: true },
+                        { texto: 'True and True resulta em False', correta: false },
+                        { texto: 'False or False resulta em True', correta: false },
+                        { texto: 'not True resulta em True', correta: false }
+                    ],
+                    explicacao: 'Na lógica booleana do Python, 0 é falsy, textos não vazios são truthy, and exige ambos True e or exige ao menos um True.'
+                },
+                {
+                    tipo: 'caca-bug',
+                    enunciado: 'Fase 2/5 - Alerta de Loop Infinito: Identifique a linha responsável por travar o computador em um loop eterno:',
+                    dica: 'Se a variável contadora não for incrementada dentro do laço, a condição nunca se tornará falsa!',
+                    linhasCodigo: [
+                        '1. limite = 5',
+                        '2. contador = 0',
+                        '3. while contador < limite:',
+                        '4.     print(f"Passo: {contador}")',
+                        '5.     # O desenvolvedor esqueceu o contador += 1'
+                    ],
+                    linhaBug: 2,
+                    explicacao: 'Na linha 3, o laço testa "contador < limite", mas como contador nunca muda de valor dentro do laço, ele rodará infinitamente!'
+                },
+                {
+                    tipo: 'lacunas',
+                    enunciado: 'Fase 3/5 - Controle de Fluxo: Complete o comando para interromper IMEDIATAMENTE a repetição quando a condição for atingida:',
+                    dica: 'A instrução break aborta a execução do laço instantaneamente.',
+                    template: 'while True:\n    comando = input("Digite sair: ")\n    if comando == "sair":\n        {lacuna}',
+                    opcoes: ['break', 'continue', 'stop', 'exit'],
+                    respostaCorreta: 'break',
+                    explicacao: 'A palavra-chave nativa break interrompe e encerra laços while ou for instantaneamente.'
+                },
+                {
                     tipo: 'ordene',
-                    enunciado: 'Ordene a sequência lógica e sintática correta de um laço while seguro que imprime de 1 a 5 sem entrar em loop infinito:',
+                    enunciado: 'Fase 4/5 - Laço Seguro: Ordene a sequência lógica e sintática correta de um laço while com parada garantida:',
                     dica: 'Inicialize a variável contadora antes do laço e incremente seu valor no interior do bloco repetido.',
                     itens: [
                         'contador = 1',
@@ -195,6 +340,15 @@ window.GaleaBancosConteudo.python = {
                         '    contador += 1'
                     ],
                     explicacao: 'A variável deve ser inicializada externamente (contador = 1), testada no cabeçalho do while e incrementada a cada iteração para atingir a condição de parada.'
+                },
+                {
+                    tipo: 'lacunas',
+                    enunciado: 'Fase 5/5 - Desafio Mestre: Complete a instrução que pula a iteração atual e avança direto para a próxima repetição:',
+                    dica: 'A instrução continue salta direto para o próximo teste de repetição sem sair do laço.',
+                    template: 'for n in range(10):\n    if n % 2 == 0:\n        {lacuna}  # Pula os números pares\n    print(n)',
+                    opcoes: ['continue', 'pass', 'break', 'skip'],
+                    respostaCorreta: 'continue',
+                    explicacao: 'A instrução continue encerra a iteração corrente e avança o iterador imediatamente para a próxima repetição.'
                 }
             ]
         }
@@ -244,12 +398,66 @@ window.GaleaBancosConteudo.python = {
             etapas: [
                 {
                     tipo: 'lacunas',
-                    enunciado: 'Complete a linha de código utilizando o método seguro de dicionários que evita o erro KeyError:',
-                    dica: 'O método get busca o valor associado à chave ou retorna None caso ela não exista.',
-                    template: 'usuario = {"nome": "Galea", "xp": 100}\nvalor = usuario.{lacuna}("nome")',
-                    opcoes: ['get', 'pop', 'append', 'push', 'find'],
+                    enunciado: 'Fase 1/5 - Acesso Seguro a Dicionários: Complete com o método que busca a chave sem gerar o erro KeyError:',
+                    dica: 'O método get busca o valor associado à chave ou retorna None (ou valor padrão) caso ela não exista.',
+                    template: 'usuario = {"nome": "Galea", "xp": 100}\nvalor = usuario.{lacuna}("pontos", 0)',
+                    opcoes: ['get', 'pop', 'find', 'search'],
                     respostaCorreta: 'get',
-                    explicacao: 'O método .get("chave") é a forma canônica e recomendada de consultar valores em dicionários sem correr risco de KeyError.'
+                    explicacao: 'O método .get("chave", padrao) é a forma canônica e recomendada de consultar valores em dicionários com tolerância a falhas.'
+                },
+                {
+                    tipo: 'grid-chips',
+                    enunciado: 'Fase 2/5 - Mutabilidade vs Imutabilidade: Selecione todas as coleções que são MUTÁVEIS em Python:',
+                    dica: 'Listas e Dicionários podem ser alterados após criados; Tuplas e Strings são imutáveis!',
+                    opcoes: [
+                        { texto: 'list (Listas: [1, 2])', correta: true },
+                        { texto: 'dict (Dicionários: {"a": 1})', correta: true },
+                        { texto: 'set (Conjuntos: {1, 2})', correta: true },
+                        { texto: 'tuple (Tuplas: (1, 2))', correta: false },
+                        { texto: 'str (Strings: "texto")', correta: false },
+                        { texto: 'int (Inteiros: 42)', correta: false }
+                    ],
+                    explicacao: 'Em Python, listas, dicionários e conjuntos são estruturas mutáveis (podem ter itens adicionados/removidos). Tuplas e strings são imutáveis.'
+                },
+                {
+                    tipo: 'caca-bug',
+                    enunciado: 'Fase 3/5 - Caça-Bug de Imutabilidade: Localize a linha que causará um TypeError fatal:',
+                    dica: 'Tuplas não permitem alteração de seus elementos via atribuição de índice!',
+                    linhasCodigo: [
+                        '1. coordenadas_gps = (23.5505, 46.6333)',
+                        '2. print("Latitude:", coordenadas_gps[0])',
+                        '3. coordenadas_gps[0] = 22.0000',
+                        '4. print("Coordenada atualizada")'
+                    ],
+                    linhaBug: 2,
+                    explicacao: 'Na linha 3, tentar atribuir novo valor a um elemento de tupla causa TypeError: \'tuple\' object does not support item assignment.'
+                },
+                {
+                    tipo: 'ordene',
+                    enunciado: 'Fase 4/5 - Manipulação de Listas: Ordene a sequência correta de criação, adição e remoção do último item:',
+                    dica: 'Crie a lista vazia, adicione itens com .append() e desempilhe o último com .pop().',
+                    itens: [
+                        'fila = []',
+                        'fila.append("Primeiro")',
+                        'fila.append("Segundo")',
+                        'atendido = fila.pop()'
+                    ],
+                    ordemCorreta: [
+                        'fila = []',
+                        'fila.append("Primeiro")',
+                        'fila.append("Segundo")',
+                        'atendido = fila.pop()'
+                    ],
+                    explicacao: 'A lista é inicializada com [], preenchida com .append() e o elemento final é desempilhado com .pop().'
+                },
+                {
+                    tipo: 'lacunas',
+                    enunciado: 'Fase 5/5 - Desafio Mestre: Complete o índice para capturar diretamente o ÚLTIMO elemento de uma lista sem calcular seu tamanho:',
+                    dica: 'Python permite indexação reversa: o último elemento tem índice -1.',
+                    template: 'ranking = ["Alice", "Bob", "Carlos", "Diana"]\nultimo_colocado = ranking[{lacuna}]',
+                    opcoes: ['-1', '0', 'last', 'end'],
+                    respostaCorreta: '-1',
+                    explicacao: 'O índice [-1] acessa de forma elegante e instantânea o último elemento de qualquer sequência em Python.'
                 }
             ]
         }
@@ -295,16 +503,67 @@ window.GaleaBancosConteudo.python = {
             etapas: [
                 {
                     tipo: 'caca-bug',
-                    enunciado: 'Encontre a linha com vício de sintaxe na definição desta função em Python:',
+                    enunciado: 'Fase 1/5 - Caça-Bug de Definição: Encontre a linha com vício de sintaxe na definição desta função em Python:',
                     dica: 'Diferente de outras linguagens, em Python funções usam a palavra-chave def.',
                     linhasCodigo: [
-                        '1. # Função utilitária de boas-vindas',
+                        '1. # Função utilitária de desconto',
                         '2. function calcular_desconto(preco, taxa):',
                         '3.     return preco * (1 - taxa)',
                         '4. resultado = calcular_desconto(100, 0.15)'
                     ],
                     linhaBug: 1,
                     explicacao: 'Na linha 2, foi utilizada a palavra "function" (típica do JavaScript ou PHP). Em Python a palavra-chave canônica e obrigatória é "def".'
+                },
+                {
+                    tipo: 'grid-chips',
+                    enunciado: 'Fase 2/5 - Propriedades dos Conjuntos (Sets): Selecione todas as afirmativas VERDADEIRAS sobre sets:',
+                    dica: 'Conjuntos matemáticos removem duplicatas e possuem operadores especiais como | e &.',
+                    opcoes: [
+                        { texto: 'Eliminam elementos duplicados automaticamente', correta: true },
+                        { texto: 'São coleções não ordenadas de dados', correta: true },
+                        { texto: 'O operador | realiza a união de conjuntos', correta: true },
+                        { texto: 'O operador & realiza a interseção', correta: true },
+                        { texto: 'Permitem armazenar chaves duplicadas', correta: false },
+                        { texto: 'Acessam elementos via índice numérico [0]', correta: false },
+                        { texto: 'São declarados obrigatoriamente com parênteses ()', correta: false }
+                    ],
+                    explicacao: 'Sets em Python usam chaves {}, não admitem duplicatas e não possuem índices numéricos de posição.'
+                },
+                {
+                    tipo: 'lacunas',
+                    enunciado: 'Fase 3/5 - Retorno de Valores: Complete o comando para devolver o resultado computado para o código chamador:',
+                    dica: 'A palavra-chave return encerra a função entregando o dado produzido.',
+                    template: 'def calcular_dobro(numero):\n    resultado = numero * 2\n    {lacuna} resultado',
+                    opcoes: ['return', 'send', 'output', 'export'],
+                    respostaCorreta: 'return',
+                    explicacao: 'A instrução return entrega o resultado calculado pela função de volta ao chamador.'
+                },
+                {
+                    tipo: 'ordene',
+                    enunciado: 'Fase 4/5 - Anatomia de Função: Ordene a estrutura formal de uma função profissional com docstring:',
+                    dica: 'Inicie com def, adicione a docstring explicativa com aspas triplas, o cálculo com return e a chamada.',
+                    itens: [
+                        'def calcular_media(valores):',
+                        '    """Calcula a média aritmética dos itens."""',
+                        '    return sum(valores) / len(valores)',
+                        'media_final = calcular_media([8, 9, 10])'
+                    ],
+                    ordemCorreta: [
+                        'def calcular_media(valores):',
+                        '    """Calcula a média aritmética dos itens."""',
+                        '    return sum(valores) / len(valores)',
+                        'media_final = calcular_media([8, 9, 10])'
+                    ],
+                    explicacao: 'A anatomia recomendada é: assinatura com def, docstring de documentação, processamento com return e invocação.'
+                },
+                {
+                    tipo: 'lacunas',
+                    enunciado: 'Fase 5/5 - Desafio Mestre: Complete a conversão que remove todas as duplicatas de uma lista em uma única linha:',
+                    dica: 'Converter para conjunto (set) deduplica a lista instantaneamente.',
+                    template: 'ids_brutos = [101, 102, 101, 103, 102]\nids_unicos = list({lacuna}(ids_brutos))',
+                    opcoes: ['set', 'unique', 'filter', 'tuple'],
+                    respostaCorreta: 'set',
+                    explicacao: 'A conversão list(set(colecao)) é a técnica mais pythônica e veloz para deduplicação de listas.'
                 }
             ]
         }
@@ -351,12 +610,76 @@ window.GaleaBancosConteudo.python = {
             etapas: [
                 {
                     tipo: 'lacunas',
-                    enunciado: 'Complete a cláusula de proteção para capturar falhas de conversão de texto em número:',
-                    dica: 'O bloco try tenta executar o comando e o except intercepta o erro ValueError.',
+                    enunciado: 'Fase 1/5 - Tratamento de Erros: Complete a cláusula para capturar falhas de conversão de texto em número:',
+                    dica: 'O bloco try executa a tentativa e o except intercepta o erro ValueError.',
                     template: 'try:\n    numero = int("abc")\n{lacuna} ValueError:\n    print("Valor inválido fornecido")',
-                    opcoes: ['except', 'catch', 'finally', 'else', 'error'],
+                    opcoes: ['except', 'catch', 'finally', 'else'],
                     respostaCorreta: 'except',
                     explicacao: 'Em Python, o tratamento de exceções utiliza o par try / except (diferente de linguagens como Java que usam try / catch).'
+                },
+                {
+                    tipo: 'grid-chips',
+                    enunciado: 'Fase 2/5 - Hierarquia LEGB: Selecione todas as camadas válidas da regra de escopo de variáveis em Python:',
+                    dica: 'A regra LEGB abrange Local, Enclosing, Global e Built-in.',
+                    opcoes: [
+                        { texto: 'Local (L): dentro da função atual', correta: true },
+                        { texto: 'Enclosing (E): de funções externas aninhadas', correta: true },
+                        { texto: 'Global (G): nível do arquivo módulo', correta: true },
+                        { texto: 'Built-in (B): nativas do interpretador', correta: true },
+                        { texto: 'Browser (B): do navegador web', correta: false },
+                        { texto: 'External (E): do sistema operacional', correta: false }
+                    ],
+                    explicacao: 'A busca de variáveis em Python segue estritamente a sequência LEGB: Local, Enclosing, Global e Built-in.'
+                },
+                {
+                    tipo: 'caca-bug',
+                    enunciado: 'Fase 3/5 - Caça-Bug de Exceção: Encontre a linha onde o desenvolvedor usou sintaxe de outra linguagem:',
+                    dica: 'Python não possui a palavra-chave "catch"!',
+                    linhasCodigo: [
+                        '1. try:',
+                        '2.     resultado = 10 / 0',
+                        '3. catch ZeroDivisionError:',
+                        '4.     print("Divisão por zero não é permitida")'
+                    ],
+                    linhaBug: 2,
+                    explicacao: 'Na linha 3, foi usado "catch", palavra de Java/C#/JavaScript. Em Python usa-se "except ZeroDivisionError:".'
+                },
+                {
+                    tipo: 'ordene',
+                    enunciado: 'Fase 4/5 - Estrutura Resiliente: Ordene a sequência completa de tratamento com garantia de encerramento:',
+                    dica: 'Inicie com try, capture a falha com except e use finally para fechar recursos.',
+                    itens: [
+                        'try:',
+                        '    conexao = abrir_banco()',
+                        'except ConnectionError:',
+                        '    print("Falha ao conectar")',
+                        'finally:',
+                        '    fechar_recursos()'
+                    ],
+                    ordemCorreta: [
+                        'try:',
+                        '    conexao = abrir_banco()',
+                        'except ConnectionError:',
+                        '    print("Falha ao conectar")',
+                        'finally:',
+                        '    fechar_recursos()'
+                    ],
+                    explicacao: 'O bloco try tenta a operação, except trata a falha e finally é executado incondicionalmente.'
+                },
+                {
+                    tipo: 'grid-chips',
+                    enunciado: 'Fase 5/5 - Desafio Mestre: Selecione os módulos que JÁ VÊM NATIVOS na instalação padrão do Python (Batteries Included):',
+                    dica: 'Módulos como math, random, sys e json não precisam de "pip install"!',
+                    opcoes: [
+                        { texto: 'math (cálculos matemáticos)', correta: true },
+                        { texto: 'random (números aleatórios)', correta: true },
+                        { texto: 'sys (parâmetros do interpretador)', correta: true },
+                        { texto: 'datetime (manipulação temporal)', correta: true },
+                        { texto: 'numpy (exige pip install)', correta: false },
+                        { texto: 'pandas (exige pip install)', correta: false },
+                        { texto: 'django (exige pip install)', correta: false }
+                    ],
+                    explicacao: 'Python possui uma vasta biblioteca padrão (math, random, sys, datetime, json) disponível imediatamente via import sem precisar de pip.'
                 }
             ]
         }
@@ -406,7 +729,7 @@ window.GaleaBancosConteudo.python = {
             etapas: [
                 {
                     tipo: 'grid-chips',
-                    enunciado: 'Selecione todas as compreensões de lista (list comprehensions) 100% VÁLIDAS em Python:',
+                    enunciado: 'Fase 1/5 - Compreensão de Listas: Selecione todas as list comprehensions 100% VÁLIDAS em Python:',
                     dica: 'Lembre-se da estrutura [expressao for variavel in colecao (if filtro)]!',
                     opcoes: [
                         { texto: '[x * 2 for x in range(10)]', correta: true },
@@ -416,10 +739,58 @@ window.GaleaBancosConteudo.python = {
                         { texto: '[float(v) for v in precos]', correta: true },
                         { texto: '[x while x < 5]', correta: false },
                         { texto: 'for x in range(5): [x]', correta: false },
-                        { texto: '[for n in lista: n]', correta: false },
-                        { texto: '[x if for x in lista]', correta: false }
+                        { texto: '[for n in lista: n]', correta: false }
                     ],
-                    explicacao: 'List comprehensions usam a sintaxe [expressao for item in iteravel (if condicao)]. Não admitem while nem a inversão do laço for fora dos colchetes.'
+                    explicacao: 'List comprehensions usam a sintaxe [expressao for item in iteravel (if condicao)]. Não admitem while nem a inversão fora dos colchetes.'
+                },
+                {
+                    tipo: 'lacunas',
+                    enunciado: 'Fase 2/5 - Gerenciador de Contexto: Complete o modo de abertura que cria ou sobrescreve o arquivo com UTF-8:',
+                    dica: 'O modo "w" (write) abre para escrita destrutiva, criando o arquivo caso não exista.',
+                    template: 'with open("relatorio.txt", "{lacuna}", encoding="utf-8") as arq:\n    arq.write("Dados Galea")',
+                    opcoes: ['w', 'r', 'x', 'b'],
+                    respostaCorreta: 'w',
+                    explicacao: 'O modo "w" (write) abre o arquivo para escrita, criando-o ou truncando seu conteúdo anterior.'
+                },
+                {
+                    tipo: 'caca-bug',
+                    enunciado: 'Fase 3/5 - Caça-Bug de Contexto: Encontre a linha onde o desenvolvedor errou o alias de abertura do arquivo:',
+                    dica: 'A sintaxe canônica do gerenciador de contexto é with open(...) as identificador:.',
+                    linhasCodigo: [
+                        '1. caminho = "notas.txt"',
+                        '2. with open(caminho, "r") to f:',
+                        '3.     conteudo = f.read()',
+                        '4. print(conteudo)'
+                    ],
+                    linhaBug: 1,
+                    explicacao: 'Na linha 2, foi usado "to f:" em vez de "as f:". Em Python a palavra-chave correta é "as".'
+                },
+                {
+                    tipo: 'ordene',
+                    enunciado: 'Fase 4/5 - Fluxo de Persistência: Ordene o processo seguro de escrita de logs sem vazamento de recursos:',
+                    dica: 'Abra com with open no modo "a" (append), escreva a linha com \\n e saia do bloco.',
+                    itens: [
+                        'with open("log.txt", "a", encoding="utf-8") as arq:',
+                        '    linha = "Registro gravado às 10:00\\n"',
+                        '    arq.write(linha)',
+                        '# O arquivo fecha automaticamente aqui ao sair do with'
+                    ],
+                    ordemCorreta: [
+                        'with open("log.txt", "a", encoding="utf-8") as arq:',
+                        '    linha = "Registro gravado às 10:00\\n"',
+                        '    arq.write(linha)',
+                        '# O arquivo fecha automaticamente aqui ao sair do with'
+                    ],
+                    explicacao: 'O with garante o fechamento determinístico do arquivo mesmo em caso de erro, prevenindo corrupção de dados.'
+                },
+                {
+                    tipo: 'lacunas',
+                    enunciado: 'Fase 5/5 - Desafio Mestre: Complete o filtro da list comprehension para capturar apenas números pares:',
+                    dica: 'O operador % calcula o resto da divisão. Se for igual a zero (== 0), o número é par.',
+                    template: 'pares = [n for n in range(50) if n % 2 {lacuna} 0]',
+                    opcoes: ['==', '!=', 'is', '='],
+                    respostaCorreta: '==',
+                    explicacao: 'A comparação de igualdade estrita em Python é feita com == (dois sinais de igual).'
                 }
             ]
         }
@@ -463,7 +834,7 @@ window.GaleaBancosConteudo.python = {
             etapas: [
                 {
                     tipo: 'ordene',
-                    enunciado: 'Ordene a definição sintática correta de uma classe filha Mago herdando da classe base Personagem:',
+                    enunciado: 'Fase 1/5 - Herança de Classes: Ordene a definição sintática correta de uma classe filha herdando da classe base:',
                     dica: 'A herança é indicada nos parênteses da classe e o construtor da mãe é chamado com super().__init__.',
                     itens: [
                         'class Mago(Personagem):',
@@ -477,7 +848,53 @@ window.GaleaBancosConteudo.python = {
                         '        super().__init__(nome)',
                         '        self.magia = magia'
                     ],
-                    explicacao: 'Primeiro declaramos a herança com class Mago(Personagem):, depois definimos o construtor com __init__, acionamos o super().__init__(nome) e finalizamos atribuindo self.magia.'
+                    explicacao: 'Primeiro declaramos a herança com class Mago(Personagem):, depois o construtor __init__, acionamos super().__init__(nome) e atribuímos self.magia.'
+                },
+                {
+                    tipo: 'lacunas',
+                    enunciado: 'Fase 2/5 - O Parâmetro de Instância: Complete o primeiro parâmetro obrigatório de métodos em classes Python:',
+                    dica: 'O parâmetro self representa a instância concreta que executa o método.',
+                    template: 'class Guerreiro:\n    def atacar({lacuna}):\n        print("Ataque com espada!")',
+                    opcoes: ['self', 'this', 'me', 'inst'],
+                    respostaCorreta: 'self',
+                    explicacao: 'Em Python, o primeiro parâmetro de qualquer método de instância deve ser explicitamente self.'
+                },
+                {
+                    tipo: 'caca-bug',
+                    enunciado: 'Fase 3/5 - Caça-Bug de POO: Encontre o método que falhará ao ser invocado por esquecer o parâmetro de instância:',
+                    dica: 'Todo método de instância necessita de self como primeiro parâmetro!',
+                    linhasCodigo: [
+                        '1. class Carro:',
+                        '2.     def __init__(self, modelo):',
+                        '3.         self.modelo = modelo',
+                        '4.     def buzinar():',
+                        '5.         print("Bi bi!")'
+                    ],
+                    linhaBug: 3,
+                    explicacao: 'Na linha 4, o método "buzinar()" não declarou "def buzinar(self):". Ao chamar carro.buzinar(), o Python lançará TypeError.'
+                },
+                {
+                    tipo: 'grid-chips',
+                    enunciado: 'Fase 4/5 - Pilares de POO: Selecione todas as afirmativas VERDADEIRAS sobre Orientação a Objetos em Python:',
+                    dica: 'Pense em classes como moldes, instâncias como objetos reais e super() como a ligação com a classe mãe.',
+                    opcoes: [
+                        { texto: '__init__ é o método construtor oficial do objeto', correta: true },
+                        { texto: 'Uma classe pode servir de modelo para múltiplos objetos', correta: true },
+                        { texto: 'super() invoca a implementação da classe mãe', correta: true },
+                        { texto: 'self referencia a instância específica em execução', correta: true },
+                        { texto: 'Classes em Python só podem ter 1 único método', correta: false },
+                        { texto: 'Herança é declarada com a palavra "extends"', correta: false }
+                    ],
+                    explicacao: 'Python usa parênteses para herança (class Filha(Mae):) e não a palavra extends como no Java. __init__ e self são os pilares de instanciação.'
+                },
+                {
+                    tipo: 'lacunas',
+                    enunciado: 'Fase 5/5 - Desafio Mestre: Complete o nome do método especial de inicialização (*dunder init*):',
+                    dica: 'Ele possui dois underlines antes e dois depois da palavra init.',
+                    template: 'class Aluno:\n    def {lacuna}(self, matricula):\n        self.matricula = matricula',
+                    opcoes: ['__init__', '_init_', 'constructor', 'init'],
+                    respostaCorreta: '__init__',
+                    explicacao: 'O método canônico __init__ é chamado automaticamente durante a criação de qualquer nova instância.'
                 }
             ]
         }
@@ -522,20 +939,68 @@ window.GaleaBancosConteudo.python = {
             etapas: [
                 {
                     tipo: 'grid-chips',
-                    enunciado: 'Selecione todas as afirmações tecnicamente VERDADEIRAS sobre JSON e datas em Python:',
+                    enunciado: 'Fase 1/5 - JSON & Datetime: Selecione todas as afirmações tecnicamente VERDADEIRAS sobre JSON e datas:',
                     dica: 'Lembre-se dos métodos json.dumps / json.loads e do formato strftime do módulo datetime!',
                     opcoes: [
                         { texto: 'json.dumps converte dicionários em texto JSON', correta: true },
                         { texto: 'json.loads converte texto JSON em dicionários Python', correta: true },
                         { texto: 'datetime.now() obtém data e hora atuais do sistema', correta: true },
-                        { texto: 'strftime("%d/%m/%Y") formata data no padrão dia/mês/ano', correta: true },
+                        { texto: 'strftime("%d/%m/%Y") formata data no padrão brasileiro', correta: true },
                         { texto: 'JSON é suportado nativamente via import json', correta: true },
                         { texto: 'json.dumps apaga arquivos do disco rígido', correta: false },
-                        { texto: 'JSON só funciona em sistemas operacionais Linux', correta: false },
-                        { texto: 'datetime calcula apenas anos bissextos', correta: false },
-                        { texto: 'json.loads serve apenas para somar números', correta: false }
+                        { texto: 'JSON só funciona no Linux', correta: false },
+                        { texto: 'datetime só funciona com anos bissextos', correta: false }
                     ],
-                    explicacao: 'O módulo json oferece serialização (dumps) e desserialização (loads) universal, enquanto datetime trata registros e cálculos temporais.'
+                    explicacao: 'O módulo json oferece serialização (dumps) e desserialização (loads) universal, enquanto datetime trata registros temporais.'
+                },
+                {
+                    tipo: 'lacunas',
+                    enunciado: 'Fase 2/5 - Desserialização JSON: Complete o método que converte uma string formatada em JSON de volta para dicionário Python:',
+                    dica: 'loads significa "load string" (carregar a partir de texto).',
+                    template: 'import json\ntexto_bruto = \'{"pontos": 50}\'\ndados = json.{lacuna}(texto_bruto)',
+                    opcoes: ['loads', 'dumps', 'parse', 'to_dict'],
+                    respostaCorreta: 'loads',
+                    explicacao: 'O método json.loads(string) converte texto em formato JSON diretamente para estruturas nativas do Python.'
+                },
+                {
+                    tipo: 'caca-bug',
+                    enunciado: 'Fase 3/5 - Caça-Bug de Importação: Localize a linha que causará um NameError fatal ao manipular JSON:',
+                    dica: 'Nenhum método do módulo json pode ser usado sem antes importá-lo no script!',
+                    linhasCodigo: [
+                        '1. perfil = {"nome": "Lucas", "nivel": 10}',
+                        '2. json_formatado = json.dumps(perfil)',
+                        '3. print(json_formatado)',
+                        '4. # O import json foi completamente esquecido no início!'
+                    ],
+                    linhaBug: 1,
+                    explicacao: 'Na linha 2, a chamada "json.dumps" falhará com NameError porque o módulo "json" não foi importado com "import json".'
+                },
+                {
+                    tipo: 'ordene',
+                    enunciado: 'Fase 4/5 - Pipeline de Exportação JSON: Ordene o fluxo de criação, serialização e gravação de dados estruturados:',
+                    dica: 'Importe o json, monte o dicionário, serialize para texto com json.dumps e salve com with open.',
+                    itens: [
+                        'import json',
+                        'dados_jogador = {"nick": "Falcon", "score": 999}',
+                        'json_texto = json.dumps(dados_jogador, indent=2)',
+                        'with open("save.json", "w") as f:\n    f.write(json_texto)'
+                    ],
+                    ordemCorreta: [
+                        'import json',
+                        'dados_jogador = {"nick": "Falcon", "score": 999}',
+                        'json_texto = json.dumps(dados_jogador, indent=2)',
+                        'with open("save.json", "w") as f:\n    f.write(json_texto)'
+                    ],
+                    explicacao: 'O fluxo padrão de persistência serializa o objeto em texto JSON e o grava em disco com with open.'
+                },
+                {
+                    tipo: 'lacunas',
+                    enunciado: 'Fase 5/5 - Desafio Mestre: Complete a diretiva de formatação do strftime para exibir o ano com 4 dígitos:',
+                    dica: '%Y com letra maiúscula formata o ano completo (ex: 2026), enquanto %y minúsculo exibe apenas 2 dígitos (26).',
+                    template: 'from datetime import datetime\ndata_str = datetime.now().strftime("%d/%m/{lacuna}")',
+                    opcoes: ['%Y', '%y', '%A', '%year'],
+                    respostaCorreta: '%Y',
+                    explicacao: 'A diretiva %Y (maiúsculo) formata o ano completo com quatro algarismos (ex.: 2026).'
                 }
             ]
         }
@@ -583,7 +1048,7 @@ window.GaleaBancosConteudo.python = {
             etapas: [
                 {
                     tipo: 'ordene',
-                    enunciado: 'Ordene o ciclo de vida profissional de inicialização, execução e encerramento seguro da aplicação final:',
+                    enunciado: 'Fase 1/5 - Ciclo de Vida do Software: Ordene o fluxo de inicialização, execução e encerramento da aplicação final:',
                     dica: 'Inicie importando recursos e carregando dados; execute o menu interativo e finalize persistindo as alterações em disco.',
                     itens: [
                         'Importar módulos nativos e carregar dados salvos em JSON',
@@ -597,7 +1062,59 @@ window.GaleaBancosConteudo.python = {
                         'Processar os comandos do usuário e atualizar os objetos em memória',
                         'Salvar os dados alterados em arquivo e encerrar a aplicação com segurança'
                     ],
-                    explicacao: 'O ciclo canônico de softwares robustos é: 1. Carregar dependências e estado persistido; 2. Exibir o menu interativo; 3. Executar a lógica de negócio; 4. Persistir alterações antes de sair.'
+                    explicacao: 'O ciclo canônico de softwares robustos é: 1. Carregar estado; 2. Exibir menu interativo; 3. Processar comandos; 4. Persistir alterações antes de sair.'
+                },
+                {
+                    tipo: 'grid-chips',
+                    enunciado: 'Fase 2/5 - Padrões de Código PEP 8: Selecione todas as convenções que seguem RIGOROSAMENTE a PEP 8:',
+                    dica: '4 espaços de indentação, snake_case para funções/variáveis, PascalCase para classes e SCREAMING_SNAKE para constantes.',
+                    opcoes: [
+                        { texto: '4 espaços por nível de indentação (sem tabs)', correta: true },
+                        { texto: 'class GerenciadorContas: (PascalCase)', correta: true },
+                        { texto: 'def calcular_imposto(): (snake_case)', correta: true },
+                        { texto: 'LIMITE_MAXIMO = 100 (constantes)', correta: true },
+                        { texto: 'class gerenciador_contas: (classe em snake_case)', correta: false },
+                        { texto: 'def CalcularImposto(): (função em PascalCase)', correta: false },
+                        { texto: 'Indentação com 1 espaço apenas', correta: false }
+                    ],
+                    explicacao: 'A PEP 8 padroniza: 4 espaços para indentação, PascalCase para classes, snake_case para funções/variáveis e letras maiúsculas para constantes.'
+                },
+                {
+                    tipo: 'caca-bug',
+                    enunciado: 'Fase 3/5 - Caça-Bug de PEP 8: Identifique a linha que viola a convenção de nomenclatura de classes em Python:',
+                    dica: 'Pela PEP 8, classes devem adotar PascalCase (PrimeiraLetraMaiuscula), nunca snake_case!',
+                    linhasCodigo: [
+                        '1. # Módulo financeiro',
+                        '2. taxa_juros = 0.05',
+                        '3. class conta_bancaria_cliente:',
+                        '4.     def __init__(self, saldo):',
+                        '5.         self.saldo = saldo'
+                    ],
+                    linhaBug: 2,
+                    explicacao: 'Na linha 3, o nome "conta_bancaria_cliente" viola a PEP 8. A convenção canônica para classes exige PascalCase: "ContaBancariaCliente".'
+                },
+                {
+                    tipo: 'lacunas',
+                    enunciado: 'Fase 4/5 - Convenção de Constantes: Complete a variável de taxa imutável seguindo a convenção PEP 8:',
+                    dica: 'Constantes globais na PEP 8 são escritas inteiramente em maiúsculas com underline (SCREAMING_SNAKE_CASE).',
+                    template: '{lacuna} = 0.15\ndef aplicar_taxa(valor):\n    return valor * (1 + TAXA_PADRAO)',
+                    opcoes: ['TAXA_PADRAO', 'taxaPadrao', 'taxa_padrao', 'TaxaPadrao'],
+                    respostaCorreta: 'TAXA_PADRAO',
+                    explicacao: 'A PEP 8 estipula que variáveis com valor constante que não devem ser reatribuídas sejam grafadas em caixa alta com sublinhados.'
+                },
+                {
+                    tipo: 'grid-chips',
+                    enunciado: 'Fase 5/5 - Grande Desafio Final de Python: Selecione os 4 pilares de um código Pythônico profissional:',
+                    dica: 'Lembre-se do Zen do Python: legibilidade, tratamento com try/except, with open para recursos e PEP 8!',
+                    opcoes: [
+                        { texto: 'Legibilidade e clareza de código (PEP 20)', correta: true },
+                        { texto: 'Tratamento preventivo de erros com try/except', correta: true },
+                        { texto: 'Gerenciamento automático de recursos com with', correta: true },
+                        { texto: 'Aderência às boas práticas de estilo da PEP 8', correta: true },
+                        { texto: 'Usar comandos longos e obscuros em uma única linha', correta: false },
+                        { texto: 'Ignorar erros com except: pass silencioso', correta: false }
+                    ],
+                    explicacao: 'Parabéns! Você dominou os fundamentos e boas práticas do Python moderno: código legível, seguro, padronizado e defensivo!'
                 }
             ]
         }

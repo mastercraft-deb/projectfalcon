@@ -273,6 +273,109 @@
     margin-top: 0.5rem;
 }
 
+/* ---------- Dica Interativa com Lâmpada (Revelável no Clique) ---------- */
+.desafio-dica-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 0.85rem;
+    gap: 0.65rem;
+    width: 100%;
+}
+
+.desafio-dica-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 18px;
+    background: rgba(250, 204, 21, 0.1);
+    border: 1.5px solid rgba(250, 204, 21, 0.35);
+    border-radius: 999px;
+    color: #fde047;
+    font-size: 0.86rem;
+    font-weight: 700;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+    user-select: none;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
+}
+
+.desafio-dica-toggle:hover {
+    background: rgba(250, 204, 21, 0.2);
+    border-color: #facc15;
+    color: #ffffff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(250, 204, 21, 0.35);
+}
+
+.desafio-dica-toggle:active {
+    transform: translateY(0);
+}
+
+.desafio-dica-toggle .dica-icone {
+    font-size: 20px;
+    color: #facc15;
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.3s ease;
+}
+
+.desafio-dica-toggle.ativa {
+    background: rgba(250, 204, 21, 0.22);
+    border-color: #facc15;
+    color: #ffffff;
+    box-shadow: 0 0 14px rgba(250, 204, 21, 0.45);
+}
+
+.desafio-dica-toggle.ativa .dica-icone {
+    transform: scale(1.18) rotate(-10deg);
+    filter: drop-shadow(0 0 8px rgba(250, 204, 21, 1));
+}
+
+.desafio-dica-conteudo {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    max-width: min(92vw, 680px);
+    padding: 0.85rem 1.4rem;
+    background: rgba(26, 16, 51, 0.94);
+    border: 1.5px solid rgba(250, 204, 21, 0.45);
+    border-radius: 14px;
+    color: #fef08a;
+    font-size: 0.92rem;
+    font-weight: 500;
+    line-height: 1.5;
+    text-align: center;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5), 0 0 15px rgba(250, 204, 21, 0.2);
+    animation: dicaRevelar 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.desafio-dica-conteudo .dica-conteudo-icone {
+    font-size: 22px;
+    color: #facc15;
+    flex-shrink: 0;
+    filter: drop-shadow(0 0 6px rgba(250, 204, 21, 0.8));
+}
+
+.desafio-dica-conteudo .dica-conteudo-texto {
+    color: #fef9c3;
+}
+
+.desafio-dica-conteudo[hidden] {
+    display: none !important;
+}
+
+@keyframes dicaRevelar {
+    from {
+        opacity: 0;
+        transform: translateY(-8px) scale(0.96);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
 /* =====================================================
    TIPO 1: GRID DE CHIPS 3x3 EXPANDIDO (Visual do Protótipo)
    ===================================================== */

@@ -53,19 +53,67 @@ window.GaleaBancosConteudo.quimica = {
             etapas: [
                 {
                     tipo: 'grid-chips',
-                    enunciado: 'Selecione todas as afirmações corretas sobre os estados da matéria e as mudanças de fase:',
+                    enunciado: 'Fase 1/5 - Estados da Matéria & Mudanças de Fase: Selecione todas as afirmações corretas:',
                     dica: 'Lembre-se dos nomes científicos das transições térmicas como fusão e sublimação!',
                     opcoes: [
                         { texto: 'A passagem direta do estado sólido para o gasoso chama-se Sublimação', correta: true },
                         { texto: 'No estado sólido, a matéria possui forma e volume definidos', correta: true },
                         { texto: 'A passagem de líquido para sólido chama-se Solidificação', correta: true },
-                        { texto: 'Densidade é uma propriedade física específica calculada por d = m/V', correta: true },
+                        { texto: 'Densidade é calculada pela razão entre massa e volume (d = m/V)', correta: true },
                         { texto: 'A evaporação e a ebulição são modalidades de vaporização', correta: true },
                         { texto: 'No estado gasoso as moléculas ficam completamente imóveis', correta: false },
-                        { texto: 'Dois corpos podem ocupar o mesmo espaço ao mesmo tempo', correta: false },
                         { texto: 'A passagem de sólido para líquido chama-se condensação', correta: false }
                     ],
-                    explicacao: 'A sublimação é a transição direta sólido-gás. Densidade é específica (d=m/V). No estado sólido as partículas vibram em posições fixas com forma e volume definidos.'
+                    explicacao: 'A sublimação é a transição direta sólido-gás. No estado sólido as partículas vibram em posições fixas com forma e volume definidos.'
+                },
+                {
+                    tipo: 'lacunas',
+                    enunciado: 'Fase 2/5 - Mudança Direta de Fase: A passagem direta do estado sólido para o estado gasoso (sem passar pelo líquido), como no gelo seco, chama-se:',
+                    dica: 'Ocorre também com bolinhas de naftalina guardadas no armário.',
+                    template: 'A transição direta de sólido para gás é a {lacuna}',
+                    opcoes: ['Sublimação', 'Fusão', 'Ebulição', 'Liquefação'],
+                    respostaCorreta: 'Sublimação',
+                    explicacao: 'A sublimação é o fenômeno físico onde certas substâncias passam diretamente do estado sólido para a fase de vapor.'
+                },
+                {
+                    tipo: 'caca-bug',
+                    enunciado: 'Fase 3/5 - Caça-Bug das Mudanças de Fase: Localize a linha que trocou o nome científico da mudança de estado físico:',
+                    dica: 'A passagem de sólido para líquido é FUSÃO. Condensação é a passagem de gás para líquido!',
+                    linhasCodigo: [
+                        '1. Fenômeno A: Água líquida vira gelo no freezer (Solidificação)',
+                        '2. Fenômeno B: Gelo derrete ao sol virando água líquida (Condensação)',
+                        '3. Fenômeno C: Água ferve na chaleira virando vapor (Vaporização/Ebulição)',
+                        '4. Fenômeno D: Vapor de água vira orvalho na relva fria (Liquefação)'
+                    ],
+                    linhaBug: 1,
+                    explicacao: 'Na linha 2, chamaram o derretimento do gelo de condensação. A passagem de sólido para líquido chama-se rigorosamente FUSÃO.'
+                },
+                {
+                    tipo: 'ordene',
+                    enunciado: 'Fase 4/5 - Aquecimento da Água: Ordene os estados da água em pressão normal ao ser aquecida de -10 ºC até 120 ºC:',
+                    dica: 'Comece pelo gelo, passe pela fusão a 0 ºC, líquido e atinja a ebulição a 100 ºC.',
+                    itens: [
+                        'Gelo sólido rígido com moléculas fixas em retículo cristalino (-10 ºC)',
+                        'Fusão a 0 ºC com quebra da rigidez cristalina virando água líquida',
+                        'Água líquida com moléculas deslizando fluidas entre 0 ºC e 100 ºC',
+                        'Ebulição turbulenta a 100 ºC com transição total para vapor gasoso'
+                    ],
+                    ordemCorreta: [
+                        'Gelo sólido rígido com moléculas fixas em retículo cristalino (-10 ºC)',
+                        'Fusão a 0 ºC com quebra da rigidez cristalina virando água líquida',
+                        'Água líquida com moléculas deslizando fluidas entre 0 ºC e 100 ºC',
+                        'Ebulição turbulenta a 100 ºC com transição total para vapor gasoso'
+                    ],
+                    explicacao: 'O aumento de temperatura intensifica a agitação térmica molecular promovendo transições de fase endotérmicas sucessivas.'
+                },
+                {
+                    tipo: 'lacunas',
+                    enunciado: 'Fase 5/5 - Desafio Mestre: A grandeza física que expressa a quantidade de matéria contida em um determinado volume é a:',
+                    dica: 'Calculada pela razão d = massa / volume.',
+                    template: 'A propriedade física d = m/V corresponde à {lacuna}',
+                    opcoes: ['densidade', 'viscosidade', 'solubilidade', 'pressão'],
+                    respostaCorreta: 'densidade',
+                    explicacao: 'A densidade é uma propriedade física específica fundamental para prever se corpos flutuam ou afundam em líquidos.'
                 }
             ]
         }
@@ -110,7 +158,7 @@ window.GaleaBancosConteudo.quimica = {
             etapas: [
                 {
                     tipo: 'ordene',
-                    enunciado: 'Ordene a evolução histórica dos Modelos Atômicos da humanidade em ordem cronológica:',
+                    enunciado: 'Fase 1/5 - Linha do Tempo Atômica: Ordene a evolução dos Modelos Atômicos em ordem cronológica:',
                     dica: 'Comece pela bola de bilhar maciça, passe pela descoberta do elétron e chegue ao átomo com núcleo e espaço vazio.',
                     itens: [
                         'Modelo de Dalton (Esfera maciça indivisível - Bola de Bilhar)',
@@ -123,6 +171,60 @@ window.GaleaBancosConteudo.quimica = {
                         'Modelo de Rutherford (Núcleo denso positivo e eletrosfera vazia)'
                     ],
                     explicacao: 'A cronologia clássica é: Dalton (1803, esfera maciça indivisível), Thomson (1897, descoberta do elétron) e Rutherford (1911, descoberta do núcleo atômico e espaço vazio).'
+                },
+                {
+                    tipo: 'grid-chips',
+                    enunciado: 'Fase 2/5 - Métodos de Separação de Misturas: Selecione os métodos químicos/físicos adequados para cada separação:',
+                    dica: 'Lembre-se da diferença entre misturas homogêneas (soluções) e heterogêneas!',
+                    opcoes: [
+                        { texto: 'Filtração: separa sólidos insolúveis de líquidos (ex: coar café)', correta: true },
+                        { texto: 'Destilação Simples: separa sólido dissolvido em líquido (ex: água e sal)', correta: true },
+                        { texto: 'Decantação: separa líquidos imiscíveis por diferença de densidade (água e óleo)', correta: true },
+                        { texto: 'Destilação Fracionada: separa frações do petróleo por pontos de ebulição', correta: true },
+                        { texto: 'Filtração simples consegue separar sal totalmente dissolvido em água', correta: false },
+                        { texto: 'Decantação exige aquecimento a 1000 ºC', correta: false }
+                    ],
+                    explicacao: 'Filtração retém apenas partículas insolúveis. Para solutos dissolvidos (misturas homogêneas), a separação exige destilação.'
+                },
+                {
+                    tipo: 'caca-bug',
+                    enunciado: 'Fase 3/5 - Caça-Bug de História da Química: Localize a linha que atribui uma descoberta moderna ao modelo de Dalton:',
+                    dica: 'No modelo de Dalton (1803), o átomo era indivisível e maciço; elétrons e prótons ainda eram completamente desconhecidos!',
+                    linhasCodigo: [
+                        '1. Dalton postulou que a matéria é formada por átomos esféricos',
+                        '2. Átomos do mesmo elemento químico possuem massas idênticas',
+                        '3. Dalton descobriu que os elétrons orbitam ao redor do núcleo positivo',
+                        '4. Nas reações químicas, os átomos apenas se reorganizam sem serem destruídos'
+                    ],
+                    linhaBug: 2,
+                    explicacao: 'A linha 3 erra gravemente. Dalton considerava o átomo maciço e indivisível ("bola de bilhar"). O elétron só foi descoberto quase um século depois por Thomson (1897).'
+                },
+                {
+                    tipo: 'ordene',
+                    enunciado: 'Fase 4/5 - Algoritmo da Destilação Simples: Ordene o processo de purificação da água a partir de uma salmoura:',
+                    dica: 'Aqueça a mistura, evapore a água, condense o vapor no tubo refrigerado e colete água destilada pura.',
+                    itens: [
+                        'Aquecer a salmoura (água com sal dissolvido) no balão de destilação',
+                        'A água atinge o ponto de ebulição (100 ºC), vaporiza e deixa o sal no fundo',
+                        'O vapor d\'água sobe e entra no condensador resfriado por água corrente',
+                        'O vapor condensa-se e pinga como água pura destilada no frasco coletor'
+                    ],
+                    ordemCorreta: [
+                        'Aquecer a salmoura (água com sal dissolvido) no balão de destilação',
+                        'A água atinge o ponto de ebulição (100 ºC), vaporiza e deixa o sal no fundo',
+                        'O vapor d\'água sobe e entra no condensador resfriado por água corrente',
+                        'O vapor condensa-se e pinga como água pura destilada no frasco coletor'
+                    ],
+                    explicacao: 'A destilação simples explora a enorme diferença nos pontos de ebulição entre o solvente volátil (água) e o soluto fixo (sal).'
+                },
+                {
+                    tipo: 'lacunas',
+                    enunciado: 'Fase 5/5 - Desafio Mestre: O físico britânico que descobriu a primeira partícula subatômica (o elétron) foi J.J.:',
+                    dica: 'Criador do modelo do "pudim de passas" em 1897.',
+                    template: 'A descoberta do elétron através dos raios catódicos foi realizada por {lacuna}',
+                    opcoes: ['Thomson', 'Rutherford', 'Bohr', 'Dalton'],
+                    respostaCorreta: 'Thomson',
+                    explicacao: 'J.J. Thomson demonstrou a existência dos elétrons, provando que o átomo não era indivisível como se pensava desde a Grécia antiga.'
                 }
             ]
         }
@@ -169,7 +271,7 @@ window.GaleaBancosConteudo.quimica = {
             etapas: [
                 {
                     tipo: 'grid-chips',
-                    enunciado: 'Selecione todas as afirmações cientificamente VERDADEIRAS sobre a Tabela Periódica e átomos:',
+                    enunciado: 'Fase 1/5 - Estrutura Atômica & Tabela Periódica: Selecione todas as afirmações cientificamente VERDADEIRAS:',
                     dica: 'Lembre-se do significado do número atômico Z, dos períodos e da estabilidade dos gases nobres!',
                     opcoes: [
                         { texto: 'O número atômico (Z) representa a quantidade de prótons no núcleo', correta: true },
@@ -178,10 +280,58 @@ window.GaleaBancosConteudo.quimica = {
                         { texto: 'Isótopos são átomos com o mesmo número atômico Z e massas diferentes', correta: true },
                         { texto: 'Os períodos horizontais indicam o número de camadas eletrônicas', correta: true },
                         { texto: 'Os elétrons ficam localizados dentro do núcleo com os prótons', correta: false },
-                        { texto: 'A Tabela Periódica é organizada em ordem alfabética de nomes', correta: false },
-                        { texto: 'O número de massa A é a soma de elétrons com prótons', correta: false }
+                        { texto: 'A Tabela Periódica é organizada em ordem alfabética de nomes', correta: false }
                     ],
                     explicacao: 'O número atômico Z define o elemento e dita a ordem da tabela. Isótopos compartilham o mesmo Z. Os elétrons ficam na eletrosfera e os gases nobres possuem octeto estável.'
+                },
+                {
+                    tipo: 'lacunas',
+                    enunciado: 'Fase 2/5 - A Identidade do Átomo: O Número Atômico (Z), que identifica unicamente cada elemento químico na natureza, é igual à quantidade de:',
+                    dica: 'Essas partículas subatômicas possuem carga elétrica positiva +1 e residem no núcleo.',
+                    template: 'O Número Atômico (Z) de um átomo é rigorosamente igual ao número de {lacuna}',
+                    opcoes: ['prótons', 'elétrons', 'nêutrons', 'fótons'],
+                    respostaCorreta: 'prótons',
+                    explicacao: 'O número de prótons (Z) é a impressão digital do elemento químico: qualquer átomo no cosmos com 6 prótons é Carbono; com 8, Oxigênio.'
+                },
+                {
+                    tipo: 'caca-bug',
+                    enunciado: 'Fase 3/5 - Caça-Bug de Semelhanças Atômicas: Localize a linha que inverteu a definição clássica de isótopos:',
+                    dica: 'IsótoPos têm o mesmo número de Prótons (mesmo Z), mas massas (A) diferentes!',
+                    linhasCodigo: [
+                        '1. O Carbono-12 possui 6 prótons e 6 nêutrons (massa A = 12)',
+                        '2. O Carbono-14 possui 6 prótons e 8 nêutrons (massa A = 14)',
+                        '3. Afirmação falsa: Isótopos possuem números atômicos Z diferentes e massas A iguais',
+                        '4. Correção: Como pertencem ao mesmo elemento Carbono, ambos possuem Z = 6 idêntico'
+                    ],
+                    linhaBug: 2,
+                    explicacao: 'Na linha 3, inverteram a definição. Isótopos têm obrigatoriamente o MESMO Z (mesmo número atômico), variando apenas a quantidade de nêutrons e o número de massa A.'
+                },
+                {
+                    tipo: 'ordene',
+                    enunciado: 'Fase 4/5 - Grupos da Tabela Periódica: Ordene as famílias químicas clássicas da esquerda para a direita na tabela:',
+                    dica: 'Inicie pelos Metais Alcalinos no Grupo 1 e termine nos Gases Nobres no Grupo 18.',
+                    itens: [
+                        'Metais Alcalinos (Grupo 1) e Alcalino-Terrosos (Grupo 2)',
+                        'Metais de Transição nos blocos centrais da tabela',
+                        'Halogênios altamente reativos e eletronegativos (Grupo 17)',
+                        'Gases Nobres inertes com camada de valência completa (Grupo 18)'
+                    ],
+                    ordemCorreta: [
+                        'Metais Alcalinos (Grupo 1) e Alcalino-Terrosos (Grupo 2)',
+                        'Metais de Transição nos blocos centrais da tabela',
+                        'Halogênios altamente reativos e eletronegativos (Grupo 17)',
+                        'Gases Nobres inertes com camada de valência completa (Grupo 18)'
+                    ],
+                    explicacao: 'A Tabela Periódica moderna distribui os grupos do caráter mais eletropositivo (esquerda) ao mais eletronegativo e estável (direita).'
+                },
+                {
+                    tipo: 'lacunas',
+                    enunciado: 'Fase 5/5 - Desafio Mestre: O Número de Massa (A) de qualquer núcleo atômico é dado pela soma entre a quantidade de prótons e:',
+                    dica: 'Partículas nucleares neutras que estabilizam as cargas positivas dos prótons.',
+                    template: 'O número de massa é calculado por A = Z + {lacuna}',
+                    opcoes: ['nêutrons', 'elétrons', 'posítrons', 'órbitas'],
+                    respostaCorreta: 'nêutrons',
+                    explicacao: 'Como a massa dos elétrons na eletrosfera é desprezível (1/1836), a massa de todo átomo concentra-se no núcleo: A = prótons + nêutrons.'
                 }
             ]
         }
@@ -225,12 +375,66 @@ window.GaleaBancosConteudo.quimica = {
             etapas: [
                 {
                     tipo: 'lacunas',
-                    enunciado: 'A ligação química presente no sal de cozinha (NaCl), formada pela transferência definitiva de elétrons, é do tipo:',
+                    enunciado: 'Fase 1/5 - Ligações Químicas: A ligação no sal de cozinha (NaCl), formada pela transferência definitiva de elétrons, é do tipo:',
                     dica: 'Essa ligação ocorre entre o cátion de um metal (Na+) e o ânion de um ametal (Cl-) por atração eletrostática.',
                     template: 'A ligação química formada entre sódio e cloro no composto NaCl é a ligação {lacuna}',
-                    opcoes: ['iônica', 'covalente', 'metálica', 'de hidrogênio', 'nuclear'],
+                    opcoes: ['iônica', 'covalente', 'metálica', 'nuclear'],
                     respostaCorreta: 'iônica',
                     explicacao: 'O sódio (metal) doa um elétron para o cloro (ametal), formando os íons Na+ e Cl- unidos por forte atração eletrostática iônica.'
+                },
+                {
+                    tipo: 'grid-chips',
+                    enunciado: 'Fase 2/5 - Iônica vs Covalente: Selecione todas as características corretas das ligações químicas:',
+                    dica: 'Lembre-se: iônica transfere elétrons e covalente compartilha elétrons!',
+                    opcoes: [
+                        { texto: 'Ligação iônica envolve transferência definitiva de elétrons (metal + ametal)', correta: true },
+                        { texto: 'Ligação covalente envolve compartilhamento de pares de elétrons (ametais)', correta: true },
+                        { texto: 'Compostos iônicos conduzem eletricidade quando dissolvidos em água ou fundidos', correta: true },
+                        { texto: 'A água (H₂O) e o gás carbônico (CO₂) são substâncias moleculares covalentes', correta: true },
+                        { texto: 'Compostos iônicos são formados apenas por gases nobres', correta: false },
+                        { texto: 'Na ligação covalente ocorre a formação de cátions metálicos', correta: false }
+                    ],
+                    explicacao: 'Ligações iônicas formam retículos cristalinos rígidos com altos pontos de fusão, enquanto ligações covalentes geram moléculas independentes.'
+                },
+                {
+                    tipo: 'caca-bug',
+                    enunciado: 'Fase 3/5 - Caça-Bug de Tipos de Ligação: Localize a linha que classificou a molécula de água incorretamente:',
+                    dica: 'A água H₂O é formada por hidrogênio e oxigênio (dois ametais) que COMPARTILHAM elétrons em ligação covalente!',
+                    linhasCodigo: [
+                        '1. Análise da substância cloreto de sódio (NaCl): Ligação iônica por transferência',
+                        '2. Análise do gás oxigênio (O₂): Ligação covalente por compartilhamento duplo',
+                        '3. Análise da água pura (H₂O): Ligação iônica formada pela doação de elétrons do hidrogênio',
+                        '4. Correção: A ligação no H₂O é covalente polar por compartilhamento de pares'
+                    ],
+                    linhaBug: 2,
+                    explicacao: 'Na linha 3, afirmam que H₂O é iônica. A água é rigorosamente uma substância molecular covalente: o oxigênio compartilha elétrons com os dois hidrogênios.'
+                },
+                {
+                    tipo: 'ordene',
+                    enunciado: 'Fase 4/5 - Formação do Sal NaCl: Ordene as etapas da transferência eletrônica na síntese do cloreto de sódio:',
+                    dica: 'O sódio doa seu elétron de valência, atinge o octeto e atrai o ânion cloreto.',
+                    itens: [
+                        'Átomo de Sódio neutro (1 elétron de valência) aproxima-se do Cloro (7 elétrons)',
+                        'O Sódio transfere seu elétron mais externo para a camada de valência do Cloro',
+                        'O Sódio torna-se o cátion Na⁺ e o Cloro torna-se o ânion Cl⁻ com octetos completos',
+                        'A forte atração eletrostática mútua entre Na⁺ e Cl⁻ forma o cristal cúbico de NaCl'
+                    ],
+                    ordemCorreta: [
+                        'Átomo de Sódio neutro (1 elétron de valência) aproxima-se do Cloro (7 elétrons)',
+                        'O Sódio transfere seu elétron mais externo para a camada de valência do Cloro',
+                        'O Sódio torna-se o cátion Na⁺ e o Cloro torna-se o ânion Cl⁻ com octetos completos',
+                        'A forte atração eletrostática mútua entre Na⁺ e Cl⁻ forma o cristal cúbico de NaCl'
+                    ],
+                    explicacao: 'A atração coulômbica tridimensional entre cátions e ânions opostos estabiliza o retículo cristalino iônico.'
+                },
+                {
+                    tipo: 'lacunas',
+                    enunciado: 'Fase 5/5 - Desafio Mestre: O princípio químico segundo o qual os átomos realizam ligações para adquirir 8 elétrons na camada de valência é a Regra do:',
+                    dica: 'Baseia-se na estabilidade observada nos gases nobres.',
+                    template: 'A estabilidade química pela posse de 8 elétrons é descrita pela Regra do {lacuna}',
+                    opcoes: ['Octeto', 'Dupleto', 'Pauling', 'Lavoisier'],
+                    respostaCorreta: 'Octeto',
+                    explicacao: 'A Regra do Octeto formulada por Gilbert Lewis explica a formação da esmagadora maioria das ligações químicas dos elementos representativos.'
                 }
             ]
         }
@@ -277,12 +481,66 @@ window.GaleaBancosConteudo.quimica = {
             etapas: [
                 {
                     tipo: 'lacunas',
-                    enunciado: 'Complete os produtos gerados na clássica reação inorgânica de neutralização total entre um ácido e uma base:',
+                    enunciado: 'Fase 1/5 - Neutralização Total: Complete os produtos gerados na reação inorgânica entre um ácido e uma base de Arrhenius:',
                     dica: 'A união dos íons H+ e OH- produz água, enquanto os íons restantes formam o sal.',
                     template: 'A reação de neutralização entre Ácido + Base produz sempre {lacuna}',
-                    opcoes: ['Sal + Água', 'Apenas Gás Hidrogênio', 'Dois novos Ácidos', 'Metal Puro + Fogo', 'Gás Carbônico puro'],
+                    opcoes: ['Sal + Água', 'Apenas Gás Hidrogênio', 'Dois novos Ácidos', 'Gás Carbônico puro'],
                     respostaCorreta: 'Sal + Água',
-                    explicacao: 'A reação canônica de neutralização total entre um ácido e uma base de Arrhenius produz invariavelmente Sal e Água (Ácido + Base -> Sal + Água).'
+                    explicacao: 'A reação canônica de neutralização total entre um ácido e uma base produz invariavelmente Sal e Água (Ácido + Base -> Sal + Água).'
+                },
+                {
+                    tipo: 'grid-chips',
+                    enunciado: 'Fase 2/5 - Ácidos e Bases de Arrhenius: Selecione todas as propriedades físico-químicas verdadeiras:',
+                    dica: 'Lembre-se dos íons liberados (H+ para ácidos e OH- para bases) e das cores de indicadores!',
+                    opcoes: [
+                        { texto: 'Ácidos de Arrhenius liberam íons H⁺ (hidrônio) em solução aquosa', correta: true },
+                        { texto: 'Bases de Arrhenius liberam íons hidróxido (OH⁻) em solução aquosa', correta: true },
+                        { texto: 'Ácidos possuem sabor azedo característico (ex: limão, vinagre)', correta: true },
+                        { texto: 'Bases tornam a solução de fenolftaleína intensamente cor-de-rosa', correta: true },
+                        { texto: 'Ácidos tornam a fenolftaleína azul-escura', correta: false },
+                        { texto: 'Bases liberam gás cloro puro espontaneamente no ar', correta: false }
+                    ],
+                    explicacao: 'A teoria clássica de Arrhenius baseia-se na liberação de H+ (ácidos) e OH- (bases) em meio aquoso.'
+                },
+                {
+                    tipo: 'caca-bug',
+                    enunciado: 'Fase 3/5 - Caça-Bug de Função Inorgânica: Localize a linha que classificou a soda cáustica erroneamente como ácido:',
+                    dica: 'O hidróxido de sódio (NaOH) termina com OH (hidroxila), sendo uma base extremamente forte!',
+                    linhasCodigo: [
+                        '1. Substância HCl (ácido clorídrico): Ácido que libera H⁺ no estômago',
+                        '2. Substância H₂SO₄ (ácido sulfúrico): Ácido diprótico usado em baterias',
+                        '3. Substância NaOH (soda cáustica): Ácido fraco porque contém hidrogênio na fórmula',
+                        '4. Correção: NaOH é uma Base (hidróxido) que libera ânions OH⁻ cáusticos'
+                    ],
+                    linhaBug: 2,
+                    explicacao: 'A linha 3 erra grosseiramente. O NaOH é uma base forte (hidróxido de sódio) e não um ácido! A presença de OH⁻ define a função base.'
+                },
+                {
+                    tipo: 'ordene',
+                    enunciado: 'Fase 4/5 - Reação de Neutralização Ácido-Base: Ordene os passos em nível iônico da reação entre HCl e NaOH:',
+                    dica: 'Dissocie o ácido e a base em solução, junte H+ e OH- para formar água e una o sal.',
+                    itens: [
+                        'O ácido clorídrico (HCl) sofre ionização aquosa liberando cátions H⁺ e ânions Cl⁻',
+                        'O hidróxido de sódio (NaOH) dissocia-se liberando cátions Na⁺ e ânions OH⁻',
+                        'Os íons H⁺ e OH⁻ colidem e neutralizam-se formando moléculas neutras de água (H₂O)',
+                        'Os íons espectadores Na⁺ e Cl⁻ permanecem em solução compondo o sal dissolvido (NaCl)'
+                    ],
+                    ordemCorreta: [
+                        'O ácido clorídrico (HCl) sofre ionização aquosa liberando cátions H⁺ e ânions Cl⁻',
+                        'O hidróxido de sódio (NaOH) dissocia-se liberando cátions Na⁺ e ânions OH⁻',
+                        'Os íons H⁺ e OH⁻ colidem e neutralizam-se formando moléculas neutras de água (H₂O)',
+                        'Os íons espectadores Na⁺ e Cl⁻ permanecem em solução compondo o sal dissolvido (NaCl)'
+                    ],
+                    explicacao: 'A essência termodinâmica da neutralização de Arrhenius é a reação H⁺ + OH⁻ → H₂O.'
+                },
+                {
+                    tipo: 'lacunas',
+                    enunciado: 'Fase 5/5 - Desafio Mestre: Compostos inorgânicos binários formados por apenas 2 elementos onde o oxigênio é o mais eletronegativo são os:',
+                    dica: 'Exemplos incluem CO₂, SO₂, CaO e Fe₂O₃.',
+                    template: 'Compostos binários contendo oxigênio como elemento mais eletronegativo são os {lacuna}',
+                    opcoes: ['óxidos', 'ácidos', 'sais', 'hidretos'],
+                    respostaCorreta: 'óxidos',
+                    explicacao: 'Os óxidos desempenham papéis vitais no efeito estufa (CO₂), chuva ácida (SO₂) e na indústria química.'
                 }
             ]
         }
@@ -330,19 +588,67 @@ window.GaleaBancosConteudo.quimica = {
             etapas: [
                 {
                     tipo: 'grid-chips',
-                    enunciado: 'Selecione todas as afirmações corretas sobre a escala de pH e as Leis das Reações Químicas:',
-                    dica: 'Lembre-se da faixa de pH ácido, neutro e básico e da Lei de Lavoisier!',
+                    enunciado: 'Fase 1/5 - Escala de pH & Lei de Lavoisier: Selecione todas as afirmações cientificamente corretas:',
+                    dica: 'Lembre-se da faixa de pH ácido, neutro e básico e da conservação de massa de Lavoisier!',
                     opcoes: [
                         { texto: 'Uma solução aquosa com pH 2 é considerada fortemente ácida', correta: true },
-                        { texto: 'pH igual a 7 indica neutralidade química a 25 ºC', correta: true },
+                        { texto: 'pH igual a 7 indica neutralidade química a 25 ºC (água pura)', correta: true },
                         { texto: 'A Lei de Lavoisier afirma que a massa se conserva nas reações em sistema fechado', correta: true },
                         { texto: 'Soluções com pH maior que 7 são classificadas como básicas ou alcalinas', correta: true },
                         { texto: 'Liberação de gás e alteração de cor são evidências de reação química', correta: true },
                         { texto: 'Uma solução com pH 12 é fortemente ácida', correta: false },
-                        { texto: 'Em sistema fechado a massa dos produtos é sempre o dobro dos reagentes', correta: false },
                         { texto: 'Água pura possui pH igual a 0', correta: false }
                     ],
-                    explicacao: 'pH < 7 indica meio ácido; pH = 7 é neutro; pH > 7 é básico. Pela Lei de Lavoisier, em recipiente fechado a massa total de reagentes é igual à massa final dos produtos.'
+                    explicacao: 'pH < 7 indica meio ácido; pH = 7 é neutro; pH > 7 é básico. Pela Lei de Lavoisier, em recipiente fechado a massa total de reagentes é igual à dos produtos.'
+                },
+                {
+                    tipo: 'lacunas',
+                    enunciado: 'Fase 2/5 - Neutralidade Química: A 25 ºC, uma solução aquosa perfeitamente equilibrada (como a água destilada pura) possui pH igual a:',
+                    dica: 'Fica exatamente no centro da escala convencional de 0 a 14.',
+                    template: 'O valor de pH que define a neutralidade química absoluta a 25 ºC é {lacuna}',
+                    opcoes: ['7', '0', '14', '1'],
+                    respostaCorreta: '7',
+                    explicacao: 'Em pH 7 a 25 ºC, as concentrações de íons H⁺ e OH⁻ são rigorosamente idênticas (10⁻⁷ mol/L).'
+                },
+                {
+                    tipo: 'caca-bug',
+                    enunciado: 'Fase 3/5 - Caça-Bug da Conservação de Massas: Localize a linha que viola a Lei de Lavoisier em recipiente fechado:',
+                    dica: 'Em sistema fechado sem troca de matéria com o exterior, a massa inicial DEVE ser rigorosamente igual à final!',
+                    linhasCodigo: [
+                        '1. Reação química em reator hermeticamente selado: A + B → C + D',
+                        '2. Massa inicial pesada dos reagentes: 50 g de A + 50 g de B = 100 g total',
+                        '3. Registro do operador: Massa dos produtos pesou 130 g porque formou novo composto',
+                        '4. Correção: A massa final é obrigatoriamente 100 g (na natureza nada se cria do nada)'
+                    ],
+                    linhaBug: 2,
+                    explicacao: 'A linha 3 comete erro impossível. Átomos não são criados do vácuo; pela Lei de Lavoisier, a massa dos produtos em frasco fechado é exatamente igual aos 100 g de reagentes.'
+                },
+                {
+                    tipo: 'ordene',
+                    enunciado: 'Fase 4/5 - Balanceamento Químico: Ordene as etapas para balancear a combustão simples do hidrogênio (formação de água):',
+                    dica: 'Escreva reagentes e produtos, conte os átomos em cada membro e ajuste os coeficientes estequiométricos.',
+                    itens: [
+                        'Identificar a fórmula molecular dos reagentes: Gás Hidrogênio (H₂) e Gás Oxigênio (O₂)',
+                        'Identificar o produto gerado da combinação: Molécula de Água (H₂O)',
+                        'Verificar que há 2 átomos de O nos reagentes e apenas 1 átomo de O no produto',
+                        'Ajustar os coeficientes estequiométricos mínimos inteiros: 2 H₂ + 1 O₂ → 2 H₂O'
+                    ],
+                    ordemCorreta: [
+                        'Identificar a fórmula molecular dos reagentes: Gás Hidrogênio (H₂) e Gás Oxigênio (O₂)',
+                        'Identificar o produto gerado da combinação: Molécula de Água (H₂O)',
+                        'Verificar que há 2 átomos de O nos reagentes e apenas 1 átomo de O no produto',
+                        'Ajustar os coeficientes estequiométricos mínimos inteiros: 2 H₂ + 1 O₂ → 2 H₂O'
+                    ],
+                    explicacao: 'O balanceamento de equações assegura a conservação estrita de átomos de cada elemento químico presente.'
+                },
+                {
+                    tipo: 'lacunas',
+                    enunciado: 'Fase 5/5 - Desafio Mestre: Soluções cáusticas como alvejantes e soda dissolvida possuem pH acima de 7, sendo denominadas:',
+                    dica: 'Sinônimo de substâncias com propriedades de base.',
+                    template: 'Soluções aquosas com pH compreendido entre 8 e 14 são classificadas como {lacuna}',
+                    opcoes: ['básicas (alcalinas)', 'ácidas', 'neutras', 'destiladas'],
+                    respostaCorreta: 'básicas (alcalinas)',
+                    explicacao: 'Valores de pH > 7 indicam predominância de íons hidroxila (OH⁻), caracterizando o meio alcalino ou básico.'
                 }
             ]
         }
@@ -373,12 +679,67 @@ window.GaleaBancosConteudo.quimica = {
             etapas: [
                 {
                     tipo: 'lacunas',
-                    enunciado: 'Calcule a concentração comum (C = m/V) de uma solução contendo 50 g de sal dissolvidos em 2 litros de água:',
+                    enunciado: 'Fase 1/5 - Concentração Comum: Calcule a concentração comum (C = m/V) de uma solução com 50 g de sal dissolvidos em 2 litros de água:',
                     dica: 'Aplique a fórmula C = massa / volume (divida 50 g por 2 L).',
-                    template: 'A concentração comum da solução é igual a {lacuna} g/L',
-                    opcoes: ['25', '100', '52', '0.04', '10'],
+                    template: 'A concentração comum da solução salina é igual a {lacuna} g/L',
+                    opcoes: ['25', '100', '52', '10'],
                     respostaCorreta: '25',
                     explicacao: 'C = massa / volume => C = 50 g / 2 L = 25 g/L.'
+                },
+                {
+                    tipo: 'grid-chips',
+                    enunciado: 'Fase 2/5 - Soluções & Química Verde: Selecione todas as afirmativas cientificamente corretas:',
+                    dica: 'A água é o solvente universal e a química verde visa reduzir a toxicidade e o desperdício industrial.',
+                    opcoes: [
+                        { texto: 'Em misturas homogêneas, o componente dissolvido em menor quantidade é o soluto', correta: true },
+                        { texto: 'A água é considerada o solvente universal devido à sua polaridade', correta: true },
+                        { texto: 'A concentração comum é expressa no SI em g/L', correta: true },
+                        { texto: 'A Química Verde busca desenvolver processos que não gerem resíduos tóxicos', correta: true },
+                        { texto: 'Plásticos biodegradáveis e reciclagem de lítio são metas da sustentabilidade', correta: true },
+                        { texto: 'Soluto e solvente podem ser separados por filtração simples de papel', correta: false },
+                        { texto: 'Concentração comum multiplica a massa pelo volume da solução', correta: false }
+                    ],
+                    explicacao: 'Soluções homogêneas contêm soluto dissolvido molecularmente no solvente. A Química Verde prioriza economia atômica e prevenção de poluição.'
+                },
+                {
+                    tipo: 'caca-bug',
+                    enunciado: 'Fase 3/5 - Caça-Bug de Unidade de Volume: Localize a linha onde esqueceram de converter mililitros (mL) para Litros (L):',
+                    dica: 'Para calcular a concentração em g/L, o volume em mL deve ser dividido por 1000 (ex: 500 mL = 0,5 L)!',
+                    linhasCodigo: [
+                        '1. Dissolver 20 g de sacarose (açúcar) em água até completar 500 mL de solução',
+                        '2. Identificação das variáveis: massa m = 20 g e volume V = 500 mL',
+                        '3. Cálculo com erro de unidade: C = 20 / 500 = 0,04 g/L',
+                        '4. Correção: 500 mL = 0,5 L, portanto C = 20 g / 0,5 L = 40 g/L!'
+                    ],
+                    linhaBug: 2,
+                    explicacao: 'Na linha 3, dividiram por 500 direto. Em concentração comum (g/L), 500 mL deve ser convertido para 0,5 L, resultando em 40 g/L e não 0,04 g/L.'
+                },
+                {
+                    tipo: 'ordene',
+                    enunciado: 'Fase 4/5 - Preparo de Solução Padronizada: Ordene o procedimento experimental canônico para preparar uma solução em laboratório:',
+                    dica: 'Pese o soluto, dissolva em béquer, transfira ao balão volumétrico e complete com água até o menisco.',
+                    itens: [
+                        'Pesar com exatidão a massa calculada do soluto sólido em balança analítica',
+                        'Dissolver o soluto completamente em um béquer com pequena porção de água destilada',
+                        'Transferir quantitativamente a solução para o balão volumétrico com o auxílio de funil',
+                        'Adicionar água destilada até atingir rigorosamente o traço de calibração (menisco) e agitar'
+                    ],
+                    ordemCorreta: [
+                        'Pesar com exatidão a massa calculada do soluto sólido em balança analítica',
+                        'Dissolver o soluto completamente em um béquer com pequena porção de água destilada',
+                        'Transferir quantitativamente a solução para o balão volumétrico com o auxílio de funil',
+                        'Adicionar água destilada até atingir rigorosamente o traço de calibração (menisco) e agitar'
+                    ],
+                    explicacao: 'O uso de balão volumétrico com ajuste no menisco assegura a precisão volumétrica necessária em análises químicas.'
+                },
+                {
+                    tipo: 'lacunas',
+                    enunciado: 'Fase 5/5 - Grande Desafio Final de Química: Em uma mistura homogênea de água e sal de cozinha, o componente líquido dispersante é denominado:',
+                    dica: 'O componente que dissolve o soluto.',
+                    template: 'O meio dispersante que dissolve o soluto em uma solução aquosa é o {lacuna}',
+                    opcoes: ['solvente', 'soluto', 'precipitado', 'catalisador'],
+                    respostaCorreta: 'solvente',
+                    explicacao: 'Parabéns! O solvente dissolve o soluto originando soluções homogêneas. Você concluiu com excelência a trilha de Química!'
                 }
             ]
         }
