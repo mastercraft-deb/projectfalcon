@@ -484,15 +484,22 @@ body {
    ===================================================== */
 .licao-dialogo {
     box-sizing: border-box;
-    width: min(92vw, 580px);
-    max-height: 88vh;
-    padding: 1.5rem 1.6rem;
-    border: 2px solid var(--tema-claro);
-    border-radius: 18px;
-    background-color: #1e003f;
-    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.7);
+    position: fixed !important;
+    inset: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    max-width: 100vw !important;
+    max-height: 100vh !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+    border-radius: 0 !important;
+    background-color: #080214;
+    box-shadow: none;
     color: #fff;
     overflow-y: auto;
+    overflow-x: hidden;
+    z-index: 99999;
 }
 
 .licao-dialogo[open] {
@@ -513,15 +520,24 @@ body {
 }
 
 .licao-dialogo::backdrop {
-    background-color: rgba(12, 0, 28, 0.85);
-    backdrop-filter: blur(4px);
+    background-color: #080214;
+    backdrop-filter: none;
 }
 
 .licao-topo {
+    position: sticky;
+    top: 0;
+    z-index: 100001;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 0.8rem;
+    padding: 1rem 2rem;
+    background: rgba(13, 6, 31, 0.95);
+    backdrop-filter: blur(12px);
+    border-bottom: 1.5px solid rgba(139, 92, 246, 0.35);
+    margin: 0;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .licao-meta {
@@ -549,20 +565,25 @@ body {
 .licao-fechar {
     display: inline-flex;
     align-items: center;
-    justify-content: center;
-    width: 34px;
-    height: 34px;
+    gap: 8px;
+    width: auto;
+    height: auto;
+    padding: 8px 18px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.08);
     border: 1px solid rgba(255, 255, 255, 0.25);
-    border-radius: 50%;
-    background: transparent;
-    color: #fff;
+    color: #e2e8f0;
+    font-size: 0.9rem;
+    font-weight: 700;
     cursor: pointer;
-    transition: background-color 0.2s, border-color 0.2s;
+    transition: all 0.2s ease;
 }
 
 .licao-fechar:hover {
-    background-color: rgba(255, 255, 255, 0.12);
-    border-color: #fff;
+    background: rgba(239, 68, 68, 0.25);
+    border-color: #ef4444;
+    color: #fca5a5;
+    transform: translateX(-2px);
 }
 
 .licao-fechar:focus-visible {
@@ -572,7 +593,8 @@ body {
 
 .licao-titulo {
     font-size: 1.4rem;
-    margin: 0 0 1rem;
+    margin: 0;
+    padding: 1.5rem 2rem 0.5rem;
     color: #fff;
     line-height: 1.3;
 }
@@ -583,7 +605,12 @@ body {
     line-height: 1.6;
     color: var(--texto-suave);
     margin-bottom: 1.5rem;
-    padding-right: 0.4rem;
+    padding: 0 2rem;
+    max-width: 860px;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    box-sizing: border-box;
 }
 
 .licao-conteudo p {
@@ -647,8 +674,12 @@ body {
     align-items: center;
     justify-content: space-between;
     gap: 1rem;
-    padding-top: 1rem;
+    padding: 1rem 2rem;
     border-top: 1px solid rgba(255, 255, 255, 0.15);
+    max-width: 860px;
+    width: 100%;
+    margin: 0 auto;
+    box-sizing: border-box;
 }
 
 .licao-recompensa {
@@ -663,6 +694,39 @@ body {
 .licao-recompensa .material-symbols-outlined {
     font-size: 1.4rem;
     color: var(--cor3);
+}
+
+.licao-acoes {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.8rem;
+}
+
+.licao-botao-sair-rodape {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.65rem 1.2rem;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 999px;
+    background-color: rgba(255, 255, 255, 0.08);
+    color: #cbd5e1;
+    font-weight: 700;
+    font-size: 0.92rem;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.licao-botao-sair-rodape:hover {
+    background-color: rgba(239, 68, 68, 0.2);
+    border-color: #ef4444;
+    color: #fca5a5;
+    transform: translateY(-1px);
+}
+
+.licao-botao-sair-rodape:focus-visible {
+    outline: 3px solid #ef4444;
+    outline-offset: 2px;
 }
 
 .licao-botao-concluir {

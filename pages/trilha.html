@@ -14,9 +14,15 @@
     <link rel="stylesheet" href="../style/trilha.css">
     <link rel="stylesheet" href="../style/gamificacao.css">
 
-    <!-- Ordem: catálogo/Meus cursos, dados das trilhas, conteúdo pedagógico, gamificação e script da trilha -->
+    <!-- Ordem: catálogo/Meus cursos, dados das trilhas, módulos de conteúdo, agregador, gamificação e script da trilha -->
     <script src="../script/cursos.js" defer></script>
     <script src="../script/trilhas.js" defer></script>
+    <script src="../script/conteudo/python.js" defer></script>
+    <script src="../script/conteudo/matematica.js" defer></script>
+    <script src="../script/conteudo/web.js" defer></script>
+    <script src="../script/conteudo/fisica.js" defer></script>
+    <script src="../script/conteudo/quimica.js" defer></script>
+    <script src="../script/conteudo/ingles.js" defer></script>
     <script src="../script/conteudo-aulas.js" defer></script>
     <script src="../script/gamificacao-engine.js" defer></script>
     <script src="../script/trilha.js" defer></script>
@@ -108,6 +114,10 @@
                 <span id="licao-xp-texto">+10 XP</span>
             </div>
             <div class="licao-acoes">
+                <button type="button" class="licao-botao-sair-rodape" id="licao-sair-rodape">
+                    <span class="material-symbols-outlined" aria-hidden="true">arrow_back</span>
+                    <span>Voltar para a Trilha</span>
+                </button>
                 <button type="button" class="licao-botao-concluir" id="licao-concluir">
                     <span class="material-symbols-outlined" aria-hidden="true">check_circle</span>
                     <span id="licao-concluir-texto">Concluir aula</span>

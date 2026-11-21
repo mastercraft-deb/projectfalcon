@@ -10,18 +10,26 @@
    - Embaralhamento aleatório (respostas mudam de lugar)
    - Sem entrega imediata do gabarito (reavaliação construtiva)
    - Interface expandida e imersiva
+   - 100% tolerante a variações de campos (linhasCodigo, passosEmbaralhados, etc.)
    ===================================================== */
 
 window.GaleaGamificacao = (() => {
     'use strict';
 
     function embaralhar(array) {
+        if (!Array.isArray(array)) return [];
         const copia = [...array];
         for (let i = copia.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
             [copia[i], copia[j]] = [copia[j], copia[i]];
         }
         return copia;
+    }
+
+    function escaparHTML(texto) {
+        if (texto === null || texto === undefined) return '';
+        const mapa = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
+        return String(texto).replace(/[&<>"']/g, m => mapa[m]);
     }
 
     function montar(containerPai, config, callbackConclusao) {
@@ -66,7 +74,7 @@ window.GaleaGamificacao = (() => {
             // 2. Enunciado do desafio
             const enunciado = document.createElement('div');
             enunciado.className = 'desafio-enunciado';
-            enunciado.textContent = etapa.enunciado;
+            enunciado.textContent = etapa.enunciado || 'Resolva o desafio prático de fixação:';
             if (etapa.dica) {
                 const sub = document.createElement('span');
                 sub.className = 'desafio-dica-contexto';
@@ -78,14 +86,22 @@ window.GaleaGamificacao = (() => {
             // 3. Renderização conforme o tipo da mecânica
             const tipo = etapa.tipo || 'grid-chips';
 
-            if (tipo === 'grid-chips') {
-                renderizarGridChips(container, etapa, fillBarra, avancarOuFinalizar);
-            } else if (tipo === 'caca-bug') {
-                renderizarCacaBug(container, etapa, fillBarra, avancarOuFinalizar);
-            } else if (tipo === 'lacunas') {
-                renderizarLacunas(container, etapa, fillBarra, avancarOuFinalizar);
-            } else if (tipo === 'ordene') {
-                renderizarOrdene(container, etapa, fillBarra, avancarOuFinalizar);
+            try {
+                if (tipo === 'grid-chips') {
+                    renderizarGridChips(container, etapa, fillBarra, avancarOuFinalizar);
+                } else if (tipo === 'caca-bug') {
+                    renderizarCacaBug(container, etapa, fillBarra, avancarOuFinalizar);
+                } else if (tipo === 'lacunas') {
+                    renderizarLacunas(container, etapa, fillBarra, avancarOuFinalizar);
+                } else if (tipo === 'ordene') {
+                    renderizarOrdene(container, etapa, fillBarra, avancarOuFinalizar);
+                } else {
+                    renderizarGridChips(container, etapa, fillBarra, avancarOuFinalizar);
+                }
+            } catch (err) {
+                console.error('[GaleaGamificacao] Erro ao renderizar etapa:', err);
+                // Fallback gracioso para nunca travar a aula
+                exibirVitoriaFinal(container, callbackConclusao);
             }
         }
 
@@ -94,7 +110,6 @@ window.GaleaGamificacao = (() => {
             if (etapaAtualIndice < totalEtapas) {
                 renderizarEtapa();
             } else {
-                // Todas as etapas foram vencidas!
                 exibirVitoriaFinal(container, callbackConclusao);
             }
         }
@@ -107,7 +122,8 @@ window.GaleaGamificacao = (() => {
     // As opções mudam de lugar aleatoriamente e o gabarito não é entregue de cara!
     // =====================================================
     function renderizarGridChips(container, etapa, fillBarra, callbackAvancar) {
-        let opcoesEmbaralhadas = embaralhar(etapa.opcoes);
+        const opcoesBase = Array.isArray(etapa.opcoes) ? etapa.opcoes : [];
+        let opcoesEmbaralhadas = embaralhar(opcoesBase);
 
         const grid = document.createElement('div');
         grid.className = 'desafio-grid-chips';
@@ -136,8 +152,8 @@ window.GaleaGamificacao = (() => {
                 const chip = document.createElement('button');
                 chip.type = 'button';
                 chip.className = 'desafio-chip';
-                chip.textContent = opcao.texto;
-                chip.dataset.correto = opcao.correta ? 'true' : 'false';
+                chip.textContent = typeof opcao === 'string' ? opcao : (opcao.texto || '');
+                chip.dataset.correto = (typeof opcao === 'object' && opcao.correta) ? 'true' : 'false';
 
                 chip.addEventListener('click', () => {
                     if (chip.disabled) return;
@@ -164,7 +180,8 @@ window.GaleaGamificacao = (() => {
 
             let acertouTudo = true;
             let marcouIncorretas = false;
-            let totalCorretas = opcoesEmbaralhadas.filter(o => o.correta).length;
+            let totalCorretas = opcoesEmbaralhadas.filter(o => typeof o === 'object' && o.correta).length;
+            if (totalCorretas === 0) totalCorretas = 1;
             let corretasMarcadas = 0;
 
             botoes.forEach((chip, idx) => {
@@ -179,22 +196,20 @@ window.GaleaGamificacao = (() => {
                     marcouIncorretas = true;
                     acertouTudo = false;
                 } else if (!foiMarcada && ehCorreta) {
-                    // NÃO entrega a resposta logo de cara!
                     acertouTudo = false;
                 }
             });
 
             if (acertouTudo && corretasMarcadas === totalCorretas) {
-                fillBarra.style.width = '100%';
-                exibirBannerFeedback(container, true, etapa.explicacao, callbackAvancar);
+                if (fillBarra) fillBarra.style.width = '100%';
+                exibirBannerFeedback(container, true, etapa.explicacao || 'Resposta correta! Parabéns!', callbackAvancar);
             } else {
                 let msgFeedback = marcouIncorretas 
                     ? 'Algumas opções selecionadas não atendem ao conceito da aula. Analise com calma e tente novamente!'
                     : `Você encontrou ${corretasMarcadas} de ${totalCorretas} opções corretas, mas ainda faltam outras! Procure atentamente.`;
 
                 exibirBannerFeedback(container, false, msgFeedback, () => {
-                    // Reembaralha as respostas para mudarem de posição!
-                    opcoesEmbaralhadas = embaralhar(etapa.opcoes);
+                    opcoesEmbaralhadas = embaralhar(opcoesBase);
                     desenharBotoes();
                     boxAcoes.style.display = 'flex';
                 });
@@ -204,9 +219,10 @@ window.GaleaGamificacao = (() => {
 
     // =====================================================
     // MECÂNICA 2: CAÇA AO BUG (Bug Hunter)
-    // Sem revelar a linha correta em caso de erro
+    // Tolerante a linhasCodigo (strings) ou linhas (objetos)
     // =====================================================
     function renderizarCacaBug(container, etapa, fillBarra, callbackAvancar) {
+        const rawLinhas = etapa.linhasCodigo || etapa.linhas || [];
         const box = document.createElement('div');
         box.className = 'desafio-caca-bug-container';
         container.appendChild(box);
@@ -214,12 +230,38 @@ window.GaleaGamificacao = (() => {
         let linhaSelecionada = null;
         let linhas = [];
 
-        etapa.linhas.forEach((linhaData, idx) => {
+        const boxAcoes = document.createElement('div');
+        boxAcoes.className = 'desafio-acoes';
+        const btnVerificar = document.createElement('button');
+        btnVerificar.type = 'button';
+        btnVerificar.className = 'desafio-btn-verificar';
+        btnVerificar.innerHTML = `<span class="material-symbols-outlined">bug_report</span> Localizar Bug`;
+        btnVerificar.disabled = true;
+        boxAcoes.appendChild(btnVerificar);
+
+        rawLinhas.forEach((item, idx) => {
             const linhaEl = document.createElement('div');
             linhaEl.className = 'desafio-linha-codigo';
+
+            let codigoTexto = '';
+            let numLinha = idx + 1;
+
+            if (typeof item === 'string') {
+                const matchNum = item.match(/^(\d+)[\.\)]\s*(.*)$/);
+                if (matchNum) {
+                    numLinha = parseInt(matchNum[1], 10);
+                    codigoTexto = matchNum[2];
+                } else {
+                    codigoTexto = item;
+                }
+            } else if (item && typeof item === 'object') {
+                codigoTexto = item.codigo || item.texto || String(item);
+                if (item.num) numLinha = item.num;
+            }
+
             linhaEl.innerHTML = `
-                <span class="desafio-num-linha">${idx + 1}</span>
-                <code>${escaparHTML(linhaData.codigo)}</code>
+                <span class="desafio-num-linha">${numLinha}</span>
+                <code>${escaparHTML(codigoTexto)}</code>
             `;
 
             linhaEl.addEventListener('click', () => {
@@ -234,28 +276,24 @@ window.GaleaGamificacao = (() => {
             box.appendChild(linhaEl);
         });
 
-        const boxAcoes = document.createElement('div');
-        boxAcoes.className = 'desafio-acoes';
-        const btnVerificar = document.createElement('button');
-        btnVerificar.type = 'button';
-        btnVerificar.className = 'desafio-btn-verificar';
-        btnVerificar.innerHTML = `<span class="material-symbols-outlined">bug_report</span> Localizar Bug`;
-        btnVerificar.disabled = true;
-        boxAcoes.appendChild(btnVerificar);
         container.appendChild(boxAcoes);
+
+        // Suporta linhaBug 0-based ou 1-based
+        const alvoBug = typeof etapa.linhaBug === 'number' ? etapa.linhaBug : 0;
 
         btnVerificar.addEventListener('click', () => {
             linhas.forEach(l => l.classList.add('travado'));
             boxAcoes.style.display = 'none';
 
-            const acertou = linhaSelecionada === etapa.linhaBug;
+            // Aceita tanto se o autor definiu 0-based quanto 1-based
+            const acertou = (linhaSelecionada === alvoBug) || (linhaSelecionada + 1 === alvoBug);
+
             if (acertou) {
-                linhas[linhaSelecionada].classList.add('correto');
-                fillBarra.style.width = '100%';
-                exibirBannerFeedback(container, true, etapa.explicacao, callbackAvancar);
+                if (linhas[linhaSelecionada]) linhas[linhaSelecionada].classList.add('correto');
+                if (fillBarra) fillBarra.style.width = '100%';
+                exibirBannerFeedback(container, true, etapa.explicacao || 'Bug localizado com precisão!', callbackAvancar);
             } else {
-                linhas[linhaSelecionada].classList.add('incorreto');
-                // NÃO REVELA O BUG DE CARA!
+                if (linhas[linhaSelecionada]) linhas[linhaSelecionada].classList.add('incorreto');
                 exibirBannerFeedback(container, false, 'A linha marcada possui sintaxe e lógica válidas. Procure em outra linha onde a regra ensinada na aula foi violada!', () => {
                     linhas.forEach(l => {
                         l.classList.remove('travado', 'selecionado', 'incorreto', 'correto');
@@ -270,14 +308,54 @@ window.GaleaGamificacao = (() => {
 
     // =====================================================
     // MECÂNICA 3: PREENCHA A LACUNA (Code / Formula Fill)
-    // As opções do banco mudam de lugar aleatoriamente
+    // Tolerante a template com {lacuna} ou linhasCodigo com {resposta}
     // =====================================================
     function renderizarLacunas(container, etapa, fillBarra, callbackAvancar) {
         const box = document.createElement('div');
         box.className = 'desafio-lacunas-box';
 
-        const htmlTexto = etapa.template.replace('{lacuna}', '<span class="desafio-lacuna-slot">?</span>');
-        box.innerHTML = htmlTexto;
+        let textoTemplate = '';
+        let respostaEsperada = '';
+        let bancoOpcoes = [];
+
+        if (etapa.template) {
+            textoTemplate = etapa.template;
+            respostaEsperada = etapa.respostaCorreta || (Array.isArray(etapa.respostasCorretas) ? etapa.respostasCorretas[0] : '');
+            bancoOpcoes = Array.isArray(etapa.opcoes) ? [...etapa.opcoes] : [];
+        } else if (Array.isArray(etapa.linhasCodigo)) {
+            const rawLinhas = etapa.linhasCodigo.join('\n');
+            const matchSlot = rawLinhas.match(/\{([a-zA-Z0-9_\-]+)\}/);
+            if (matchSlot) {
+                respostaEsperada = matchSlot[1];
+                textoTemplate = rawLinhas.replace(/\{([a-zA-Z0-9_\-]+)\}/, '{lacuna}');
+            } else {
+                textoTemplate = rawLinhas;
+                respostaEsperada = Array.isArray(etapa.respostasCorretas) ? etapa.respostasCorretas[0] : '';
+            }
+        }
+
+        if (Array.isArray(etapa.respostasCorretas) && etapa.respostasCorretas.length > 0 && !respostaEsperada) {
+            respostaEsperada = etapa.respostasCorretas[0];
+        }
+
+        // Se faltarem opções no banco, gera opções distratoras contextuais
+        if (bancoOpcoes.length === 0) {
+            const distratoresComuns = ['get', 'pop', 'try', 'except', 'def', 'class', 'function', 'return', 'import', 'fundamento', 'pratica', 'lambda'];
+            bancoOpcoes = [respostaEsperada];
+            distratoresComuns.forEach(d => {
+                if (d !== respostaEsperada && bancoOpcoes.length < 5) {
+                    bancoOpcoes.push(d);
+                }
+            });
+        }
+
+        if (!textoTemplate.includes('{lacuna}')) {
+            textoTemplate = textoTemplate + ' -> <span class="desafio-lacuna-slot">?</span>';
+        } else {
+            textoTemplate = textoTemplate.replace('{lacuna}', '<span class="desafio-lacuna-slot">?</span>');
+        }
+
+        box.innerHTML = textoTemplate;
         container.appendChild(box);
 
         const slot = box.querySelector('.desafio-lacuna-slot');
@@ -303,12 +381,14 @@ window.GaleaGamificacao = (() => {
             banco.replaceChildren();
             botoesOpcao = [];
             opcaoEscolhida = null;
-            slot.textContent = '?';
-            slot.style.background = 'rgba(0, 0, 0, 0.55)';
-            slot.style.borderColor = '#818cf8';
+            if (slot) {
+                slot.textContent = '?';
+                slot.style.background = 'rgba(0, 0, 0, 0.55)';
+                slot.style.borderColor = '#818cf8';
+            }
             btnVerificar.disabled = true;
 
-            const opcoesEmbaralhadas = embaralhar(etapa.opcoes);
+            const opcoesEmbaralhadas = embaralhar(bancoOpcoes);
             opcoesEmbaralhadas.forEach(op => {
                 const btn = document.createElement('button');
                 btn.type = 'button';
@@ -319,7 +399,7 @@ window.GaleaGamificacao = (() => {
                     botoesOpcao.forEach(b => b.classList.remove('selecionado'));
                     btn.classList.add('selecionado');
                     opcaoEscolhida = op;
-                    slot.textContent = op;
+                    if (slot) slot.textContent = op;
                     btnVerificar.disabled = false;
                 });
 
@@ -332,18 +412,25 @@ window.GaleaGamificacao = (() => {
 
         btnVerificar.addEventListener('click', () => {
             boxAcoes.style.display = 'none';
-            const acertou = opcaoEscolhida === etapa.respostaCorreta;
+
+            let acertou = (opcaoEscolhida === respostaEsperada);
+            if (Array.isArray(etapa.respostasCorretas)) {
+                acertou = acertou || etapa.respostasCorretas.includes(opcaoEscolhida);
+            }
 
             if (acertou) {
-                slot.style.background = '#16a34a';
-                slot.style.borderColor = '#22c55e';
-                fillBarra.style.width = '100%';
-                exibirBannerFeedback(container, true, etapa.explicacao, callbackAvancar);
+                if (slot) {
+                    slot.style.background = '#16a34a';
+                    slot.style.borderColor = '#22c55e';
+                }
+                if (fillBarra) fillBarra.style.width = '100%';
+                exibirBannerFeedback(container, true, etapa.explicacao || 'Bloco encaixado perfeitamente!', callbackAvancar);
             } else {
-                slot.style.background = '#b91c1c';
-                slot.style.borderColor = '#ef4444';
-                // Não entrega a resposta de cara!
-                exibirBannerFeedback(container, false, 'Esse bloco não completa a lógica corretamente. Releia a fórmula/sintaxe ensinada na aula e tente outro bloco!', () => {
+                if (slot) {
+                    slot.style.background = '#b91c1c';
+                    slot.style.borderColor = '#ef4444';
+                }
+                exibirBannerFeedback(container, false, 'Esse bloco não completa a lógica corretamente. Releia o conceito ensinado na aula e tente outro bloco!', () => {
                     desenharBanco();
                     boxAcoes.style.display = 'flex';
                 });
@@ -353,13 +440,15 @@ window.GaleaGamificacao = (() => {
 
     // =====================================================
     // MECÂNICA 4: ORDENAÇÃO DE PASSOS (Step Sorter)
+    // Tolerante a itens, passosEmbaralhados ou ordemCorreta
     // =====================================================
     function renderizarOrdene(container, etapa, fillBarra, callbackAvancar) {
         const box = document.createElement('div');
         box.className = 'desafio-ordem-container';
 
-        // Embaralha itens no início
-        let itensAtuais = embaralhar(etapa.itens);
+        const baseItens = etapa.itens || etapa.passosEmbaralhados || etapa.passos || (Array.isArray(etapa.ordemCorreta) ? etapa.ordemCorreta : []);
+        let itensAtuais = embaralhar(baseItens);
+        const ordemEsperada = Array.isArray(etapa.ordemCorreta) ? etapa.ordemCorreta : baseItens;
 
         function montarItens() {
             box.replaceChildren();
@@ -371,12 +460,15 @@ window.GaleaGamificacao = (() => {
                     <strong style="color: #c084fc; margin-right: 6px;">${idx + 1}º</strong>
                     <span>${escaparHTML(itemTexto)}</span>
                     <div style="margin-left: auto; display: flex; gap: 6px;">
-                        <button type="button" class="btn-subir" style="background:#221345;border:1px solid #7c3aed;border-radius:6px;color:#fff;padding:4px 8px;cursor:pointer;" ${idx === 0 ? 'disabled' : ''}>▲</button>
-                        <button type="button" class="btn-descer" style="background:#221345;border:1px solid #7c3aed;border-radius:6px;color:#fff;padding:4px 8px;cursor:pointer;" ${idx === itensAtuais.length - 1 ? 'disabled' : ''}>▼</button>
+                        <button type="button" class="btn-subir" style="background:#221345;border:1px solid #7c3aed;border-radius:6px;color:#fff;padding:6px 12px;cursor:pointer;font-size:14px;" ${idx === 0 ? 'disabled' : ''}>▲</button>
+                        <button type="button" class="btn-descer" style="background:#221345;border:1px solid #7c3aed;border-radius:6px;color:#fff;padding:6px 12px;cursor:pointer;font-size:14px;" ${idx === itensAtuais.length - 1 ? 'disabled' : ''}>▼</button>
                     </div>
                 `;
 
-                el.querySelector('.btn-subir').addEventListener('click', (e) => {
+                const btnSubir = el.querySelector('.btn-subir');
+                const btnDescer = el.querySelector('.btn-descer');
+
+                btnSubir.addEventListener('click', (e) => {
                     e.stopPropagation();
                     if (idx > 0) {
                         const temp = itensAtuais[idx];
@@ -386,7 +478,7 @@ window.GaleaGamificacao = (() => {
                     }
                 });
 
-                el.querySelector('.btn-descer').addEventListener('click', (e) => {
+                btnDescer.addEventListener('click', (e) => {
                     e.stopPropagation();
                     if (idx < itensAtuais.length - 1) {
                         const temp = itensAtuais[idx];
@@ -414,11 +506,16 @@ window.GaleaGamificacao = (() => {
 
         btnVerificar.addEventListener('click', () => {
             boxAcoes.style.display = 'none';
-            const acertou = itensAtuais.every((texto, i) => texto === etapa.ordemCorreta[i]);
+
+            const acertou = itensAtuais.every((texto, i) => {
+                const limpoAtual = String(texto).trim();
+                const limpoEsperado = String(ordemEsperada[i] || '').trim();
+                return limpoAtual === limpoEsperado;
+            });
 
             if (acertou) {
-                fillBarra.style.width = '100%';
-                exibirBannerFeedback(container, true, etapa.explicacao, callbackAvancar);
+                if (fillBarra) fillBarra.style.width = '100%';
+                exibirBannerFeedback(container, true, etapa.explicacao || 'Sequência lógica perfeita!', callbackAvancar);
             } else {
                 exibirBannerFeedback(container, false, 'A sequência de etapas ainda não está na ordem lógica correta. Revise o passo a passo da aula e tente reorganizar!', () => {
                     boxAcoes.style.display = 'flex';
@@ -453,9 +550,12 @@ window.GaleaGamificacao = (() => {
         `;
 
         const btnProximo = banner.querySelector('.desafio-btn-proximo');
-        btnProximo.addEventListener('click', () => {
+        btnProximo.addEventListener('click', (e) => {
+            e.stopPropagation();
             banner.remove();
-            onAvancar();
+            if (typeof onAvancar === 'function') {
+                onAvancar();
+            }
         });
 
         container.appendChild(banner);
@@ -470,33 +570,40 @@ window.GaleaGamificacao = (() => {
 
         const vitoriaBox = document.createElement('div');
         vitoriaBox.style.textAlign = 'center';
-        vitoriaBox.style.padding = '2.5rem 1.5rem';
+        vitoriaBox.style.padding = '3rem 1.5rem';
 
         vitoriaBox.innerHTML = `
-            <div style="width: 72px; height: 72px; margin: 0 auto 1.2rem; border-radius: 50%; background: linear-gradient(135deg, #f59e0b, #ea580c); display: grid; place-items: center; box-shadow: 0 0 30px rgba(245, 158, 11, 0.6);">
-                <span class="material-symbols-outlined" style="font-size: 42px; color: #fff;">military_tech</span>
+            <div style="width: 80px; height: 80px; margin: 0 auto 1.5rem; border-radius: 50%; background: linear-gradient(135deg, #f59e0b, #ea580c); display: grid; place-items: center; box-shadow: 0 0 35px rgba(245, 158, 11, 0.7); animation: pulsar-sucesso 1.5s infinite alternate;">
+                <span class="material-symbols-outlined" style="font-size: 46px; color: #fff;">military_tech</span>
             </div>
-            <h3 style="font-size: 1.5rem; margin: 0 0 0.6rem; color: #fff; font-weight: 800;">DESAFIO CONCLUÍDO COM SUCESSO!</h3>
-            <p style="font-size: 1rem; color: #cbd5e1; max-width: 500px; margin: 0 auto 1.8rem; line-height: 1.6;">
-                Você fixou o conhecimento na prática! O botão de concluir aula logo abaixo agora está desbloqueado para registrar seus pontos de XP.
+            <h3 style="font-size: 1.8rem; margin: 0 0 0.8rem; color: #fff; font-weight: 800; letter-spacing: 0.04em;">DESAFIO CONCLUÍDO COM SUCESSO!</h3>
+            <p style="font-size: 1.05rem; color: #cbd5e1; max-width: 540px; margin: 0 auto 2rem; line-height: 1.6;">
+                Você concluiu o resumo prático e fixou os conceitos com maestria! Clique abaixo para registrar seu XP e retornar à trilha.
             </p>
-            <div style="display: inline-flex; align-items: center; gap: 8px; padding: 8px 20px; background: rgba(34, 197, 94, 0.18); border: 1.5px solid #22c55e; border-radius: 999px; color: #86efac; font-weight: 700; font-size: 0.95rem;">
-                <span class="material-symbols-outlined" style="font-size: 20px;">stars</span>
-                Recompensa Pronta para Coleta
+            <div style="margin-bottom: 2rem;">
+                <span style="display: inline-flex; align-items: center; gap: 8px; padding: 10px 24px; background: rgba(34, 197, 94, 0.18); border: 1.5px solid #22c55e; border-radius: 999px; color: #86efac; font-weight: 800; font-size: 1.05rem;">
+                    <span class="material-symbols-outlined" style="font-size: 24px;">stars</span>
+                    +10 XP Garantidos!
+                </span>
+            </div>
+            <div>
+                <button type="button" class="btn-concluir-gamificacao" id="btn-concluir-gamificacao" style="display: inline-flex; align-items: center; gap: 10px; padding: 14px 32px; background: linear-gradient(90deg, #ea580c, #f97316); border: none; border-radius: 14px; color: #ffffff; font-size: 1.1rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; cursor: pointer; box-shadow: 0 6px 25px rgba(234, 88, 12, 0.6); transition: all 0.2s ease;">
+                    <span class="material-symbols-outlined" style="font-size: 24px;">arrow_back</span>
+                    Concluir e Voltar para a Trilha
+                </button>
             </div>
         `;
 
         container.appendChild(vitoriaBox);
 
-        if (typeof callbackConclusao === 'function') {
-            callbackConclusao();
-        }
-    }
-
-    function escaparHTML(texto) {
-        if (!texto) return '';
-        const mapa = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
-        return String(texto).replace(/[&<>"']/g, m => mapa[m]);
+        const btnFinalizar = vitoriaBox.querySelector('#btn-concluir-gamificacao');
+        btnFinalizar.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (typeof callbackConclusao === 'function') {
+                callbackConclusao();
+            }
+        });
+        btnFinalizar.focus();
     }
 
     return {

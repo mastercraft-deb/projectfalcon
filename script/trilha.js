@@ -43,6 +43,7 @@
     const licaoConcluirBtn = document.getElementById('licao-concluir');
     const licaoConcluirTexto = document.getElementById('licao-concluir-texto');
     const licaoFecharBtn = document.getElementById('licao-fechar');
+    const licaoSairRodapeBtn = document.getElementById('licao-sair-rodape');
 
     // Se algum dos scripts de dados não carregou, avisa na tela em vez de ficar em branco
     if (!window.GaleaCursos || !window.GaleaTrilhas) {
@@ -312,11 +313,12 @@
                 return;
             }
 
-            // Subtítulos (### Título)
-            if (trimmed.startsWith('### ')) {
+            // Subtítulos (## Título ou ### Título)
+            if (trimmed.startsWith('## ') || trimmed.startsWith('### ')) {
                 const h3 = document.createElement('h3');
                 h3.className = 'licao-subtitulo';
-                formatarTrechoSeguro(trimmed.replace(/^###\s+/, ''), h3);
+                const limpo = trimmed.replace(/^#{2,3}\s+/, '');
+                formatarTrechoSeguro(limpo, h3);
                 container.appendChild(h3);
                 paragrafoAtual = null;
                 blocoDestaque = null;
@@ -396,7 +398,7 @@
     function obterConteudoAula(nomeCurso, aulaIndice, aulaTitulo) {
         const numeroAula = aulaIndice + 1;
         if (window.GaleaConteudos) {
-            const pedagogico = window.GaleaConteudos.obter(cursoId, numeroAula);
+            const pedagogico = window.GaleaConteudos.obter(cursoId, numeroAula, aulaTitulo, trilha.aulas);
             if (pedagogico) {
                 return {
                     texto: pedagogico.conteudo,
@@ -467,6 +469,33 @@
         return li;
     }
 
+    // ---------- Componente de Vídeo Placeholder ----------
+    function renderizarVideoPlaceholder(container, tituloAula, ehRevisao, nomeAnterior) {
+        const bloco = document.createElement('div');
+        bloco.className = 'bloco-video-aula';
+
+        const placeholder = document.createElement('div');
+        placeholder.className = 'video-placeholder';
+
+        const playBtn = document.createElement('div');
+        playBtn.className = 'video-play-btn';
+        playBtn.innerHTML = '<span class="material-symbols-outlined" aria-hidden="true">play_arrow</span>';
+
+        const infoTag = document.createElement('span');
+        infoTag.className = 'video-info-tag';
+        infoTag.textContent = ehRevisao
+            ? `Videoaula de Revisão: ${nomeAnterior || 'Conceitos Anteriores'}`
+            : `Videoaula: ${tituloAula}`;
+
+        const avisoTag = document.createElement('span');
+        avisoTag.className = 'video-aviso-futuro';
+        avisoTag.innerHTML = '<span class="material-symbols-outlined" style="font-size: 16px;">videocam</span> Espaço reservado para o vídeo da aula';
+
+        placeholder.append(playBtn, infoTag, avisoTag);
+        bloco.appendChild(placeholder);
+        container.appendChild(bloco);
+    }
+
     // ---------- Player de lição (<dialog>) ----------
     function abrirLicao(indice, nomeAula, estado, elementoOrigem) {
         ultimoElementoFocado = elementoOrigem;
@@ -477,15 +506,45 @@
         licaoTitulo.textContent = `${indice + 1}. ${nomeAula}`;
 
         const aulaDados = obterConteudoAula(curso.nome, indice, nomeAula);
-        renderizarMarkdownSeguro(aulaDados.texto, licaoConteudo, aulaDados.visual);
+        licaoConteudo.replaceChildren();
+
+        // Botão de fechar sempre mostra "Voltar para a Trilha" (tela cheia para todos)
+        licaoFecharBtn.innerHTML = '<span class="material-symbols-outlined" aria-hidden="true">arrow_back</span><span>Voltar para a Trilha</span>';
+        licaoFecharBtn.setAttribute('aria-label', 'Voltar para a trilha');
 
         if (aulaDados.gamificacao && window.GaleaGamificacao) {
+            // TIPO 3: RESUMO DAS ANTERIORES EM GAMIFICAÇÃO (TOMA A TELA TODA)
             dialogoLicao.classList.add('com-gamificacao');
-            window.GaleaGamificacao.montar(licaoConteudo, aulaDados.gamificacao, () => {
-                licaoConcluirBtn.classList.add('desafio-liberado');
+
+            window.GaleaGamificacao.montar(licaoConteudo, aulaDados.gamificacao, async () => {
+                const resultado = await CamadaProgresso.salvarConclusao(cursoId, aulaAbertaIndice, trilha.aulas.length, XP_POR_AULA);
+                fecharLicao();
+                if (resultado.primeiraVez) {
+                    const msg = `Parabéns! Você concluiu "${nomeAula}" e ganhou +${XP_POR_AULA} XP!`;
+                    aviso.textContent = msg;
+                    if (window.parent !== window) {
+                        window.parent.postMessage({
+                            tipo: 'nova-notificacao',
+                            texto: msg,
+                            icone: 'stars'
+                        }, '*');
+                    }
+                } else {
+                    aviso.textContent = `Você revisou a aula "${nomeAula}".`;
+                }
+                renderizar();
             });
-        } else {
+        } else if (aulaDados.tipo === 'video-resumo') {
+            // TIPO 2: VÍDEO + TELA DE RESUMO PARA PASSAR PARA A PRÓXIMA
             dialogoLicao.classList.remove('com-gamificacao');
+
+            renderizarVideoPlaceholder(licaoConteudo, nomeAula, false);
+            renderizarMarkdownSeguro(aulaDados.texto, licaoConteudo, aulaDados.visual);
+        } else {
+            // TIPO 1: AULA DE TEXTO CONCEITUAL
+            dialogoLicao.classList.remove('com-gamificacao');
+
+            renderizarMarkdownSeguro(aulaDados.texto, licaoConteudo, aulaDados.visual);
         }
 
         const jaConcluida = estado === 'concluido';
@@ -510,11 +569,28 @@
         }
     }
 
-    licaoFecharBtn.addEventListener('click', fecharLicao);
+    licaoFecharBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        fecharLicao();
+    });
 
-    // Clicar no fundo escuro (backdrop) fecha o diálogo
+    if (licaoSairRodapeBtn) {
+        licaoSairRodapeBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            fecharLicao();
+        });
+    }
+
+    // Tecla ESC fecha a lição imediatamente em qualquer modo
+    window.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && dialogoLicao.open) {
+            fecharLicao();
+        }
+    });
+
+    // Clicar no fundo escuro (backdrop) fecha o diálogo em lições normais; em tela cheia gamificada exige botão explícito
     dialogoLicao.addEventListener('click', evento => {
-        if (evento.target === dialogoLicao) {
+        if (evento.target === dialogoLicao && !dialogoLicao.classList.contains('com-gamificacao')) {
             fecharLicao();
         }
     });
