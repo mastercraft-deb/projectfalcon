@@ -170,13 +170,17 @@
         },
 
         async salvarConclusao(idCurso, indiceAula, totalAulas, xpGanha = XP_POR_AULA) {
+            const concluidasAntes = this.carregarProgresso(idCurso, totalAulas);
+            const jaConcluida = concluidasAntes.has(indiceAula);
+            const pctAntes = Math.min(100, Math.round((concluidasAntes.size / totalAulas) * 100));
+
             // Tenta salvar via API REST autenticada
             try {
                 const resp = await fetch('/api/progresso', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     credentials: 'include',
-                    body: JSON.stringify({ curso_id: idCurso, aula_ordem: indiceAula })
+                    body: JSON.stringify({ curso_id: idCurso, aula_ordem: indiceAula, xp_ganha: xpGanha })
                 });
 
                 // 401 = não autenticado (não é erro de rede)
@@ -206,13 +210,18 @@
                         GaleaCursos.atualizarProgresso(idCurso, novoPct);
                     }
 
+                    const atingiuMetadeAgora = pctAntes < 50 && novoPct >= 50;
+                    const finalizouCursoAgora = pctAntes < 100 && novoPct >= 100;
+
                     return {
                         sucesso: true,
                         primeiraVez: Boolean(dados.primeiraVez),
                         novoXP: dados.novo_xp !== undefined ? dados.novo_xp : this.carregarXP(),
-                        xpGanha: dados.xp_ganha || 0,
+                        xpGanha: dados.xp_ganha !== undefined ? dados.xp_ganha : (dados.primeiraVez ? xpGanha : 0),
                         totalConcluidas: concluidas.size,
                         novoPct,
+                        atingiuMetadeAgora,
+                        finalizouCursoAgora,
                         origem: 'api'
                     };
                 } else {
@@ -230,7 +239,6 @@
 
             // Fallback local se a API estiver fora do ar ou não autenticado
             const concluidas = this.carregarProgresso(idCurso, totalAulas);
-            const jaConcluida = concluidas.has(indiceAula);
 
             if (!jaConcluida) {
                 concluidas.add(indiceAula);
@@ -249,6 +257,9 @@
                     GaleaCursos.atualizarProgresso(idCurso, novoPct);
                 }
 
+                const atingiuMetadeAgora = pctAntes < 50 && novoPct >= 50;
+                const finalizouCursoAgora = pctAntes < 100 && novoPct >= 100;
+
                 return {
                     sucesso: true,
                     primeiraVez: true,
@@ -256,9 +267,24 @@
                     xpGanha,
                     totalConcluidas: concluidas.size,
                     novoPct,
+                    atingiuMetadeAgora,
+                    finalizouCursoAgora,
                     origem: 'local'
                 };
             }
+
+            const pctAtual = Math.min(100, Math.round((concluidas.size / totalAulas) * 100));
+            return {
+                sucesso: true,
+                primeiraVez: false,
+                novoXP: this.carregarXP(),
+                xpGanha: 0,
+                totalConcluidas: concluidas.size,
+                novoPct: pctAtual,
+                atingiuMetadeAgora: false,
+                finalizouCursoAgora: false,
+                origem: 'local'
+            };
 
             return {
                 sucesso: true,
@@ -395,12 +421,22 @@
         });
     }
 
+    function calcularXpDaAula(tipo, aulaIndice) {
+        if (tipo === 'gamificada') return 30;
+        if (tipo === 'video-resumo') return 20;
+        if (tipo === 'texto') return 10;
+        const resto = (Number(aulaIndice) + 1) % 3;
+        return resto === 0 ? 30 : (resto === 2 ? 20 : 10);
+    }
+
     function obterConteudoAula(nomeCurso, aulaIndice, aulaTitulo) {
         const numeroAula = aulaIndice + 1;
+        const tipoPadrao = numeroAula % 3 === 0 ? 'gamificada' : (numeroAula % 3 === 2 ? 'video-resumo' : 'texto');
         if (window.GaleaConteudos) {
             const pedagogico = window.GaleaConteudos.obter(cursoId, numeroAula, aulaTitulo, trilha.aulas);
             if (pedagogico) {
                 return {
+                    tipo: pedagogico.tipo || tipoPadrao,
                     texto: pedagogico.conteudo,
                     visual: {
                         imagem: pedagogico.imagem,
@@ -411,14 +447,17 @@
             }
         }
 
+        const xpDesta = calcularXpDaAula(tipoPadrao, aulaIndice);
         return {
+            tipo: tipoPadrao,
             texto: [
                 `**Objetivo da lição:** Compreender os fundamentos essenciais de *${aulaTitulo}* e fixar o conhecimento de forma leve e prática.`,
                 `Nesta etapa do curso de **${nomeCurso}**, analisamos como esse conceito se aplica na prática. Cada lição foi planejada em blocos curtos para que você absorva o conteúdo no seu tempo, sem sobrecarga cognitiva.`,
                 `> **Dica Galea:** Leia com calma, experimente relacionar a ideia ao seu dia a dia e celebre cada pequeno passo concluído.`,
-                `Ao clicar no botão de conclusão abaixo, você conquista **+${XP_POR_AULA} XP** e desbloqueia a próxima aula na sua trilha.`
+                `Ao clicar no botão de conclusão abaixo, você conquista **+${xpDesta} XP** e desbloqueia a próxima aula na sua trilha.`
             ].join('\n\n'),
-            visual: null
+            visual: null,
+            gamificacao: null
         };
     }
 
@@ -506,6 +545,9 @@
         licaoTitulo.textContent = `${indice + 1}. ${nomeAula}`;
 
         const aulaDados = obterConteudoAula(curso.nome, indice, nomeAula);
+        const xpDestaAula = calcularXpDaAula(aulaDados.tipo, indice);
+        const ehGamificada = aulaDados.tipo === 'gamificada' || Boolean(aulaDados.gamificacao);
+        const trofeuAula = ehGamificada ? 'Prata 🥈' : 'Bronze 🥉';
         licaoConteudo.replaceChildren();
 
         // Botão de fechar sempre mostra "Voltar para a Trilha" (tela cheia para todos)
@@ -517,10 +559,15 @@
             dialogoLicao.classList.add('com-gamificacao');
 
             window.GaleaGamificacao.montar(licaoConteudo, aulaDados.gamificacao, async () => {
-                const resultado = await CamadaProgresso.salvarConclusao(cursoId, aulaAbertaIndice, trilha.aulas.length, XP_POR_AULA);
+                const resultado = await CamadaProgresso.salvarConclusao(cursoId, aulaAbertaIndice, trilha.aulas.length, xpDestaAula);
                 fecharLicao();
                 if (resultado.primeiraVez) {
-                    const msg = `Parabéns! Você concluiu "${nomeAula}" e ganhou +${XP_POR_AULA} XP!`;
+                    let msg = `Parabéns! Você concluiu "${nomeAula}", ganhou +${xpDestaAula} XP e um Troféu de Prata! 🥈`;
+                    if (resultado.finalizouCursoAgora) {
+                        msg += ` 🏆 Curso Concluído! Você conquistou Troféu de Ouro e Troféu de Platina!`;
+                    } else if (resultado.atingiuMetadeAgora) {
+                        msg += ` 🥇 Metade do curso alcançada! Você conquistou um Troféu de Ouro!`;
+                    }
                     aviso.textContent = msg;
                     if (window.parent !== window) {
                         window.parent.postMessage({
@@ -553,7 +600,7 @@
             licaoConcluirTexto.textContent = 'Revisar aula';
             licaoConcluirBtn.classList.add('ja-concluido');
         } else {
-            licaoXpTexto.textContent = `+${XP_POR_AULA} XP`;
+            licaoXpTexto.textContent = `+${xpDestaAula} XP`;
             licaoConcluirTexto.textContent = 'Concluir aula';
             licaoConcluirBtn.classList.remove('ja-concluido');
         }
@@ -607,12 +654,22 @@
         if (aulaAbertaIndice === null) return;
 
         const nomeAula = trilha.aulas[aulaAbertaIndice];
-        const resultado = await CamadaProgresso.salvarConclusao(cursoId, aulaAbertaIndice, trilha.aulas.length, XP_POR_AULA);
+        const aulaDados = obterConteudoAula(curso.nome, aulaAbertaIndice, nomeAula);
+        const xpDestaAula = calcularXpDaAula(aulaDados.tipo, aulaAbertaIndice);
+        const ehGamificada = aulaDados.tipo === 'gamificada' || Boolean(aulaDados.gamificacao);
+        const trofeuAula = ehGamificada ? 'Prata 🥈' : 'Bronze 🥉';
+
+        const resultado = await CamadaProgresso.salvarConclusao(cursoId, aulaAbertaIndice, trilha.aulas.length, xpDestaAula);
 
         fecharLicao();
 
         if (resultado.primeiraVez) {
-            const msg = `Parabéns! Você concluiu "${nomeAula}" e ganhou +${XP_POR_AULA} XP!`;
+            let msg = `Parabéns! Você concluiu "${nomeAula}", ganhou +${xpDestaAula} XP e um Troféu de ${trofeuAula}!`;
+            if (resultado.finalizouCursoAgora) {
+                msg += ` 🏆 Curso 100% Concluído! Você conquistou Troféu de Ouro e Troféu de Platina!`;
+            } else if (resultado.atingiuMetadeAgora) {
+                msg += ` 🥇 Metade do curso alcançada! Você conquistou um Troféu de Ouro!`;
+            }
             aviso.textContent = msg;
 
             // Notifica a home via postMessage para acionar o sino e o aviso rápido

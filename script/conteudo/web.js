@@ -51,7 +51,7 @@ window.GaleaBancosConteudo.web = {
             etapas: [
                 {
                     tipo: 'ordene',
-                    enunciado: 'Ordene a hierarquia esquelética obrigatória de um documento HTML5 padrão:',
+                    enunciado: 'Fase 1/5 - Esqueleto HTML5: Ordene a hierarquia esquelética obrigatória de um documento HTML5 padrão:',
                     dica: 'Comece pelo DOCTYPE, abra a tag html, declare o head com metadados e feche com o body.',
                     itens: [
                         '<!DOCTYPE html>',
@@ -66,6 +66,53 @@ window.GaleaBancosConteudo.web = {
                         '<body><h1>Olá, Mundo!</h1></body></html>'
                     ],
                     explicacao: 'A estrutura canônica do HTML5 sempre inicia com <!DOCTYPE html>, seguida pela raiz <html>, cabeçalho de metadados <head> e corpo visível <body>.'
+                },
+                {
+                    tipo: 'lacunas',
+                    enunciado: 'Fase 2/5 - Hierarquia de Cabeçalho: Complete com a tag do título principal de nível mais alto e importante de uma página web:',
+                    dica: 'Essa tag representa o título de maior relevância semântica e SEO (nível 1).',
+                    template: '<{lacuna}>Bem-vindo ao Portal de Cursos</{lacuna}>',
+                    opcoes: ['h1', 'head', 'header', 'title'],
+                    respostaCorreta: 'h1',
+                    explicacao: 'A tag <h1> é o cabeçalho hierárquico primário de um documento HTML, devendo resumir o tema central da página.'
+                },
+                {
+                    tipo: 'caca-bug',
+                    enunciado: 'Fase 3/5 - Caça-Bug de Fechamento de Tags: Identifique a linha que misturou tags incompatíveis de abertura e fechamento:',
+                    dica: 'Toda tag que abre deve ser encerrada pela mesma tag correspondente (ex: <h1>...</h1>)!',
+                    linhasCodigo: [
+                        '1. <!DOCTYPE html>',
+                        '2. <html lang="pt-br">',
+                        '3. <body><h1>Título da Notícia</p></body>',
+                        '4. </html>'
+                    ],
+                    linhaBug: 2,
+                    explicacao: 'Na linha 3, o título foi aberto com <h1> e fechado erroneamente com </p>. Em HTML válido, deve ser <h1>...</h1>.'
+                },
+                {
+                    tipo: 'grid-chips',
+                    enunciado: 'Fase 4/5 - Elementos Estruturais: Selecione todas as tags de texto e listagem que REALMENTE existem no padrão HTML:',
+                    dica: 'Cuidado com tags falsas como <paragraph> ou <bold> que não existem no padrão!',
+                    opcoes: [
+                        { texto: '<p> (parágrafo de texto)', correta: true },
+                        { texto: '<ul> (lista não ordenada)', correta: true },
+                        { texto: '<li> (item de lista)', correta: true },
+                        { texto: '<strong> (ênfase forte)', correta: true },
+                        { texto: '<em> (ênfase itálica)', correta: true },
+                        { texto: '<paragraph>', correta: false },
+                        { texto: '<bold>', correta: false },
+                        { texto: '<itemlist>', correta: false }
+                    ],
+                    explicacao: 'Tags oficiais do HTML para texto e listas são <p>, <ul>, <ol>, <li>, <strong> e <em>.'
+                },
+                {
+                    tipo: 'lacunas',
+                    enunciado: 'Fase 5/5 - Desafio Mestre: Complete o atributo que define a codificação universal de caracteres para evitar erros de acentuação:',
+                    dica: 'O atributo charset especifica a tabela de caracteres UTF-8 no <head>.',
+                    template: '<meta {lacuna}="UTF-8">',
+                    opcoes: ['charset', 'encoding', 'type', 'format'],
+                    respostaCorreta: 'charset',
+                    explicacao: '<meta charset="UTF-8"> garante a exibição correta de acentos gráficos, cedilhas e símbolos especiais da língua portuguesa.'
                 }
             ]
         }
@@ -111,12 +158,68 @@ window.GaleaBancosConteudo.web = {
             etapas: [
                 {
                     tipo: 'lacunas',
-                    enunciado: 'Complete a tag de imagem com o atributo obrigatório de acessibilidade recomendado pelo W3C:',
-                    dica: 'Esse atributo descreve em texto a imagem para leitores de tela.',
+                    enunciado: 'Fase 1/5 - Acessibilidade Web: Complete a tag de imagem com o atributo textual obrigatório pelo W3C:',
+                    dica: 'Esse atributo descreve em texto a imagem para leitores de tela e tecnologias assistivas.',
                     template: '<img src="avatar.png" {lacuna}="Foto de perfil do usuário">',
-                    opcoes: ['alt', 'title', 'desc', 'label', 'caption'],
+                    opcoes: ['alt', 'title', 'desc', 'caption'],
                     respostaCorreta: 'alt',
-                    explicacao: 'O atributo alt (Alternative Text) é obrigatório nos padrões W3C de acessibilidade web (WCAG).'
+                    explicacao: 'O atributo alt (Alternative Text) é obrigatório nas diretrizes WCAG de acessibilidade na web.'
+                },
+                {
+                    tipo: 'grid-chips',
+                    enunciado: 'Fase 2/5 - Anatomia de Tabelas: Selecione todas as tags oficiais para estruturar tabelas de dados em HTML:',
+                    dica: 'Lembre-se de cabeçalho (thead), linhas (tr) e células (th e td).',
+                    opcoes: [
+                        { texto: '<table>', correta: true },
+                        { texto: '<thead>', correta: true },
+                        { texto: '<tbody>', correta: true },
+                        { texto: '<tr> (Table Row)', correta: true },
+                        { texto: '<th> (Table Header)', correta: true },
+                        { texto: '<td> (Table Data)', correta: true },
+                        { texto: '<tablerow>', correta: false },
+                        { texto: '<cell>', correta: false }
+                    ],
+                    explicacao: 'A estrutura semântica de tabelas utiliza <table>, <thead>, <tbody>, <tr>, <th> e <td>.'
+                },
+                {
+                    tipo: 'caca-bug',
+                    enunciado: 'Fase 3/5 - Caça-Bug de Hiperlinks: Localize a linha onde foi usado um atributo inexistente para o endereço do link:',
+                    dica: 'A tag de âncora <a> exige o atributo href (Hypertext Reference), nunca "link" ou "url"!',
+                    linhasCodigo: [
+                        '1. <!-- Link de navegação externa -->',
+                        '2. <a link="https://galea.com.br" target="_blank">',
+                        '3.     Acessar Plataforma Galea',
+                        '4. </a>'
+                    ],
+                    linhaBug: 1,
+                    explicacao: 'Na linha 2, foi usado "link=" em vez de "href=". O atributo oficial para definir o destino do link é href.'
+                },
+                {
+                    tipo: 'ordene',
+                    enunciado: 'Fase 4/5 - Hierarquia de Tabela: Ordene a estrutura formal de uma tabela com cabeçalho e dados:',
+                    dica: 'Abra table, insira thead com tr e th, depois tbody com tr e td, e feche table.',
+                    itens: [
+                        '<table>',
+                        '  <thead><tr><th>Curso</th><th>Alunos</th></tr></thead>',
+                        '  <tbody><tr><td>Web Design</td><td>120</td></tr></tbody>',
+                        '</table>'
+                    ],
+                    ordemCorreta: [
+                        '<table>',
+                        '  <thead><tr><th>Curso</th><th>Alunos</th></tr></thead>',
+                        '  <tbody><tr><td>Web Design</td><td>120</td></tr></tbody>',
+                        '</table>'
+                    ],
+                    explicacao: 'Tabelas acessíveis separam cabeçalho <thead> e corpo <tbody> de forma explícita.'
+                },
+                {
+                    tipo: 'lacunas',
+                    enunciado: 'Fase 5/5 - Desafio Mestre: Complete o atributo para abrir um hiperlink em uma NOVA aba do navegador com segurança:',
+                    dica: 'O valor _blank direciona o carregamento para uma nova janela ou aba.',
+                    template: '<a href="https://galea.com.br" {lacuna}="_blank" rel="noopener noreferrer">Galea</a>',
+                    opcoes: ['target', 'window', 'open', 'tab'],
+                    respostaCorreta: 'target',
+                    explicacao: 'O atributo target="_blank" instrui o navegador a abrir a página em uma nova aba.'
                 }
             ]
         }
@@ -164,7 +267,7 @@ window.GaleaBancosConteudo.web = {
             etapas: [
                 {
                     tipo: 'grid-chips',
-                    enunciado: 'Selecione todas as tags que pertencem ao padrão moderno de HTML Semântico:',
+                    enunciado: 'Fase 1/5 - HTML Semântico: Selecione todas as tags que pertencem ao padrão moderno de HTML Semântico:',
                     dica: 'Evite elementos genéricos e sem significado intrínseco como div e span!',
                     opcoes: [
                         { texto: '<header>', correta: true },
@@ -174,10 +277,58 @@ window.GaleaBancosConteudo.web = {
                         { texto: '<footer>', correta: true },
                         { texto: '<section>', correta: true },
                         { texto: '<div>', correta: false },
-                        { texto: '<span>', correta: false },
-                        { texto: '<br>', correta: false }
+                        { texto: '<span>', correta: false }
                     ],
-                    explicacao: 'Tags como <header>, <nav>, <main>, <article>, <section> e <footer> fornecem significado explícito à estrutura da página, diferente de <div> e <span> que são genéricas.'
+                    explicacao: 'Tags como <header>, <nav>, <main>, <article>, <section> e <footer> fornecem significado explícito à estrutura, facilitando acessibilidade e SEO.'
+                },
+                {
+                    tipo: 'lacunas',
+                    enunciado: 'Fase 2/5 - Inclusão de Estilos Externos: Complete a tag link para importar uma folha de estilos CSS externa:',
+                    dica: 'O atributo rel deve especificar a relação com o arquivo (stylesheet).',
+                    template: '<head>\n    <link rel="{lacuna}" href="estilo.css">\n</head>',
+                    opcoes: ['stylesheet', 'style', 'css', 'script'],
+                    respostaCorreta: 'stylesheet',
+                    explicacao: 'A vinculação canônica de arquivos CSS no head utiliza <link rel="stylesheet" href="...">.'
+                },
+                {
+                    tipo: 'caca-bug',
+                    enunciado: 'Fase 3/5 - Caça-Bug Semântico: Localize a linha que viola as diretrizes do W3C sobre o elemento principal:',
+                    dica: 'O padrão W3C estabelece que um documento HTML só pode conter rigorosamente UM elemento <main> visível!',
+                    linhasCodigo: [
+                        '1. <body>',
+                        '2.   <main id="secao-1">Primeiro conteúdo exclusivo</main>',
+                        '3.   <main id="secao-2">Segundo conteúdo concorrente</main>',
+                        '4. </body>'
+                    ],
+                    linhaBug: 2,
+                    explicacao: 'Na linha 3, foi declarado um segundo <main>. Uma página web deve conter exclusivamente um único elemento <main>.'
+                },
+                {
+                    tipo: 'ordene',
+                    enunciado: 'Fase 4/5 - Macroestrutura Semântica: Ordene as seções fundamentais de uma página web padrão de cima para baixo:',
+                    dica: 'Comece pelo cabeçalho no topo, passe pela barra de navegação, conteúdo principal e finalize no rodapé.',
+                    itens: [
+                        '<header> (Logotipo e identificação visual do site)',
+                        '<nav> (Links principais de navegação do menu)',
+                        '<main> (Artigos e conteúdo central exclusivo da página)',
+                        '<footer> (Rodapé com direitos autorais e contatos institucionais)'
+                    ],
+                    ordemCorreta: [
+                        '<header> (Logotipo e identificação visual do site)',
+                        '<nav> (Links principais de navegação do menu)',
+                        '<main> (Artigos e conteúdo central exclusivo da página)',
+                        '<footer> (Rodapé com direitos autorais e contatos institucionais)'
+                    ],
+                    explicacao: 'Essa hierarquia linear permite que leitores de tela naveguem com clareza impecável pela página.'
+                },
+                {
+                    tipo: 'lacunas',
+                    enunciado: 'Fase 5/5 - Desafio Mestre: Complete a tag semântica ideal para encapsular uma barra lateral com links relacionados ou anúncios:',
+                    dica: 'A tag aside define conteúdo tangencial ou periférico à seção principal.',
+                    template: '<{lacuna}>\n    <h3>Notícias Relacionadas</h3>\n</{lacuna}>',
+                    opcoes: ['aside', 'sidebar', 'section', 'nav'],
+                    respostaCorreta: 'aside',
+                    explicacao: 'O elemento semântico <aside> é reservado para barras laterais, callouts e conteúdos tangenciais.'
                 }
             ]
         }
@@ -224,7 +375,7 @@ window.GaleaBancosConteudo.web = {
             etapas: [
                 {
                     tipo: 'ordene',
-                    enunciado: 'Ordene as 4 camadas do Modelo de Caixa (Box Model) do CSS, indo do centro mais interno até a borda mais externa:',
+                    enunciado: 'Fase 1/5 - Box Model: Ordene as 4 camadas do Modelo de Caixa do CSS do núcleo para a periferia:',
                     dica: 'Comece pelo conteúdo do texto e termine com o afastamento em relação aos vizinhos.',
                     itens: [
                         'Content (Conteúdo central)',
@@ -238,7 +389,55 @@ window.GaleaBancosConteudo.web = {
                         'Border (Borda visual)',
                         'Margin (Margem externa)'
                     ],
-                    explicacao: 'A anatomia universal do Box Model é: Conteúdo no núcleo, envolvido pelo preenchimento interno (Padding), delimitado pela Borda e espaçado externamente pela Margem.'
+                    explicacao: 'A anatomia universal do Box Model: Conteúdo → Padding → Border → Margin (de dentro para fora).'
+                },
+                {
+                    tipo: 'lacunas',
+                    enunciado: 'Fase 2/5 - Tipografia Responsiva: Complete com a unidade CSS que respeita o tamanho de fonte configurado pelo usuário no sistema operacional:',
+                    dica: 'Essa unidade é relativa ao tamanho de fonte do elemento raiz <html>.',
+                    template: 'h1 {\n    font-size: 2{lacuna}; /* relativo ao elemento raiz */\n}',
+                    opcoes: ['rem', 'px', 'pt', 'em'],
+                    respostaCorreta: 'rem',
+                    explicacao: 'A unidade rem (Root EM) é relativa ao <html>. Se o usuário aumentar a fonte do sistema, o layout se adapta automaticamente.'
+                },
+                {
+                    tipo: 'caca-bug',
+                    enunciado: 'Fase 3/5 - Caça-Bug do Box Model: Localize a linha onde o desenvolvedor confundiu padding com margin:',
+                    dica: 'Padding é espaço INTERNO (entre conteúdo e borda); margin é espaço EXTERNO (entre elementos vizinhos)!',
+                    linhasCodigo: [
+                        '1. /* Objetivo: afastar o cartão de seus vizinhos laterais */',
+                        '2. .cartao {',
+                        '3.     padding: 32px; /* espaço externo entre cartões */',
+                        '4.     border: 1px solid #ccc;',
+                        '5. }'
+                    ],
+                    linhaBug: 2,
+                    explicacao: 'Na linha 3, o comentário diz "espaço externo", mas foi usado padding (interno). Para afastar elementos vizinhos, usa-se margin.'
+                },
+                {
+                    tipo: 'grid-chips',
+                    enunciado: 'Fase 4/5 - Propriedades de Tipografia: Selecione todas as propriedades CSS para controle de texto que REALMENTE existem:',
+                    dica: 'Atenção a nomes inventados como text-weight ou font-color que não existem no CSS!',
+                    opcoes: [
+                        { texto: 'font-size', correta: true },
+                        { texto: 'font-weight', correta: true },
+                        { texto: 'font-family', correta: true },
+                        { texto: 'line-height', correta: true },
+                        { texto: 'letter-spacing', correta: true },
+                        { texto: 'text-weight (não existe)', correta: false },
+                        { texto: 'font-color (não existe)', correta: false },
+                        { texto: 'text-size (não existe)', correta: false }
+                    ],
+                    explicacao: 'Cor de texto em CSS é color (não font-color). Espessura da fonte é font-weight (não text-weight).'
+                },
+                {
+                    tipo: 'lacunas',
+                    enunciado: 'Fase 5/5 - Desafio Mestre: Complete a propriedade que torna o Box Model mais intuitivo, incluindo padding e borda na largura total:',
+                    dica: 'Essa regra faz com que padding e border fiquem DENTRO da largura declarada, não expandindo o elemento.',
+                    template: '*, *::before, *::after {\n    box-sizing: {lacuna};\n}',
+                    opcoes: ['border-box', 'content-box', 'padding-box', 'size-box'],
+                    respostaCorreta: 'border-box',
+                    explicacao: 'O reset box-sizing: border-box é o padrão profissional que torna a largura declarada o tamanho final real do elemento.'
                 }
             ]
         }
@@ -284,12 +483,69 @@ window.GaleaBancosConteudo.web = {
             etapas: [
                 {
                     tipo: 'lacunas',
-                    enunciado: 'Complete a declaração CSS para centralizar os itens de um contêiner Flexbox perfeitamente no Eixo Principal:',
+                    enunciado: 'Fase 1/5 - Alinhamento Flexbox: Complete a declaração CSS para centralizar os itens de um contêiner Flexbox perfeitamente no Eixo Principal:',
                     dica: 'Essa propriedade controla a distribuição de espaço no eixo principal.',
                     template: '.container {\n    display: flex;\n    {lacuna}: center;\n}',
-                    opcoes: ['justify-content', 'align-items', 'flex-direction', 'align-content', 'gap'],
+                    opcoes: ['justify-content', 'align-items', 'flex-direction', 'align-content'],
                     respostaCorreta: 'justify-content',
                     explicacao: 'A propriedade justify-content alinha e distribui os itens filhos ao longo do Eixo Principal no Flexbox.'
+                },
+                {
+                    tipo: 'grid-chips',
+                    enunciado: 'Fase 2/5 - Propriedades Flexbox & Grid: Selecione todas as propriedades CSS oficiais de layout moderno:',
+                    dica: 'Atenção a nomes inexistentes como flex-align ou grid-columns-count!',
+                    opcoes: [
+                        { texto: 'display: flex', correta: true },
+                        { texto: 'justify-content', correta: true },
+                        { texto: 'align-items', correta: true },
+                        { texto: 'flex-direction', correta: true },
+                        { texto: 'grid-template-columns', correta: true },
+                        { texto: 'gap', correta: true },
+                        { texto: 'flex-align (não existe)', correta: false },
+                        { texto: 'grid-columns-count (não existe)', correta: false }
+                    ],
+                    explicacao: 'O alinhamento transversal no Flexbox é feito com align-items e colunas no Grid com grid-template-columns.'
+                },
+                {
+                    tipo: 'caca-bug',
+                    enunciado: 'Fase 3/5 - Caça-Bug de Sintaxe Flexbox: Localize a linha que utilizou um valor inválido na declaração display:',
+                    dica: 'O valor oficial da especificação CSS para ativar caixas flexíveis é "flex", nunca "flexbox"!',
+                    linhasCodigo: [
+                        '1. .barra-navegacao {',
+                        '2.     display: flexbox;',
+                        '3.     justify-content: space-between;',
+                        '4.     gap: 1rem;',
+                        '5. }'
+                    ],
+                    linhaBug: 1,
+                    explicacao: 'Na linha 2, foi escrito display: flexbox. O valor correto e padronizado pelo W3C é display: flex.'
+                },
+                {
+                    tipo: 'ordene',
+                    enunciado: 'Fase 4/5 - Centralização Perfeita: Ordene a regra CSS canônica para centralizar um elemento horizontal e verticalmente com Flexbox:',
+                    dica: 'Ative display: flex, centralize no eixo principal e depois no eixo transversal.',
+                    itens: [
+                        '.caixa-centralizada {',
+                        '    display: flex;',
+                        '    justify-content: center;',
+                        '    align-items: center; }'
+                    ],
+                    ordemCorreta: [
+                        '.caixa-centralizada {',
+                        '    display: flex;',
+                        '    justify-content: center;',
+                        '    align-items: center; }'
+                    ],
+                    explicacao: 'A combinação display: flex + justify-content: center + align-items: center é a fórmula padrão para centralização bidimensional no CSS.'
+                },
+                {
+                    tipo: 'lacunas',
+                    enunciado: 'Fase 5/5 - Desafio Mestre: Complete a propriedade moderna que define o espaçamento uniforme entre filhos sem margens manuais:',
+                    dica: 'Essa propriedade funciona tanto em Flexbox quanto em CSS Grid.',
+                    template: '.grade {\n    display: grid;\n    grid-template-columns: repeat(3, 1fr);\n    {lacuna}: 24px;\n}',
+                    opcoes: ['gap', 'space', 'margin-between', 'gutter'],
+                    respostaCorreta: 'gap',
+                    explicacao: 'A propriedade gap substitui margens complexas, criando espaçamento uniforme e automático entre os itens da grade ou linha flexível.'
                 }
             ]
         }
@@ -332,19 +588,68 @@ window.GaleaBancosConteudo.web = {
             etapas: [
                 {
                     tipo: 'grid-chips',
-                    enunciado: 'Selecione todas as afirmações corretas sobre Design Responsivo e CSS moderno:',
+                    enunciado: 'Fase 1/5 - Design Responsivo: Selecione todas as afirmações corretas sobre Design Responsivo e CSS moderno:',
                     dica: 'Lembre-se do papel da meta tag viewport, da abordagem mobile-first e das media queries!',
                     opcoes: [
                         { texto: 'A meta tag viewport é indispensável para telas mobile', correta: true },
                         { texto: '@media (min-width: 768px) atinge telas de 768px ou maiores', correta: true },
                         { texto: 'A filosofia Mobile-First projeta primeiro para telas menores', correta: true },
-                        { texto: 'transform e opacity são propriedades de alta performance', correta: true },
+                        { texto: 'transform e opacity são propriedades de alta performance aceleradas pela GPU', correta: true },
                         { texto: 'Flexbox e Grid facilitam layouts responsivos sem floats', correta: true },
                         { texto: 'Design responsivo exige criar 5 arquivos HTML diferentes', correta: false },
-                        { texto: 'Media queries só podem ser escritas em JavaScript', correta: false },
-                        { texto: 'A meta tag viewport deve ser colocada no footer', correta: false }
+                        { texto: 'Media queries só podem ser escritas em JavaScript', correta: false }
                     ],
                     explicacao: 'O design responsivo utiliza um único HTML adaptado via CSS com Media Queries e meta viewport para garantir excelente experiência em qualquer dispositivo.'
+                },
+                {
+                    tipo: 'lacunas',
+                    enunciado: 'Fase 2/5 - Regra de Media Query: Complete com a diretiva CSS para aplicar estilos condicionais a partir de certa largura de tela:',
+                    dica: 'Essa diretiva inicia com @ e especifica a condição de mídia desejada.',
+                    template: '@{lacuna} (min-width: 768px) {\n    .menu { flex-direction: row; }\n}',
+                    opcoes: ['media', 'screen', 'responsive', 'query'],
+                    respostaCorreta: 'media',
+                    explicacao: 'A regra @media permite aplicar blocos de estilo CSS específicos para diferentes resoluções e tipos de dispositivo.'
+                },
+                {
+                    tipo: 'caca-bug',
+                    enunciado: 'Fase 3/5 - Caça-Bug de Viewport: Localize a linha onde o nome da meta tag de responsividade foi escrito incorretamente:',
+                    dica: 'O atributo name da meta tag de tela móvel deve ser rigorosamente "viewport"!',
+                    linhasCodigo: [
+                        '1. <head>',
+                        '2.   <meta charset="UTF-8">',
+                        '3.   <meta name="screen" content="width=device-width, initial-scale=1.0">',
+                        '4.   <title>Página Mobile</title>',
+                        '5. </head>'
+                    ],
+                    linhaBug: 2,
+                    explicacao: 'Na linha 3, foi escrito name="screen". O nome canônico obrigatório para navegadores móveis é name="viewport".'
+                },
+                {
+                    tipo: 'ordene',
+                    enunciado: 'Fase 4/5 - Animação CSS: Ordene a declaração de uma animação suave com @keyframes e sua aplicação na classe:',
+                    dica: 'Defina a regra @keyframes com 0% e 100%, depois aplique a propriedade animation no elemento.',
+                    itens: [
+                        '@keyframes pulsar {',
+                        '    0% { transform: scale(1); }',
+                        '    100% { transform: scale(1.1); } }',
+                        '.botao-destaque { animation: pulsar 1s infinite alternate; }'
+                    ],
+                    ordemCorreta: [
+                        '@keyframes pulsar {',
+                        '    0% { transform: scale(1); }',
+                        '    100% { transform: scale(1.1); } }',
+                        '.botao-destaque { animation: pulsar 1s infinite alternate; }'
+                    ],
+                    explicacao: 'Primeiro registram-se os quadros-chave (@keyframes) e em seguida aplica-se a propriedade animation vinculando o nome.'
+                },
+                {
+                    tipo: 'lacunas',
+                    enunciado: 'Fase 5/5 - Desafio Mestre: Complete a propriedade para transição suave de estado ao passar o cursor (:hover):',
+                    dica: 'Essa propriedade interpola propriedades animáveis ao longo do tempo.',
+                    template: '.cartao {\n    {lacuna}: transform 0.3s ease, box-shadow 0.3s ease;\n}\n.cartao:hover {\n    transform: translateY(-4px);\n}',
+                    opcoes: ['transition', 'animation', 'transform', 'duration'],
+                    respostaCorreta: 'transition',
+                    explicacao: 'A propriedade transition suaviza a transição entre o estado normal e o pseudo-estado :hover com alta performance visual.'
                 }
             ]
         }
@@ -388,12 +693,69 @@ window.GaleaBancosConteudo.web = {
             etapas: [
                 {
                     tipo: 'lacunas',
-                    enunciado: 'Complete a declaração com a palavra-chave moderna do JavaScript para variáveis cujo valor NUNCA deve ser alterado:',
+                    enunciado: 'Fase 1/5 - Constantes no ES6+: Complete a declaração moderna para variáveis cujo identificador NUNCA deve ser reatribuído:',
                     dica: 'Essa instrução previne reatribuições acidentais de valores e possui escopo de bloco.',
                     template: '{lacuna} API_URL = "https://api.galea.com.br/v1";',
-                    opcoes: ['const', 'let', 'var', 'static', 'val'],
+                    opcoes: ['const', 'let', 'var', 'val'],
                     respostaCorreta: 'const',
-                    explicacao: 'A palavra-chave const declara identificadores constantes que não podem ser reatribuídos no JavaScript moderno (ES6+).'
+                    explicacao: 'A palavra-chave const declara identificadores imutáveis por reatribuição no JavaScript moderno (ES6+).'
+                },
+                {
+                    tipo: 'grid-chips',
+                    enunciado: 'Fase 2/5 - Tipos Primitivos do JavaScript: Selecione todos os tipos que são PRIMITIVOS na especificação ECMAScript:',
+                    dica: 'Atenção: estruturas como Array ou Function são objetos na verdade!',
+                    opcoes: [
+                        { texto: 'string', correta: true },
+                        { texto: 'number', correta: true },
+                        { texto: 'boolean', correta: true },
+                        { texto: 'null', correta: true },
+                        { texto: 'undefined', correta: true },
+                        { texto: 'symbol', correta: true },
+                        { texto: 'bigint', correta: true },
+                        { texto: 'float (em JS é number)', correta: false },
+                        { texto: 'char (não existe em JS)', correta: false }
+                    ],
+                    explicacao: 'JavaScript possui 7 tipos primitivos: string, number, boolean, null, undefined, symbol e bigint.'
+                },
+                {
+                    tipo: 'caca-bug',
+                    enunciado: 'Fase 3/5 - Caça-Bug de Reatribuição: Localize a linha que causará um erro fatal do tipo TypeError ao ser executada:',
+                    dica: 'Variáveis declaradas com const não podem receber novo valor através do operador de atribuição (=)!',
+                    linhasCodigo: [
+                        '1. const versaoSoftware = "1.0.0";',
+                        '2. console.log("Versão inicial:", versaoSoftware);',
+                        '3. versaoSoftware = "1.1.0";',
+                        '4. console.log("Versão atualizada:", versaoSoftware);'
+                    ],
+                    linhaBug: 2,
+                    explicacao: 'Na linha 3, tentar reatribuir "versaoSoftware" declarada com const lança TypeError: Assignment to constant variable.'
+                },
+                {
+                    tipo: 'ordene',
+                    enunciado: 'Fase 4/5 - Ciclo de Variável Dinâmica: Ordene o fluxo correto de declaração de variável mutável com let, alteração e log:',
+                    dica: 'Declare com let para permitir alteração, incremente o valor e exiba a saída com console.log.',
+                    itens: [
+                        'let totalPontos = 0;',
+                        'totalPontos += 50;',
+                        'const mensagem = "Pontuação final:";',
+                        'console.log(mensagem, totalPontos);'
+                    ],
+                    ordemCorreta: [
+                        'let totalPontos = 0;',
+                        'totalPontos += 50;',
+                        'const mensagem = "Pontuação final:";',
+                        'console.log(mensagem, totalPontos);'
+                    ],
+                    explicacao: 'O let permite mutação de valor de forma segura e com escopo de bloco léxico delimitado.'
+                },
+                {
+                    tipo: 'lacunas',
+                    enunciado: 'Fase 5/5 - Desafio Mestre: Complete com o operador nativo que inspeciona e retorna em texto o tipo de dado de uma variável:',
+                    dica: 'Esse operador unário precede a variável a ser verificada (ex: ... 42 retorna "number").',
+                    template: 'const preco = 99.9;\nconsole.log({lacuna} preco); // imprime "number"',
+                    opcoes: ['typeof', 'instanceof', 'type', 'isType'],
+                    respostaCorreta: 'typeof',
+                    explicacao: 'O operador typeof avalia o tipo primitivo da expressão em tempo de execução no JavaScript.'
                 }
             ]
         }
@@ -436,7 +798,7 @@ window.GaleaBancosConteudo.web = {
             etapas: [
                 {
                     tipo: 'caca-bug',
-                    enunciado: 'Localize a linha que utiliza o operador de igualdade frouxa desaconselhado no JavaScript moderno:',
+                    enunciado: 'Fase 1/5 - Caça-Bug de Coerção: Localize a linha que utiliza o operador de igualdade frouxa desaconselhado no JavaScript moderno:',
                     dica: 'A recomendação de segurança e boas práticas é sempre utilizar o operador de igualdade estrita com três iguais (===).',
                     linhasCodigo: [
                         '1. const entrada = "10";',
@@ -447,6 +809,56 @@ window.GaleaBancosConteudo.web = {
                     ],
                     linhaBug: 2,
                     explicacao: 'Na linha 3, foi usado o operador de igualdade frouxa "==". O correto em código robusto é usar o operador de igualdade estrita "===".'
+                },
+                {
+                    tipo: 'grid-chips',
+                    enunciado: 'Fase 2/5 - Sintaxes de Arrow Function: Selecione todas as arrow functions perfeitamente VÁLIDAS no ES6:',
+                    dica: 'Com um único parâmetro os parênteses são opcionais; com retorno direto em uma expressão, chaves e return são dispensados.',
+                    opcoes: [
+                        { texto: 'x => x * 2', correta: true },
+                        { texto: '(a, b) => a + b', correta: true },
+                        { texto: '() => console.log("Olá")', correta: true },
+                        { texto: '(nome) => ({ nome: nome })', correta: true },
+                        { texto: 'x -> x * 2 (sintaxe inválida)', correta: false },
+                        { texto: 'function => x * 2', correta: false }
+                    ],
+                    explicacao: 'Arrow functions usam a seta "=>". Se retornarem um objeto literal diretamente, este deve ser envolvido em parênteses ({...}).'
+                },
+                {
+                    tipo: 'lacunas',
+                    enunciado: 'Fase 3/5 - Sintaxe de Arrow Function: Complete com o símbolo característico que define uma função de seta no JavaScript moderno:',
+                    dica: 'É formado pelo sinal de igual seguido do sinal de maior.',
+                    template: 'const calcularDobro = (numero) {lacuna} numero * 2;',
+                    opcoes: ['=>', '->', '~>', '==>'],
+                    respostaCorreta: '=>',
+                    explicacao: 'A seta fat arrow (=>) é a assinatura canônica das arrow functions do ECMAScript 2015+.'
+                },
+                {
+                    tipo: 'ordene',
+                    enunciado: 'Fase 4/5 - Condicional Encadeada: Ordene a estrutura formal de um bloco if / else if / else para classificação por faixa de notas:',
+                    dica: 'Comece testando a nota máxima (if), depois a intermediária (else if) e finalize com o caso padrão (else).',
+                    itens: [
+                        'if (nota >= 9) {',
+                        '    console.log("Desempenho Excelente");',
+                        '} else if (nota >= 6) {',
+                        '    console.log("Aprovado"); } else { console.log("Necessita Recuperação"); }'
+                    ],
+                    ordemCorreta: [
+                        'if (nota >= 9) {',
+                        '    console.log("Desempenho Excelente");',
+                        '} else if (nota >= 6) {',
+                        '    console.log("Aprovado"); } else { console.log("Necessita Recuperação"); }'
+                    ],
+                    explicacao: 'A avaliação lógica em cascata segue de cima para baixo até o primeiro bloco cuja expressão seja verdadeira.'
+                },
+                {
+                    tipo: 'lacunas',
+                    enunciado: 'Fase 5/5 - Desafio Mestre: Complete com o operador de DESIGUALDADE ESTRITA que valida se o valor ou o tipo são diferentes sem coerção:',
+                    dica: 'Esse operador utiliza uma exclamação seguida de dois sinais de igual.',
+                    template: 'if (perfilAcesso {lacuna} "administrador") {\n    bloquearPainel();\n}',
+                    opcoes: ['!==', '!=', '<>', 'not=='],
+                    respostaCorreta: '!==',
+                    explicacao: 'O operador !== (Strict Inequality) garante que tanto tipo quanto valor sejam avaliados sem conversões automáticas indesejadas.'
                 }
             ]
         }
@@ -490,12 +902,67 @@ window.GaleaBancosConteudo.web = {
             etapas: [
                 {
                     tipo: 'lacunas',
-                    enunciado: 'Complete o código com o método de array ideal para filtrar apenas os números maiores que 10:',
-                    dica: 'Esse método cria um novo array contendo apenas os elementos que retornam true no teste lógico.',
+                    enunciado: 'Fase 1/5 - Filtragem de Dados: Complete o código com o método de array funcional ideal para filtrar números maiores que 10:',
+                    dica: 'Esse método cria um novo array contendo apenas os elementos que retornam true no predicado lógico.',
                     template: 'const numeros = [5, 12, 8, 130, 44];\nconst maiores = numeros.{lacuna}(n => n > 10);',
-                    opcoes: ['filter', 'map', 'forEach', 'find', 'reduce'],
+                    opcoes: ['filter', 'map', 'forEach', 'find'],
                     respostaCorreta: 'filter',
-                    explicacao: 'O método .filter() filtra os elementos de uma coleção com base em um predicado lógico, retornando um novo array com os itens aprovados.'
+                    explicacao: 'O método .filter() filtra os elementos de uma coleção com base em um predicado lógico, retornando um novo array imutável.'
+                },
+                {
+                    tipo: 'grid-chips',
+                    enunciado: 'Fase 2/5 - Métodos Imutáveis de Array: Selecione os métodos funcionais que geram novos valores SEM alterar o array original:',
+                    dica: 'Métodos como push, pop ou splice modificam o array no lugar (mutação).',
+                    opcoes: [
+                        { texto: 'map()', correta: true },
+                        { texto: 'filter()', correta: true },
+                        { texto: 'reduce()', correta: true },
+                        { texto: 'slice()', correta: true },
+                        { texto: 'push() (altera o original)', correta: false },
+                        { texto: 'splice() (altera o original)', correta: false },
+                        { texto: 'pop() (altera o original)', correta: false }
+                    ],
+                    explicacao: 'A programação funcional privilegia métodos imutáveis (map, filter, reduce, slice) que preservam a integridade dos dados originais.'
+                },
+                {
+                    tipo: 'caca-bug',
+                    enunciado: 'Fase 3/5 - Caça-Bug de Event Listener: Localize a linha onde a função de callback foi invocada acidentalmente de imediato:',
+                    dica: 'Ao registrar um ouvinte de eventos, passamos a referência da função (sem parênteses), e não o resultado da sua execução!',
+                    linhasCodigo: [
+                        '1. const botao = document.querySelector("#btn-confirmar");',
+                        '2. function salvarDados() { console.log("Dados salvos!"); }',
+                        '3. botao.addEventListener("click", salvarDados());',
+                        '4. // A função executou na hora da carga, e não no clique!'
+                    ],
+                    linhaBug: 2,
+                    explicacao: 'Na linha 3, escreveram salvarDados() com parênteses. Deve-se passar apenas salvarDados (a referência da função).'
+                },
+                {
+                    tipo: 'ordene',
+                    enunciado: 'Fase 4/5 - Fluxo de Eventos no DOM: Ordene a sequência correta de seleção de nó e registro de evento no navegador:',
+                    dica: 'Capture o elemento via querySelector, anexe o addEventListener com o tipo de evento e defina o callback.',
+                    itens: [
+                        'const botao = document.querySelector("#btn-salvar");',
+                        'botao.addEventListener("click", (evento) => {',
+                        '    evento.preventDefault();',
+                        '    console.log("Ação executada com sucesso!"); });'
+                    ],
+                    ordemCorreta: [
+                        'const botao = document.querySelector("#btn-salvar");',
+                        'botao.addEventListener("click", (evento) => {',
+                        '    evento.preventDefault();',
+                        '    console.log("Ação executada com sucesso!"); });'
+                    ],
+                    explicacao: 'O fluxo padrão do DOM envolve consulta do seletor, ligação do listener e tratamento do evento no callback.'
+                },
+                {
+                    tipo: 'lacunas',
+                    enunciado: 'Fase 5/5 - Grande Desafio Final de Web: Complete o método que projeta e mapeia cada elemento gerando um novo array do mesmo tamanho:',
+                    dica: 'Esse método transforma todos os itens aplicando a função a cada um.',
+                    template: 'const precos = [10, 20, 30];\nconst comTaxa = precos.{lacuna}(p => p * 1.1);',
+                    opcoes: ['map', 'filter', 'forEach', 'every'],
+                    respostaCorreta: 'map',
+                    explicacao: 'Parabéns! O método .map() transforma coleções 1-para-1. Você dominou a trilha completa de Programação Web!'
                 }
             ]
         }

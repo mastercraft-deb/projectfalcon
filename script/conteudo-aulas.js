@@ -59,18 +59,70 @@ window.GaleaConteudos = (() => {
                 etapas: [
                     {
                         tipo: 'grid-chips',
-                        enunciado: `Com base nas lições de ${tituloAnterior1} e ${tituloAnterior2}, selecione as afirmações VERDADEIRAS:`,
-                        dica: 'Identifique os conceitos fundamentais consolidados no módulo!',
+                        enunciado: `[Fase 1/5] Selecione todas as afirmações VERDADEIRAS sobre ${tituloAnterior1}:`,
+                        dica: 'Analise os conceitos fundamentais aprendidos na lição teórica inicial!',
                         opcoes: [
-                            { texto: `Princípio essencial de ${tituloAnterior1}`, correta: true },
-                            { texto: `Aplicação prática de ${tituloAnterior2}`, correta: true },
-                            { texto: `Boas práticas consolidadas do módulo`, correta: true },
-                            { texto: `Relação lógica e método validado`, correta: true },
-                            { texto: `Conceito invertido ou falso`, correta: false },
+                            { texto: `Princípio essencial validado de ${tituloAnterior1}`, correta: true },
+                            { texto: `Aplicação prática dos métodos de ${tituloAnterior1}`, correta: true },
+                            { texto: `Regra conceitual e diretriz consolidada`, correta: true },
+                            { texto: `Conceito invertido ou errôneo`, correta: false },
                             { texto: `Afirmação contrária à teoria estudada`, correta: false },
-                            { texto: `Procedimento descontinuado`, correta: false }
+                            { texto: `Procedimento descontinuado ou falso`, correta: false }
                         ],
-                        explicacao: 'Excelente! Você identificou os conceitos consolidados no módulo.'
+                        explicacao: `Excelente! Você dominou a base conceitual de ${tituloAnterior1}.`
+                    },
+                    {
+                        tipo: 'lacunas',
+                        enunciado: `[Fase 2/5] Complete a lacuna fundamental sobre a aplicação de ${tituloAnterior2}:`,
+                        dica: 'Escolha o termo técnico correto estudado no módulo.',
+                        template: `No estudo de ${tituloAnterior2}, o procedimento padrão exige {lacuna} para validação.`,
+                        opcoes: ['precisao', 'descuido', 'improviso', 'descarte'],
+                        respostaCorreta: 'precisao',
+                        explicacao: `Perfeito! A precisão técnica é essencial no domínio de ${tituloAnterior2}.`
+                    },
+                    {
+                        tipo: 'caca-bug',
+                        enunciado: `[Fase 3/5] Identifique a linha que contém uma inconsistência sobre ${tituloAnterior1}:`,
+                        dica: 'Procure a linha com afirmação contraditória.',
+                        linhasCodigo: [
+                            `1. Definição clara dos objetivos de ${tituloAnterior1}`,
+                            `2. Execução das etapas metodológicas validadas`,
+                            `3. Erro: descartar as regras fundamentais sem verificação`,
+                            `4. Obtenção dos resultados esperados no módulo`
+                        ],
+                        linhaBug: 2,
+                        explicacao: 'A linha 3 apresenta uma falha conceitual: a verificação metódica é indispensável.'
+                    },
+                    {
+                        tipo: 'ordene',
+                        enunciado: `[Fase 4/5] Ordene a sequência lógica do fluxo de trabalho de ${tituloAnterior2}:`,
+                        dica: 'Do planejamento inicial até a consolidação final.',
+                        itens: [
+                            `Compreender a base teórica de ${tituloAnterior1}`,
+                            `Estruturar os dados de ${tituloAnterior2}`,
+                            `Executar o procedimento e analisar os resultados`,
+                            `Consolidar o aprendizado e avançar na trilha`
+                        ],
+                        ordemCorreta: [
+                            `Compreender a base teórica de ${tituloAnterior1}`,
+                            `Estruturar os dados de ${tituloAnterior2}`,
+                            `Executar o procedimento e analisar os resultados`,
+                            `Consolidar o aprendizado e avançar na trilha`
+                        ],
+                        explicacao: 'Sequência correta: Fundamentação -> Estruturação -> Execução -> Consolidação.'
+                    },
+                    {
+                        tipo: 'grid-chips',
+                        enunciado: `[Fase 5/5 - Desafio Mestre] Selecione as melhores práticas integradas deste módulo:`,
+                        dica: 'Una o que você aprendeu em ambas as aulas para concluir a gamificação!',
+                        opcoes: [
+                            { texto: `Integração consistente entre teoria e prática`, correta: true },
+                            { texto: `Validação cuidadosa em cada etapa do processo`, correta: true },
+                            { texto: `Aplicação dos padrões recomendados no curso`, correta: true },
+                            { texto: `Ignorar boas práticas para acelerar o processo`, correta: false },
+                            { texto: `Trabalhar sem método nem planejamento`, correta: false }
+                        ],
+                        explicacao: 'Sensacional! Você concluiu com sucesso todas as 5 fases da gamificação deste módulo!'
                     }
                 ]
             }

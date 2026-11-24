@@ -70,11 +70,48 @@ export async function obterProgresso(req, res, next) {
             };
         });
 
+        // Sistema de Troféus Galea:
+        // Bronze: Aulas de texto e vídeo concluídas
+        // Prata: Aulas gamificadas concluídas ((ordem + 1) % 3 === 0)
+        // Ouro: Ao atingir 50% e 100% de cada curso
+        // Platina: Ao finalizar o curso (100%)
+        let trofeuBronze = 0;
+        let trofeuPrata = 0;
+        let trofeuOuro = 0;
+        let trofeuPlatina = 0;
+
+        for (const [slug, aulas] of Object.entries(aulasConcluidasPorCurso)) {
+            if (Array.isArray(aulas)) {
+                aulas.forEach(ordem => {
+                    const resto = (Number(ordem) + 1) % 3;
+                    if (resto === 0) {
+                        trofeuPrata += 1;
+                    } else {
+                        trofeuBronze += 1;
+                    }
+                });
+            }
+        }
+
+        cursosResumo.forEach(c => {
+            if (c.progresso >= 50) trofeuOuro += 1;
+            if (c.progresso >= 100) {
+                trofeuOuro += 1;
+                trofeuPlatina += 1;
+            }
+        });
+
         return res.status(200).json({
             usuario_id: usuarioId,
             xp_total: xpTotal,
             aulas_concluidas: aulasConcluidasPorCurso,
-            cursos: cursosResumo
+            cursos: cursosResumo,
+            trofeus: {
+                bronze: trofeuBronze,
+                prata: trofeuPrata,
+                ouro: trofeuOuro,
+                platina: trofeuPlatina
+            }
         });
     } catch (err) {
         next(err);
@@ -84,7 +121,7 @@ export async function obterProgresso(req, res, next) {
 export async function concluirAula(req, res, next) {
     try {
         const usuarioId = req.usuario.id;
-        const { curso_id, aula_ordem } = req.body;
+        const { curso_id, aula_ordem, xp_ganha } = req.body;
 
         if (!curso_id || typeof curso_id !== 'string') {
             return res.status(400).json({ erro: 'O campo curso_id é obrigatório.' });
@@ -104,7 +141,18 @@ export async function concluirAula(req, res, next) {
             return res.status(400).json({ erro: 'Índice de aula fora dos limites do curso.' });
         }
 
-        const XP_RECOMPENSA = 10;
+        // Sistema de XP Galea:
+        // Resto 1 (aula 1, 4, 7...): Texto = 10 XP
+        // Resto 2 (aula 2, 5, 8...): Vídeo = 20 XP
+        // Resto 0 (aula 3, 6, 9...): Gamificada = 30 XP
+        const resto = (ordemNum + 1) % 3;
+        const xpPadrao = resto === 0 ? 30 : (resto === 2 ? 20 : 10);
+        const XP_RECOMPENSA = xp_ganha && [10, 20, 30].includes(Number(xp_ganha))
+            ? Number(xp_ganha)
+            : xpPadrao;
+
+        const trofeuAula = resto === 0 ? 'prata' : 'bronze';
+
         let primeiraVez = false;
         let novoXp = 0;
 
@@ -127,7 +175,7 @@ export async function concluirAula(req, res, next) {
                     [usuarioId, curso_id, ordemNum]
                 );
 
-                // Incrementa XP do usuário
+                // Incrementa XP do usuário com o valor correspondente da aula
                 await pool.execute(
                     'UPDATE usuarios SET xp_total = xp_total + ? WHERE id = ?',
                     [XP_RECOMPENSA, usuarioId]
@@ -159,10 +207,11 @@ export async function concluirAula(req, res, next) {
             sucesso: true,
             primeiraVez,
             xp_ganha: primeiraVez ? XP_RECOMPENSA : 0,
+            trofeu_desbloqueado: primeiraVez ? trofeuAula : null,
             novo_xp: novoXp,
             curso_id,
             aula_ordem: ordemNum,
-            mensagem: primeiraVez ? 'Aula concluída com sucesso! +10 XP' : 'Aula revisada com sucesso.'
+            mensagem: primeiraVez ? `Aula concluída com sucesso! +${XP_RECOMPENSA} XP` : 'Aula revisada com sucesso.'
         });
     } catch (err) {
         next(err);
